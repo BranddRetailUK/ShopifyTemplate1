@@ -15,9 +15,10 @@
     "qa:static": "node scripts/validate-static-qa.mjs",
     "qa:browser": "playwright test",
     "qa:browser:headed": "playwright test --headed",
+    "license:test": "npm --prefix services/license-api test",
     "bundle": "node scripts/build-marketplace-bundle.mjs",
     "bundle:check": "node scripts/validate-marketplace-bundle.mjs",
-    "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static",
+    "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static && npm run license:test",
     "shopify:test-catalog": "node scripts/shopify-test-catalog.mjs"
   },
   "devDependencies": {

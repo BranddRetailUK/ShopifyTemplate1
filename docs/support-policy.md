@@ -29,7 +29,9 @@ Custom work may be quoted separately and is not included in the theme purchase.
 Include the store's `myshopify.com` domain, Modeframe version, affected URL,
 browser/device, reproducible steps, expected result, actual result, and a
 screenshot or recording where useful. Never send passwords, API credentials,
-payment details, or customer data in the first request.
+full purchase codes, payment details, or customer data in the first request.
+Brandd can check activation by the licensed store domain without asking for the
+purchase code in a public message.
 
 If store access is required, Brandd will request time-limited Shopify
 collaborator access with only the permissions needed for the investigation.

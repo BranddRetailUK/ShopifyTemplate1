@@ -38,6 +38,15 @@ Support and update availability follow the support policy and marketplace terms
 displayed at purchase. Custom development and third-party app support are not
 included.
 
+5A. PURCHASE ACTIVATION
+Where the marketplace supplies a purchase code, Brandd may require server-side
+activation of that code against one permanent myshopify.com domain to confirm
+support and update eligibility. Activation does not remotely enable, disable,
+or interrupt the installed storefront. The activation service stores a keyed
+fingerprint rather than the plaintext purchase code. A reviewed transfer or a
+separate license is required before activation on another store, subject to the
+controlling marketplace terms and applicable consumer law.
+
 6. WARRANTY AND LIABILITY
 To the maximum extent permitted by law, Modeframe is supplied "as is" without
 warranties beyond rights that cannot legally be excluded. Brandd is not liable

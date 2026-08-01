@@ -16,6 +16,7 @@ function storefrontUrl(pathname = '/') {
 }
 
 async function openStorefront(page, pathname = '/') {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   let response = await page.goto(storefrontUrl(pathname), { waitUntil: 'domcontentloaded' });
   const password = page.locator('input[name="password"]:visible');
   if (await password.count()) {
@@ -32,11 +33,19 @@ async function openStorefront(page, pathname = '/') {
   expect(response, `No navigation response for ${pathname}`).not.toBeNull();
   expect(response.status(), `${pathname} returned ${response.status()}`).toBeLessThan(400);
   await expect(page.locator('#MainContent')).toBeVisible();
+
+  // Shopify injects these controls outside the theme. Keep them from obscuring
+  // theme interactions or creating accessibility findings owned by the platform.
+  await page.addStyleTag({
+    content: '#PBarNextFrameWrapper, #shopify-pc__banner { display: none !important; }',
+  });
+  await expect.poll(() => page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
 }
 
 async function expectNoSeriousAxeViolations(page) {
   await page.addScriptTag({ content: axeSource });
   const results = await page.evaluate(async () => window.axe.run(document, {
+    exclude: [['#PBarNextFrameWrapper'], ['#shopify-pc__banner']],
     resultTypes: ['violations'],
     runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] },
   }));
@@ -56,7 +65,12 @@ test('home renders without page exceptions and passes serious automated accessib
 
 test('search form reaches the Shopify search route', async ({ page }) => {
   await openStorefront(page, '/');
-  await page.locator('[data-dialog-open="#SearchDialog"]').first().click();
+  const searchTrigger = page.locator('[data-dialog-open="#SearchDialog"]:visible').first();
+  if (!(await searchTrigger.count())) {
+    await page.locator('[data-dialog-open="#MobileMenu"]:visible').click();
+    await expect(searchTrigger).toBeVisible();
+  }
+  await searchTrigger.click();
   const field = page.locator('#HeaderSearch');
   await expect(field).toBeVisible();
   await field.fill(searchTerm);

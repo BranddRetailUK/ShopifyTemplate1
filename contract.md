@@ -38,8 +38,11 @@ claims, asset rights, taxes, refunds, and seller terms before publication.
 
 The repository root is the Shopify theme. Storefront files live in `assets`,
 `blocks`, `config`, `layout`, `locales`, `sections`, `snippets`, and `templates`.
-There is no application server, database, custom API, analytics service, or
-secret-bearing runtime.
+The storefront has no application server, database, custom API, analytics
+service, or secret-bearing runtime. A separate companion license service lives
+in `services/license-api` and runs in the dedicated Railway
+`modeframe-licensing` project with private PostgreSQL. It is outside the theme
+ZIP and is never required for storefront rendering or commerce.
 
 `layout/theme.liquid` owns the document, SEO, fonts, assets,
 `content_for_header`, header/footer section groups, skip navigation,
@@ -112,12 +115,24 @@ Fashion & Creative Brands.” Marketing assets live in `marketing/`.
 Every distributed image, logo, video, font, testimonial, and description must
 have a recorded commercial-use basis in `distribution/ASSET-CREDITS.txt`.
 
+Buyer purchase-code activation is hosted at
+`https://modeframe-licensing-production.up.railway.app`. The service verifies
+an Envato author sale server-side, stores only a keyed purchase-code
+fingerprint, and binds it to one permanent `myshopify.com` domain. Activation
+governs support and future update services; it never disables installed theme
+functionality. Live verification remains closed until the final marketplace
+item ID and seller token are stored only in Railway.
+
 ## QA and release gate
 
 `npm run verify` runs Theme Check, release structure validation, source
-provenance checks, and static QA. `npm run qa:browser` runs Playwright against a
-dedicated store configured through ignored environment values. `npm run bundle`
-and `npm run bundle:check` build and validate the buyer deliverable.
+provenance checks, static QA, and license-service unit tests.
+`npm run qa:browser` runs Playwright against a dedicated store configured
+through ignored environment values. It applies reduced-motion before navigation
+and excludes Shopify-injected preview/privacy controls from theme-owned findings.
+The current exact-package candidate passes its desktop/mobile Chromium flows.
+`npm run bundle` and `npm run bundle:check` build and validate the buyer
+deliverable.
 
 Automated passes do not replace the human and platform cases in
 `docs/qa-matrix.md`. Public sale remains blocked until the selected marketplace,
@@ -128,7 +143,10 @@ recorded as complete in `docs/marketplace-readiness.md`.
 ## Security and operations
 
 - Never commit `.env`, CLI state, storefront passwords, Admin API credentials,
-  store domains, theme IDs, customer data, or merchant-owned settings.
+  store domains, theme IDs, marketplace tokens, purchase codes, license hash
+  secrets, customer data, or merchant-owned settings.
+- Keep marketplace verification and purchase-code fingerprints server-side;
+  never add activation secrets or blocking DRM to the theme.
 - Use an unpublished theme or dedicated demo store for QA.
 - Treat `config/settings_data.json` from a merchant store as merchant-owned.
 - Confirm archive contents and SHA-256 checksums before marketplace upload.

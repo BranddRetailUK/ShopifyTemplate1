@@ -58,6 +58,8 @@ cart, and checkout handoff.
 - Responsive images, keyboard-aware controls, clear focus states, and reduced
   motion support
 - Setup manual, quick-start guide, FAQ, release notes, and support policy
+- Server-side purchase activation for support and update eligibility, bound to
+  one permanent Shopify store without storefront DRM
 
 ## Included files
 

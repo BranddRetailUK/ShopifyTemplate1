@@ -28,6 +28,9 @@ The uploadable Shopify theme lives in `assets`, `blocks`, `config`, `layout`,
 licensing, QA, and listing assets live outside those folders and are excluded
 from Shopify theme uploads.
 
+The companion purchase-code service lives in `services/license-api`. It is
+deployed separately and is never part of, or required by, the storefront.
+
 ## Setup
 
 ```bash
@@ -71,6 +74,15 @@ The build creates:
 The outer sales bundle contains the installable theme, English HTML
 documentation, quick start, FAQ, support policy, licensing, asset credits,
 release notes, and checksum.
+
+## Purchase activation
+
+The buyer activation service is available at
+<https://modeframe-licensing-production.up.railway.app>. It verifies a
+marketplace sale on the server and binds a keyed purchase-code fingerprint to
+one permanent Shopify domain. Activation controls support and future update
+eligibility only; it never disables the installed theme. See
+`docs/licensing-architecture.md` for its security and policy model.
 
 ## Distribution
 

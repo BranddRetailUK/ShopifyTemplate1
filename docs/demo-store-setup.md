@@ -4,6 +4,10 @@ Use a dedicated Shopify development store for marketplace presentation and
 release QA. Do not use a merchant's production store as the permanent sales
 demo or expose its private data in evidence.
 
+Railway cannot host the demo storefront because Shopify Liquid, products,
+collections, checkout, Theme Editor, Markets, and native forms require a
+Shopify store. Railway is used only for Modeframe's companion license service.
+
 ## Recommended roles
 
 | Store | Purpose | Required state |
