@@ -14,7 +14,7 @@ review path conflict with the faster independent launch objective.
 - [x] Automated Theme Check, release, static QA, and provenance commands exist
 - [x] Exact 1.0.0 theme ZIP passes the full verification and bundle validator
 - [ ] Exact 1.0.0 theme ZIP is installed as a fresh unpublished theme
-- [ ] Clean repository history is published to the dedicated remote
+- [x] Clean parentless repository history is published to the dedicated remote
 
 ## Commercial and marketplace decisions
 
