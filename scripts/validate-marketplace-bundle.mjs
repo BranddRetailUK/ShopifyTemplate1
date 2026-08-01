@@ -10,12 +10,14 @@ const releaseDirectory = path.join(root, 'release');
 const themeArchiveName = 'Modeframe-1.0.0-theme.zip';
 const marketplaceArchiveName = 'Modeframe-1.0.0-themeforest.zip';
 const previewArchiveName = 'Modeframe-1.0.0-themeforest-preview.zip';
+const creativeMarketArchiveName = 'Modeframe-1.0.0-creative-market.zip';
 const themeArchive = path.join(releaseDirectory, themeArchiveName);
 const marketplaceArchive = path.join(releaseDirectory, marketplaceArchiveName);
 const previewArchive = path.join(releaseDirectory, previewArchiveName);
+const creativeMarketArchive = path.join(releaseDirectory, creativeMarketArchiveName);
 const failures = [];
 
-for (const archive of [themeArchive, marketplaceArchive, previewArchive]) {
+for (const archive of [themeArchive, marketplaceArchive, previewArchive, creativeMarketArchive]) {
   if (!fs.existsSync(archive)) failures.push(`Missing ${path.relative(root, archive)}. Run npm run bundle.`);
 }
 
@@ -64,6 +66,29 @@ if (!failures.length) {
   const forbiddenPreview = previewEntries.filter((entry) => /(?:^|\/)(?:\.env|node_modules|purchase-code|token)(?:\/|$)/i.test(entry));
   if (forbiddenPreview.length) failures.push(`ThemeForest preview archive contains sensitive/development paths: ${forbiddenPreview.join(', ')}`);
 
+  const creativeMarketEntries = execFileSync('unzip', ['-Z1', creativeMarketArchive], { encoding: 'utf8' }).trim().split('\n');
+  const creativeMarketRequired = [
+    `Theme/${themeArchiveName}`,
+    'Documentation/index.html',
+    'Documentation/merchant-guide.md',
+    'Documentation/FAQ.md',
+    'Documentation/support-policy.md',
+    'Documentation/ASSET-CREDITS.txt',
+    'README.txt',
+    'QUICK-START.txt',
+    'RELEASE-NOTES.md',
+    'SHA256SUMS.txt',
+  ];
+  creativeMarketRequired.forEach((entry) => {
+    if (!creativeMarketEntries.includes(entry)) failures.push(`Creative Market archive is missing ${entry}.`);
+  });
+  const forbiddenCreativeMarket = creativeMarketEntries.filter((entry) =>
+    /(?:^|\/)(?:\.env|node_modules|shopify\.theme\.toml|tests?|scripts?)(?:\/|$)/i.test(entry)
+    || /(?:ENVATO|ACTIVATE-LICENSE|MARKETPLACE-LICENSE|EULA)/i.test(entry));
+  if (forbiddenCreativeMarket.length) {
+    failures.push(`Creative Market archive contains channel-incompatible or development paths: ${forbiddenCreativeMarket.join(', ')}`);
+  }
+
   const themeEntries = execFileSync('unzip', ['-Z1', themeArchive], { encoding: 'utf8' }).trim().split('\n');
   const invalidThemeEntry = themeEntries.find((entry) => !/^(?:assets|blocks|config|layout|locales|sections|snippets|templates)\//.test(entry));
   if (invalidThemeEntry) failures.push(`Installable theme contains a non-theme entry: ${invalidThemeEntry}`);
@@ -77,6 +102,14 @@ if (!failures.length) {
     if (directHash !== embeddedHash) failures.push('Embedded theme archive does not match release theme archive.');
     const checksum = fs.readFileSync(path.join(extraction, 'SHA256SUMS.txt'), 'utf8');
     if (!checksum.includes(`${directHash}  Theme/${themeArchiveName}`)) failures.push('Embedded theme checksum is incorrect.');
+    const creativeExtraction = path.join(extraction, 'creative-market');
+    fs.mkdirSync(creativeExtraction, { recursive: true });
+    execFileSync('unzip', ['-q', creativeMarketArchive, '-d', creativeExtraction]);
+    const creativeEmbeddedTheme = path.join(creativeExtraction, 'Theme', themeArchiveName);
+    const creativeEmbeddedHash = crypto.createHash('sha256').update(fs.readFileSync(creativeEmbeddedTheme)).digest('hex');
+    if (directHash !== creativeEmbeddedHash) failures.push('Creative Market embedded theme archive does not match release theme archive.');
+    const creativeChecksum = fs.readFileSync(path.join(creativeExtraction, 'SHA256SUMS.txt'), 'utf8');
+    if (!creativeChecksum.includes(`${directHash}  Theme/${themeArchiveName}`)) failures.push('Creative Market embedded theme checksum is incorrect.');
   } finally {
     fs.rmSync(extraction, { recursive: true, force: true });
   }
@@ -87,5 +120,5 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exitCode = 1;
 } else {
-  console.log('Modeframe ThemeForest buyer and preview bundles passed structure, isolation, embedding, and checksum checks.');
+  console.log('Modeframe ThemeForest and Creative Market bundles passed structure, isolation, embedding, and checksum checks.');
 }

@@ -6,7 +6,7 @@ demo or expose its private data in evidence.
 
 Railway cannot host the Shopify storefront because Shopify Liquid, products,
 collections, checkout, Theme Editor, Markets, and native forms require a
-Shopify store. Railway hosts Modeframe's iframe-compatible ThemeForest preview,
+Shopify store. Railway hosts Modeframe's iframe-compatible marketplace preview,
 public documentation/legal pages, and companion license service.
 
 ## Recommended roles
@@ -48,7 +48,7 @@ presentation unstable.
 8. Capture approved screenshots, motion video, browser evidence, and current
    Lighthouse reports.
 9. Point the Railway preview service's `DEMO_STORE_URL` variable at the final
-   public demo. ThemeForest embeds the Railway page; the Shopify demo opens in a
+   public demo. A marketplace may embed the Railway page; the Shopify demo opens in a
    new tab because Shopify prohibits third-party framing.
 10. If the development store remains protected, set `DEMO_STORE_PASSWORD` only
     in Railway so the preview landing page can show the public demo credential.

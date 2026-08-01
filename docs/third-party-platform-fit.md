@@ -1,49 +1,45 @@
-# ThemeForest package fit
+# Third-party marketplace fit
 
-## Selected first submission: ThemeForest
+## Active first application: Creative Market
 
-The Modeframe buyer package is structured around Envato's current theme-item
-preparation guidance. As of 1 August 2026, that guidance calls for one organized
-ZIP, validated/current code, commercially cleared preview and bundled assets,
-English HTML or PDF documentation covering installation/customization/use, and
-credits for assets. Supported items carry at least six months of support.
+Modeframe is packaged for Creative Market's current Shopify template category.
+The marketplace supplies the controlling licence and hosts the downloadable
+product file, so the buyer archive contains no custom EULA or Envato activation
+material.
 
-Current package fit:
+- [x] One buyer-facing Creative Market ZIP below the 4 GB upload limit
+- [x] Inner Shopify-installable theme ZIP separated from buyer documentation
+- [x] Beginner readme, quick start, HTML manual, FAQ, support policy, credits,
+      release notes, and checksum
+- [x] Eight 1820×1214 preview PNGs below 10 MB each
+- [x] Public live preview and protected Shopify demo credential
+- [x] Product title, description, category, compatibility, properties, pricing,
+      tags, SEO copy, alt text, and AI disclosure prepared
+- [ ] Shop application, seller identity, tax, and payout approval
+- [ ] Legal/name/source and demo-media rights approval
+- [ ] Final Windows/macOS archive check and manual QA matrix
 
-- [x] One buyer-facing ThemeForest ZIP
-- [x] Separate Shopify-installable ZIP inside `Theme/`
-- [x] English standalone HTML manual plus searchable Markdown copies
-- [x] Beginner-safe installation, customization, use, update, and support text
-- [x] License, credits, release notes, quick start, and checksums
-- [x] Listing title, descriptions, feature copy, tags, and gallery plan
-- [x] New ThemeForest cover/presentation compositions stored outside the buyer
-      archive at 2340×1560 and 1920×1080
-- [x] Buyer archive below the marketplace's general 2 GB recommendation
-- [ ] Envato author account, tax identity, payout, seller terms, and final item
-      category confirmed by the account owner
-- [x] Envato's controlling license identified and represented by a buyer notice;
-      final qualified legal review remains required
-- [ ] Supported-item setting and six-month operational coverage approved
-- [x] Public iframe-compatible live preview and documentation/policy URLs supplied
-- [ ] Password-free Shopify demo and exact-theme screenshots/video supplied
-- [ ] Preview-asset commercial rights record signed off
-- [ ] Final upload validated against the marketplace form and reviewer notes
+Creative Market currently provides the shop owner with purchase information but
+the public seller guidance reviewed for this release does not expose an Envato-
+style purchase code or verification API. External activation must not be added
+without a marketplace-supported verification mechanism and legal review.
 
-Official operating references:
+## Retained channel: ThemeForest
 
-- <https://help.author.envato.com/hc/en-us/articles/360000470826-Themes-Item-Preparation-Technical-Requirements>
-- <https://help.author.envato.com/hc/en-us/articles/360000471703-Item-Support-Best-Practices>
-- <https://help.author.envato.com/hc/en-us/articles/41371538488473-Envato-Market-Author-Terms>
+The ThemeForest buyer archive, preview archive, listing fields, reviewer notes,
+Envato licence notice, and optional purchase-code activation service remain in
+the repository. New Envato theme-author intake is unavailable, so this is not
+the active submission path.
 
-## Future channel adaptations
+## Shopify Theme Store
 
-Before adapting Modeframe to TemplateMonster or another third party, compare
-its current file structure, seller agreement, license, support/refund terms,
-preview requirements, maximum upload size, review rules, update mechanism, tax
-handling, and prohibited claims. Do not assume another marketplace accepts
-Envato's terms or packaging unchanged.
+Modeframe is not represented as a Shopify Theme Store submission. Shopify's
+exclusivity requirement conflicts with simultaneous third-party distribution,
+and that route would require a separate product-strategy decision.
 
-The installable Shopify theme remains platform-native. ThemeForest's outer
-buyer package, listing collateral, Envato license notice, support/refund
-language, preview behavior, and reviewer notes are the active 1.0.0 channel
-artifacts and must not be assumed portable without review.
+## Porting rule
+
+The installable Shopify theme remains platform-native. Buyer wrappers, licence
+notices, purchase verification, pricing, listing copy, refunds, support terms,
+and media sizes are marketplace-specific and must never be reused unchanged
+across channels.

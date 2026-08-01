@@ -20,6 +20,7 @@ test('preview landing is frame-compatible and accessible', async ({ page }) => {
   const headers = response?.headers() || {};
   expect(headers['x-frame-options']).toBeUndefined();
   expect(headers['content-security-policy']).toContain('frame-ancestors https://themeforest.net');
+  expect(headers['content-security-policy']).toContain('https://creativemarket.com');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Commerce, clearly framed.');
   const demo = page.getByRole('link', { name: 'Open the Shopify demo' });
   await expect(demo).toHaveAttribute('target', '_blank');

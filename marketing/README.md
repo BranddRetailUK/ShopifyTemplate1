@@ -17,3 +17,8 @@ ThemeForest exports live in `marketing/themeforest/`: a 2340×1560 3:2 cover and
 than simply scaling the earlier files. Do not describe concept compositions as
 literal screenshots. Exact desktop/mobile captures and the 1920×1080 H.264
 video use explicit filenames and have a public-safe capture manifest.
+
+Creative Market exports live in `marketing/creative-market/`. The eight upload
+PNGs are exactly 1820×1214, stay below the 10 MB form limit, and are rebuilt by
+`node scripts/build-creative-market-assets.mjs`. Files 01–04 are AI-assisted
+concept presentations; files 05–08 use exact live-store captures.

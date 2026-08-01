@@ -1,31 +1,32 @@
-# Modeframe ThemeForest listing kit
+# Modeframe marketplace listing kit
 
-ThemeForest is the first distribution channel for Modeframe 1.0.0. The
-copy-ready form values live in `themeforest/submission-fields.md`, the formatted
-description in `themeforest/item-description.html`, and the private reviewer
-message in `themeforest/reviewer-notes.md`.
+Creative Market is the active first application for Modeframe 1.0.0. The
+ThemeForest kit is retained for a future eligible Envato author account.
 
-## Public identity
+## Creative Market
 
-- Item title: **Modeframe | Modern Editorial Shopify Theme**
-- Category: **eCommerce > Shopify**
+- Product title: **Modeframe Editorial Shopify Theme**
+- Category: **Templates & Themes > Website Templates > Shopify**
 - Version: **1.0.0**
-- Author: **Brandd**
-- Suggested Regular License price: **USD 79**
-- Support: **Supported; six months included under Envato policy**
-- Platform: **Shopify Online Store 2.0**
-- Live preview: <https://modeframe-preview-production.up.railway.app>; it opens
-  the exact Shopify demo in a new tab because Shopify storefronts cannot be
-  embedded by ThemeForest and displays the development store's public demo
-  password before visitors leave the landing page
+- Compatibility: **Shopify only**
+- Layout: **Responsive**
+- Suggested prices: **USD 79 Personal / 119 Commercial / 299 Extended**
+- Live preview: <https://modeframe-preview-production.up.railway.app>
 - Documentation: <https://modeframe-preview-production.up.railway.app/documentation>
 - Support: <https://modeframe-preview-production.up.railway.app/support>
 - Privacy: <https://modeframe-preview-production.up.railway.app/privacy>
 - Refunds: <https://modeframe-preview-production.up.railway.app/refunds>
+- Buyer upload: `release/Modeframe-1.0.0-creative-market.zip`
+- Preview media: eight 1820×1214 PNGs in `marketing/creative-market/`
+- AI disclosure: **Yes**
 
-The 45-character title begins with the item brand, is written in English Title
-Case, avoids subjective/blacklisted words, and uses fewer than two descriptive
-keyword ideas after the brand.
+Exact copy-ready form values, tags, SEO text, alt text, pricing rationale, and
+the upload checklist live in `creative-market/submission-fields.md`. The full
+description lives in `creative-market/product-description.md`.
+
+Creative Market supplies the controlling Personal, Commercial, or Extended
+Commercial licence. Do not upload the Envato buyer ZIP, an Envato notice, a
+custom EULA, or the Envato activation file to Creative Market.
 
 ## Positioning
 
@@ -34,50 +35,19 @@ lifestyle, beauty, accessories, art, design, and home brands. It pairs six
 coordinated global styles with native product, collection, search, cart,
 localization, account, content, and selling-plan surfaces.
 
-## Truthful claims
-
-- Six global styles inside one install preset
-- Shopify Online Store 2.0 JSON templates and app-block surfaces
-- Responsive product media, variants, swatches, pricing states, pickup,
-  selling-plan rendering, accelerated-checkout handoff, and recommendations
-- Predictive search, filters, sorting, pagination, quick add, and drawer/page
-  carts
-- Editorial and commerce section library documented in the buyer manual
-- Keyboard-aware dialogs, visible focus treatment, and reduced-motion support
-- Beginner documentation and ThemeForest-aligned support scope
-- Envato purchase verification for support/update eligibility with no
-  storefront DRM or remote kill switch
-
-Do not claim WCAG certification, a guaranteed performance score, universal app
+Do not claim WCAG certification, guaranteed performance, universal app
 compatibility, sales outcomes, or an untested browser/device. Shopify features
 such as subscriptions, pickup, instalments, markets, and Follow on Shop depend
 on store eligibility, configuration, or compatible apps.
 
-## Included and excluded
+## ThemeForest retained kit
 
-The buyer receives the installable theme ZIP, HTML/Markdown documentation,
-quick start, FAQ, support policy, Envato license notice, asset credits,
-activation instructions, release notes, and checksum. Shopify, hosting, domain,
-apps, catalog content, demo products, imagery, video, custom development, and
-third-party services are not included unless the final item page expressly says
-otherwise.
-
-## Presentation set
-
-- 3:2 cover: `marketing/themeforest/01-modeframe-cover-2340x1560.png`
-- 16:9 preview concepts: files `02` through `04` in that directory
-- Exact-store captures: files `05` through `09`
-- Motion preview: `marketing/themeforest/modeframe-preview-1920x1080.mp4`
-
-Concept presentation images are preview-only AI-assisted assets and are not in
-the buyer ZIP. Exact Shopify screenshots and video must be labeled separately,
-come from the packaged theme on the live demo store. The seller must approve
-the captured catalogue/media rights before upload.
+The former first-channel assets remain available in `themeforest/`,
+`marketing/themeforest/`, and the two ThemeForest release archives. They are not
+the files to upload in the current Creative Market application.
 
 ## Final publication gate
 
-Confirm the final price, verify every upload attribute against current evidence,
-visually approve the media, complete the
-manual/legal/name/asset-rights checks, and enable the Envato item ID/token before
-public sale. The source documents must be updated if the ThemeForest upload form
-or public item page differs from this kit.
+Confirm final prices, visually approve all media, obtain legal/name/source and
+demo-rights approval, complete seller onboarding, and finish the outstanding
+manual QA cases before public sale.
