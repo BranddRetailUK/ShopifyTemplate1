@@ -22,6 +22,11 @@ jobs:
         run: npm install --global @shopify/cli@3.92.0
       - name: Verify source and theme
         run: npm run verify
+      - name: Install release image tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+          ffmpeg -version
       - name: Build and validate buyer bundle
         run: npm run bundle && npm run bundle:check
       - name: Preserve release archives

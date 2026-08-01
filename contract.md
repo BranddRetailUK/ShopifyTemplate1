@@ -167,7 +167,10 @@ desktop Lighthouse evidence for home, collection, and product routes, while
 video. The separate `qa:marketplace-site` and
 `qa:marketplace-site:lighthouse` commands validate the public marketplace layer.
 `npm run bundle` and `npm run bundle:check` build and validate the ThemeForest
-and Creative Market buyer deliverables.
+and Creative Market buyer deliverables. The `Modeframe quality` GitHub Actions
+job installs the pinned Shopify CLI and FFmpeg before verifying the source and
+rebuilding the release archives, so CI exercises the same image-generation and
+packaging path as the local release workflow.
 
 Automated passes do not replace the human and platform cases in
 `docs/qa-matrix.md`. Public sale remains blocked until name/legal review,
