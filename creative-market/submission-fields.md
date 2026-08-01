@@ -9,7 +9,7 @@ change.
 
 | Creative Market field | Value |
 |---|---|
-| Product title | Modeframe Modern Editorial Shopify Theme |
+| Product title | Modeframe Editorial Shopify Theme |
 | Category | Templates & Themes > Website Templates > Shopify |
 | Product file | `Modeframe-1.0.0-creative-market.zip` |
 | Preview URL | `https://modeframe-preview-production.up.railway.app` |
@@ -24,6 +24,9 @@ change.
 Do not select Photoshop, Illustrator, HTML/CSS, WordPress, or another platform.
 Modeframe is an installable Shopify Liquid theme, not a design mockup or a
 standalone HTML template.
+
+The live application enforces a 36-character product-title limit. The selected
+title is 33 characters.
 
 ## License pricing
 

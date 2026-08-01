@@ -5,7 +5,7 @@ ThemeForest kit is retained for a future eligible Envato author account.
 
 ## Creative Market
 
-- Product title: **Modeframe Modern Editorial Shopify Theme**
+- Product title: **Modeframe Editorial Shopify Theme**
 - Category: **Templates & Themes > Website Templates > Shopify**
 - Version: **1.0.0**
 - Compatibility: **Shopify only**

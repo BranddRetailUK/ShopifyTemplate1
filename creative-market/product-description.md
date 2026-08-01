@@ -1,4 +1,4 @@
-# Modeframe Modern Editorial Shopify Theme
+# Modeframe Editorial Shopify Theme
 
 Modeframe is a Shopify Online Store 2.0 theme built for fashion, lifestyle,
 beauty, accessories, art, design, home, and other visually led stores. Oversized
