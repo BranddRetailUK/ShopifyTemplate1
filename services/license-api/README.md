@@ -2,7 +2,7 @@
 
 This Railway service verifies an Envato/ThemeForest purchase code on the server,
 then binds its keyed fingerprint to one permanent `*.myshopify.com` domain in
-PostgreSQL. Purchase codes and marketplace tokens are never stored in source or
+PostgreSQL. Purchase codes and Envato tokens are never stored in source or
 returned by the API.
 
 Activation protects support and future update services. It deliberately does
@@ -20,7 +20,7 @@ shop offline.
 
 The service can deploy before `ENVATO_TOKEN` and `ENVATO_ITEM_ID` exist. Its
 `/health` endpoint remains healthy while `/ready` and activation report that
-marketplace configuration is still required.
+ThemeForest item configuration is still required.
 
 ## Endpoints
 

@@ -8,12 +8,14 @@ import { execFileSync } from 'node:child_process';
 const root = process.cwd();
 const releaseDirectory = path.join(root, 'release');
 const themeArchiveName = 'Modeframe-1.0.0-theme.zip';
-const marketplaceArchiveName = 'Modeframe-1.0.0-marketplace.zip';
+const marketplaceArchiveName = 'Modeframe-1.0.0-themeforest.zip';
+const previewArchiveName = 'Modeframe-1.0.0-themeforest-preview.zip';
 const themeArchive = path.join(releaseDirectory, themeArchiveName);
 const marketplaceArchive = path.join(releaseDirectory, marketplaceArchiveName);
+const previewArchive = path.join(releaseDirectory, previewArchiveName);
 const failures = [];
 
-for (const archive of [themeArchive, marketplaceArchive]) {
+for (const archive of [themeArchive, marketplaceArchive, previewArchive]) {
   if (!fs.existsSync(archive)) failures.push(`Missing ${path.relative(root, archive)}. Run npm run bundle.`);
 }
 
@@ -25,7 +27,7 @@ if (!failures.length) {
     'Documentation/merchant-guide.md',
     'Documentation/FAQ.md',
     'Documentation/support-policy.md',
-    'Licensing/MARKETPLACE-LICENSE.txt',
+    'Licensing/ENVATO-LICENSE.txt',
     'Licensing/ASSET-CREDITS.txt',
     'README.txt',
     'QUICK-START.txt',
@@ -38,6 +40,22 @@ if (!failures.length) {
   });
   const forbidden = marketplaceEntries.filter((entry) => /(?:^|\/)(?:\.env|node_modules|shopify\.theme\.toml|tests?|scripts?)(?:\/|$)/i.test(entry));
   if (forbidden.length) failures.push(`Marketplace archive contains development-only paths: ${forbidden.join(', ')}`);
+
+  const previewEntries = execFileSync('unzip', ['-Z1', previewArchive], { encoding: 'utf8' }).trim().split('\n');
+  const previewRequired = [
+    'Listing/item-description.html',
+    'Listing/submission-fields.md',
+    'Listing/reviewer-notes.md',
+    'Media/01-modeframe-cover-2340x1560.png',
+    'Media/02-six-global-styles-1920x1080.png',
+    'Media/03-commerce-layouts-1920x1080.png',
+    'Media/04-section-system-1920x1080.png',
+  ];
+  previewRequired.forEach((entry) => {
+    if (!previewEntries.includes(entry)) failures.push(`ThemeForest preview archive is missing ${entry}.`);
+  });
+  const forbiddenPreview = previewEntries.filter((entry) => /(?:^|\/)(?:\.env|node_modules|purchase-code|token)(?:\/|$)/i.test(entry));
+  if (forbiddenPreview.length) failures.push(`ThemeForest preview archive contains sensitive/development paths: ${forbiddenPreview.join(', ')}`);
 
   const themeEntries = execFileSync('unzip', ['-Z1', themeArchive], { encoding: 'utf8' }).trim().split('\n');
   const invalidThemeEntry = themeEntries.find((entry) => !/^(?:assets|blocks|config|layout|locales|sections|snippets|templates)\//.test(entry));
@@ -62,5 +80,5 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exitCode = 1;
 } else {
-  console.log('Modeframe marketplace bundle passed structure, isolation, embedding, and checksum checks.');
+  console.log('Modeframe ThemeForest buyer and preview bundles passed structure, isolation, embedding, and checksum checks.');
 }

@@ -15,14 +15,21 @@
     "qa:static": "node scripts/validate-static-qa.mjs",
     "qa:browser": "playwright test",
     "qa:browser:headed": "playwright test --headed",
+    "qa:lighthouse": "node scripts/run-lighthouse.mjs",
+    "qa:media": "node scripts/capture-themeforest-media.mjs",
+    "qa:marketplace-site": "playwright test --config playwright.marketplace.config.mjs",
+    "qa:marketplace-site:lighthouse": "node scripts/run-marketplace-lighthouse.mjs",
     "license:test": "npm --prefix services/license-api test",
+    "marketplace-site:test": "npm --prefix services/marketplace-site test",
     "bundle": "node scripts/build-marketplace-bundle.mjs",
     "bundle:check": "node scripts/validate-marketplace-bundle.mjs",
-    "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static && npm run license:test",
+    "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static && npm run license:test && npm run marketplace-site:test",
     "shopify:test-catalog": "node scripts/shopify-test-catalog.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.59.1",
-    "axe-core": "4.11.4"
+    "axe-core": "4.11.4",
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "12.6.1"
   }
 }

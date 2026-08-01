@@ -14,8 +14,11 @@ pass.
 4. Copy `.env.example` to an ignored `.env.qa` and provide `QA_BASE_URL` plus
    the non-secret route settings. Supply a storefront password only through the
    environment.
-5. Run `npm run qa:browser` and archive `playwright-report/` with this matrix.
-6. Complete the human browser, device, editor, accessibility, payment, and
+5. Run `npm run qa:browser`, `npm run qa:lighthouse`, and `npm run qa:media`;
+   archive the ignored Playwright, Lighthouse, and capture evidence.
+6. Run `npm run qa:marketplace-site` and
+   `npm run qa:marketplace-site:lighthouse` against the public preview layer.
+7. Complete the human browser, device, editor, accessibility, payment, and
    special-product rows below.
 
 ## Installation and editor

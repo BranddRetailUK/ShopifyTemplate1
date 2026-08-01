@@ -7,7 +7,7 @@ and orders.
 
 ## Install safely
 
-1. Download the complete marketplace package and unzip it on your computer.
+1. Download the complete ThemeForest package and unzip it on your computer.
 2. In Shopify admin, open **Online Store > Themes**.
 3. Select **Add theme > Upload zip file** and choose
    `Modeframe-1.0.0-theme.zip` from the package's `Theme` folder.
@@ -17,14 +17,14 @@ and orders.
 6. Run a test order with Shopify's supported test-payment workflow.
 7. Duplicate your current live theme as a rollback point before publishing.
 
-Upload only the inner theme ZIP to Shopify. The complete marketplace ZIP also
+Upload only the inner theme ZIP to Shopify. The complete ThemeForest ZIP also
 contains documentation and licensing files and is not itself installable.
 
 ## Activate the purchase
 
-After installation, open `ACTIVATE-LICENSE.txt` from the marketplace package or
+After installation, open `ACTIVATE-LICENSE.txt` from the ThemeForest package or
 visit <https://modeframe-licensing-production.up.railway.app>. Enter the
-marketplace purchase code and the store's permanent `*.myshopify.com` domain.
+Envato purchase code and the store's permanent `*.myshopify.com` domain.
 Do not use a custom storefront domain because it can change independently of
 the Shopify store.
 
@@ -127,7 +127,7 @@ Customer Events or a reviewed pixel app for analytics. Never paste API keys,
 passwords, tokens, or customer data into theme settings, Custom Liquid,
 JavaScript, or CSS.
 
-The marketplace verification token is held by Brandd's server-side activation
+The Envato author token is held by Brandd's server-side activation
 service. Modeframe never contains a seller token or sends a purchase code from
 the customer-facing storefront.
 

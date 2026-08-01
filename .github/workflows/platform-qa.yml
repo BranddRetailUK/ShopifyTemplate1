@@ -23,7 +23,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run qa:browser
       - if: always()
         uses: actions/upload-artifact@v4

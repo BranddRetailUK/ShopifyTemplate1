@@ -28,8 +28,10 @@ The uploadable Shopify theme lives in `assets`, `blocks`, `config`, `layout`,
 licensing, QA, and listing assets live outside those folders and are excluded
 from Shopify theme uploads.
 
-The companion purchase-code service lives in `services/license-api`. It is
-deployed separately and is never part of, or required by, the storefront.
+The companion Envato purchase-code service lives in `services/license-api`.
+The iframe-compatible ThemeForest preview, documentation, support, privacy, and
+refund service lives in `services/marketplace-site`. Both are deployed
+separately and are never part of, or required by, the storefront.
 
 ## Setup
 
@@ -50,13 +52,20 @@ run:
 
 ```bash
 npm run qa:browser
+npm run qa:lighthouse
+npm run qa:media
+npm run qa:marketplace-site
+npm run qa:marketplace-site:lighthouse
 ```
 
-The browser suite covers core rendering, search, mobile-menu Escape behaviour,
-a configured product add-to-cart path, page exceptions, and serious automated
-accessibility rules in desktop/mobile Chromium. Manual browser/device,
-screen-reader, checkout, market, editor, and special-product cases remain in
-`docs/qa-matrix.md`.
+The store suite covers core rendering, search, mobile-menu Escape behaviour, a
+configured product add-to-cart path, page exceptions, and serious automated
+accessibility rules across desktop Chromium/Firefox/WebKit and mobile
+Chromium/WebKit. Lighthouse records home, collection, and product evidence;
+the media command captures exact-store ThemeForest screenshots and video. The
+separate public-site commands test the framed presentation/documentation layer.
+Manual browser/device, screen-reader, checkout, market, editor, and
+special-product cases remain in `docs/qa-matrix.md`.
 
 ## Marketplace bundle
 
@@ -68,31 +77,34 @@ npm run bundle:check
 The build creates:
 
 - `release/Modeframe-1.0.0-theme.zip` — the Shopify-uploadable theme.
-- `release/Modeframe-1.0.0-marketplace.zip` — the buyer-facing sales bundle.
+- `release/Modeframe-1.0.0-themeforest.zip` — the ThemeForest buyer bundle.
+- `release/Modeframe-1.0.0-themeforest-preview.zip` — operator listing/media
+  upload archive, not supplied to buyers.
 - `release/SHA256SUMS.txt` — archive checksums.
 
-The outer sales bundle contains the installable theme, English HTML
-documentation, quick start, FAQ, support policy, licensing, asset credits,
-release notes, and checksum.
+The ThemeForest buyer bundle contains the installable theme, English HTML and
+Markdown documentation, quick start, FAQ, six-month support policy, Envato
+license notice, asset credits, activation instructions, release notes, and
+checksum.
 
 ## Purchase activation
 
 The buyer activation service is available at
 <https://modeframe-licensing-production.up.railway.app>. It verifies a
-marketplace sale on the server and binds a keyed purchase-code fingerprint to
+Envato author sale on the server and binds a keyed purchase-code fingerprint to
 one permanent Shopify domain. Activation controls support and future update
 eligibility only; it never disables the installed theme. See
 `docs/licensing-architecture.md` for its security and policy model.
 
 ## Distribution
 
-Modeframe is prepared for independent and third-party marketplace distribution.
-It is not a Shopify Theme Store submission and makes no claim of Shopify review
-or approval. The chosen marketplace's seller, tax, refund, licensing, preview,
-support, and review requirements remain authoritative.
+Modeframe 1.0.0 is prepared first for ThemeForest distribution. It is not a
+Shopify Theme Store submission and makes no claim of Shopify review or
+approval. Envato's seller, tax, refund, licensing, preview, support, and review
+requirements remain authoritative.
 
 See `contract.md` for the current product contract and
-`docs/marketplace-readiness.md` for the launch gate. The first-package fit is
-tracked in `docs/third-party-platform-fit.md`; the future Shopify Theme Store
+`docs/marketplace-readiness.md` for the launch gate. The ThemeForest package fit
+is tracked in `docs/third-party-platform-fit.md`; the future Shopify Theme Store
 delta is tracked in `docs/shopify-theme-store-compatibility.md` because its
 exclusivity rule conflicts with simultaneous third-party distribution.

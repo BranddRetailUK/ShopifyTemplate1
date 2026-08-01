@@ -4,9 +4,10 @@ Use a dedicated Shopify development store for marketplace presentation and
 release QA. Do not use a merchant's production store as the permanent sales
 demo or expose its private data in evidence.
 
-Railway cannot host the demo storefront because Shopify Liquid, products,
+Railway cannot host the Shopify storefront because Shopify Liquid, products,
 collections, checkout, Theme Editor, Markets, and native forms require a
-Shopify store. Railway is used only for Modeframe's companion license service.
+Shopify store. Railway hosts Modeframe's iframe-compatible ThemeForest preview,
+public documentation/legal pages, and companion license service.
 
 ## Recommended roles
 
@@ -26,8 +27,8 @@ presentation unstable.
 2. Use a stable Modeframe demo name and avoid developer-preview features.
 3. Add Shopify test data, then retain the storefront password securely.
 4. Grant the theme operator access or approve Shopify CLI authentication.
-5. Share only the canonical `*.myshopify.com` domain in the repository. Send
-   passwords and credentials through an approved secret channel.
+5. Put the canonical demo URL only in Railway or ignored QA environment
+   variables. Never commit the store domain, password, theme ID, or credentials.
 
 ## Theme-operator setup
 
@@ -42,9 +43,13 @@ presentation unstable.
    testimonials, logos, policies, pages, blog, menus, and SEO metadata.
 6. Configure Search & Discovery filters/recommendations and representative app
    blocks.
-7. Run `docs/qa-matrix.md` and `npm run qa:browser` against the preview URL.
+7. Run `npm run qa:browser`, `npm run qa:lighthouse`, and `npm run qa:media`
+   against the preview URL, then complete `docs/qa-matrix.md`.
 8. Capture approved screenshots, motion video, browser evidence, and current
    Lighthouse reports.
+9. Point the Railway preview service's `DEMO_STORE_URL` variable at the final
+   public demo. ThemeForest embeds the Railway page; the Shopify demo opens in a
+   new tab because Shopify prohibits third-party framing.
 
 ## Shopify configuration outside theme code
 
@@ -58,7 +63,10 @@ presentation unstable.
 
 ## Public-demo gate
 
-Publish the demo only when assets and statements are commercially cleared; all
+Shopify development stores remain password protected. Move to a plan/store
+state that permits password removal before using the storefront as a public
+ThemeForest demo. Publish the demo only when assets and statements are
+commercially cleared; all
 core routes work on desktop/mobile; test customers/orders/internal app names are
 absent; the demo matches the distributed version; and support, documentation,
 privacy, refund, and licensing links are final.

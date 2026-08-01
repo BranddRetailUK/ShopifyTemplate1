@@ -51,7 +51,7 @@ function page({ title, message = '', status = 200, form = false }) {
       <label for="shop_domain">Permanent Shopify domain</label>
       <input id="shop_domain" name="shop_domain" type="text" inputmode="url" autocomplete="url" placeholder="your-store.myshopify.com" required>
       <p class="hint">Use the permanent <strong>myshopify.com</strong> domain, not a custom storefront domain.</p>
-      <label for="purchase_code">Marketplace purchase code</label>
+      <label for="purchase_code">Envato purchase code</label>
       <input id="purchase_code" name="purchase_code" type="text" autocomplete="off" spellcheck="false" required>
       <input name="theme_version" type="hidden" value="1.0.0">
       <button type="submit">Activate Modeframe</button>
@@ -85,7 +85,7 @@ function page({ title, message = '', status = 200, form = false }) {
     <h1>${escapeHtml(title)}</h1>
     ${messageMarkup}
     ${formMarkup}
-    <p>Activation binds one marketplace purchase to one Shopify store. It controls access to support and future update services; it never disables a buyer’s storefront.</p>
+    <p>Activation binds one ThemeForest purchase to one Shopify store. It controls access to support and future update services; it never disables a buyer’s storefront.</p>
   </main>
 </body>
 </html>`,
@@ -129,7 +129,7 @@ function clientAddress(request) {
 
 async function activationRequest(request) {
   if (!activationConfigurationReady(config)) {
-    throw new LicenseServiceError('License activation is not available until the marketplace listing is configured.', {
+    throw new LicenseServiceError('License activation is not available until the ThemeForest item is configured.', {
       status: 503,
       code: 'activation_not_configured',
     });
@@ -211,8 +211,8 @@ const server = http.createServer(async (request, response) => {
       sendPage(response, page({
         title: 'Activate Modeframe',
         message: activationConfigurationReady(config)
-          ? 'Enter the purchase code supplied by the marketplace after installing Modeframe.'
-          : 'Activation will open after the marketplace item identifier is issued.',
+          ? 'Enter the Envato purchase code supplied with Modeframe after installation.'
+          : 'Activation will open after the ThemeForest item identifier is issued.',
         form: activationConfigurationReady(config),
       }));
       return;

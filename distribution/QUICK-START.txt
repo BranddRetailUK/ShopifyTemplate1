@@ -1,11 +1,11 @@
 MODEFRAME 1.0.0 — QUICK START
 
-1. Unzip the complete marketplace download.
+1. Unzip the complete ThemeForest download.
 2. In Shopify admin, go to Online Store > Themes.
 3. Choose Add theme > Upload zip file.
-4. Upload Theme/Modeframe-1.0.0-theme.zip — not the complete marketplace ZIP.
+4. Upload Theme/Modeframe-1.0.0-theme.zip — not the complete ThemeForest ZIP.
 5. Leave the theme unpublished and choose Customize.
-6. Open ACTIVATE-LICENSE.txt and bind the marketplace purchase code to the
+6. Open ACTIVATE-LICENSE.txt and bind the Envato purchase code to the
    store's permanent myshopify.com domain.
 7. Add logo, menus, products, collections, pages, imagery, policies, social
    links, market settings, and one of the six Global styles.

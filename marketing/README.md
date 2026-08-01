@@ -12,6 +12,7 @@ Files:
 - `03-commerce-layouts.png` — product, collection, and mobile commerce framing
 - `04-section-system.png` — modular editorial section language and motion
 
-Before listing, export marketplace-specific dimensions and verify that every
-rendered UI detail remains truthful to the final theme. Do not describe these
-concept compositions as literal screenshots.
+ThemeForest exports live in `marketing/themeforest/`: a 2340×1560 3:2 cover and
+1920×1080 presentation images. They were regenerated as new compositions rather
+than simply scaling the earlier files. Do not describe concept compositions as
+literal screenshots; exact demo-store captures use explicit screenshot names.

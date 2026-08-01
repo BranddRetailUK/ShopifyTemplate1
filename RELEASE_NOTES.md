@@ -2,13 +2,17 @@
 
 ## 1.0.0
 
-- Established Modeframe as the public theme identity and independent
-  third-party marketplace product.
-- Added a reproducible buyer-facing sales bundle with installable theme,
-  documentation, FAQ, licensing, credits, support policy, and checksums.
-- Added static, provenance, bundle, and Playwright storefront QA workflows.
-- Added listing copy and a marketplace marketing-image set.
-- Added a server-side, domain-bound marketplace purchase activation service for
+- Established Modeframe as the public theme identity and ThemeForest-first
+  Shopify product.
+- Added reproducible ThemeForest buyer and preview bundles with the installable
+  theme, documentation, FAQ, Envato license notice, credits, support policy,
+  listing material, media, and checksums.
+- Added static, provenance, bundle, cross-browser Playwright, axe-core,
+  Lighthouse, and exact-store media workflows.
+- Added ThemeForest submission fields, listing description, reviewer notes,
+  public iframe-compatible preview/documentation pages, and correctly sized
+  cover/presentation images.
+- Added a server-side, domain-bound Envato purchase activation service for
   support and future update eligibility, without storefront DRM.
 - Retained six internal Global styles: Paper, Ink, Signal, Electric, All light,
   and All dark.

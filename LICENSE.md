@@ -18,4 +18,4 @@ endorsed by or affiliated with Shopify Inc.
 See `distribution/MARKETPLACE-LICENSE.txt` for the buyer-facing license notice
 included in the sales bundle. That notice is a draft and must not be used for a
 public sale until qualified legal review clears source provenance, ownership,
-and compatibility with the selected marketplace's mandatory license.
+and compatibility with ThemeForest's mandatory Envato license.

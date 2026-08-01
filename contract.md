@@ -11,13 +11,12 @@ The current release is `1.0.0`. The Shopify install preset and theme metadata
 are both named Modeframe. Paper, Ink, Signal, Electric, All light, and All dark
 are internal Global styles, not separate install presets.
 
-Independent and third-party marketplace distribution is the active commercial
-channel. The product is not prepared or represented as a Shopify Theme Store
-submission.
-The general buyer bundle is shaped for a first ThemeForest submission while
-keeping the installable theme and documentation portable to other third-party
-marketplaces. A future Theme Store edition would require ending third-party
-distribution because Shopify requires channel exclusivity.
+ThemeForest is the first active commercial channel. The product is not prepared
+or represented as a Shopify Theme Store submission. The installable theme and
+core documentation remain portable, while the buyer archive, listing fields,
+support/refund language, preview media, and reviewer notes are specifically
+prepared for ThemeForest. A future Theme Store edition would require ending
+third-party distribution because Shopify requires channel exclusivity.
 
 ## Source and licensing
 
@@ -27,8 +26,10 @@ be identical or nearly identical during the 1.0 audit were independently
 reimplemented. The provenance check prevents those exact upstream files from
 returning, but it is technical evidence rather than a legal conclusion about
 the remaining theme as a whole. `LICENSE.md` governs repository access; the
-sales bundle includes a draft buyer-facing marketplace license notice and asset
-credits.
+ThemeForest buyer bundle relies on Envato's controlling license and includes an
+Envato license notice plus asset credits. The channel-neutral marketplace
+license remains an internal legal-review draft and is not shipped to ThemeForest
+buyers.
 
 The final seller must still complete marketplace-specific and professional
 legal review of the product name, source provenance, buyer license, listing
@@ -43,6 +44,13 @@ service, or secret-bearing runtime. A separate companion license service lives
 in `services/license-api` and runs in the dedicated Railway
 `modeframe-licensing` project with private PostgreSQL. It is outside the theme
 ZIP and is never required for storefront rendering or commerce.
+
+A separate cookie-free public presentation and documentation service lives in
+`services/marketplace-site` and runs in the Railway `modeframe-marketplace`
+project. It serves the iframe-compatible preview landing page, documentation,
+support, privacy, refund, and health routes. ThemeForest may frame this service;
+the Shopify demo itself opens in a new tab because Shopify prevents third-party
+framing.
 
 `layout/theme.liquid` owns the document, SEO, fonts, assets,
 `content_for_header`, header/footer section groups, skip navigation,
@@ -104,14 +112,20 @@ complete static layouts.
 
 ## Distribution
 
-`npm run bundle` creates an installable theme ZIP and an outer marketplace ZIP.
-The outer bundle contains the theme, beginner documentation, FAQ, quick start,
-support policy, license, credits, release notes, and checksums. Repository
-tooling, credentials, tests, store identifiers, and internal QA evidence are
-excluded from the installable theme.
+`npm run bundle` creates `release/Modeframe-1.0.0-theme.zip`, the ThemeForest
+buyer archive `release/Modeframe-1.0.0-themeforest.zip`, and the operator-only
+listing/media archive `release/Modeframe-1.0.0-themeforest-preview.zip`. The
+buyer archive contains the inner installable theme, beginner HTML and Markdown
+documentation, FAQ, quick start, support policy, Envato license notice, credits,
+release notes, activation instructions, and checksums. Repository tooling,
+credentials, tests, store identifiers, listing media, and internal QA evidence
+are excluded from the buyer archive.
 
-The public listing title is “Modeframe — Modern Editorial Shopify Theme for
-Fashion & Creative Brands.” Marketing assets live in `marketing/`.
+The public listing title is “Modeframe | Modern Editorial Shopify Theme.”
+ThemeForest field values, description, tags, feature list, and reviewer notes
+live in `themeforest/`. Listing media live in `marketing/themeforest/`; the
+required cover is 2340×1560 and presentation images/video use 1920×1080, with
+separate 1080×1920 mobile captures.
 Every distributed image, logo, video, font, testimonial, and description must
 have a recorded commercial-use basis in `distribution/ASSET-CREDITS.txt`.
 
@@ -126,19 +140,25 @@ item ID and seller token are stored only in Railway.
 ## QA and release gate
 
 `npm run verify` runs Theme Check, release structure validation, source
-provenance checks, static QA, and license-service unit tests.
-`npm run qa:browser` runs Playwright against a dedicated store configured
-through ignored environment values. It applies reduced-motion before navigation
-and excludes Shopify-injected preview/privacy controls from theme-owned findings.
-The current exact-package candidate passes its desktop/mobile Chromium flows.
+provenance checks, static QA, license-service unit tests, and public-site unit
+tests. `npm run qa:browser` runs Playwright against a dedicated store configured
+through ignored environment values across desktop Chromium, Firefox, WebKit and
+mobile Chromium/WebKit. It applies reduced motion before navigation, runs
+axe-core serious/critical checks, and excludes Shopify-injected preview/privacy
+controls from theme-owned findings. `npm run qa:lighthouse` records mobile and
+desktop Lighthouse evidence for home, collection, and product routes, while
+`npm run qa:media` captures exact-store screenshots and a 1920×1080 preview
+video. The separate `qa:marketplace-site` and
+`qa:marketplace-site:lighthouse` commands validate the public ThemeForest layer.
 `npm run bundle` and `npm run bundle:check` build and validate the buyer
 deliverable.
 
 Automated passes do not replace the human and platform cases in
-`docs/qa-matrix.md`. Public sale remains blocked until the selected marketplace,
-name/legal review, demo/storefront content rights, browser/device matrix,
-keyboard/screen-reader review, checkout cases, and special Shopify fixtures are
-recorded as complete in `docs/marketplace-readiness.md`.
+`docs/qa-matrix.md`. Public sale remains blocked until name/legal review,
+demo/storefront content rights, public password-free demo access, live Envato
+activation credentials, browser/device matrix, keyboard/screen-reader review,
+checkout cases, and special Shopify fixtures are recorded as complete in
+`docs/marketplace-readiness.md`.
 
 ## Security and operations
 

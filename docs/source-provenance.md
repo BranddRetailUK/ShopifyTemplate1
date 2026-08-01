@@ -32,7 +32,7 @@ Before any paid third-party distribution, qualified counsel must review:
 - the reference license in force when the prototype was created;
 - the current file-level and structural comparison;
 - ownership/assignment of all Brandd contributions;
-- the chosen marketplace's mandatory buyer license and author terms; and
+- ThemeForest's mandatory buyer license and Envato author terms; and
 - whether further clean-room replacement or permission is required.
 
 Until that review is recorded, the buyer license remains marked draft and the

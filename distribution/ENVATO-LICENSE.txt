@@ -1,0 +1,25 @@
+MODEFRAME — ENVATO LICENSE NOTICE
+Version 1.0.0 — 1 August 2026
+
+Modeframe purchases made through ThemeForest are licensed under the Envato
+Market license selected and displayed at the time of purchase. The Envato
+license and mandatory consumer rights control the purchase. This file does not
+replace, narrow, or expand those terms.
+
+The purchase code may be activated against one permanent myshopify.com domain
+to confirm support and update eligibility. Activation never enables, disables,
+or changes the installed storefront. Purchase-code handling is described in
+ACTIVATE-LICENSE.txt and the public privacy notice.
+
+Theme documentation, demo content, screenshots, listing media, Shopify, apps,
+fonts, and third-party assets retain their stated terms. Preview-only assets
+are not included unless the buyer package expressly lists them.
+
+Envato Market licenses:
+https://themeforest.net/licenses
+
+Support:
+https://brandd.co.uk/contact
+
+Copyright (c) 2026 Brandd. Modeframe is not affiliated with or endorsed by
+Shopify Inc. or Envato Pty Ltd.

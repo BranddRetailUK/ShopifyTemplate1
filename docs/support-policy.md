@@ -1,9 +1,10 @@
-# Modeframe support policy
+# Modeframe ThemeForest support policy
 
-Support requests are accepted at <https://brandd.co.uk/contact>. The final
-policy published on a marketplace must also follow that marketplace's mandatory
-buyer-protection and support terms; where they conflict, the marketplace terms
-control that purchase.
+Support requests are accepted at <https://brandd.co.uk/contact>. Modeframe is a
+supported ThemeForest item. Six months of support is included from the purchase
+date under Envato's Item Support Policy; upgrades, extensions, and renewals are
+handled by Envato. Envato's mandatory buyer-protection and support terms control
+where they conflict with this summary.
 
 ## Included
 
@@ -43,10 +44,10 @@ holidays. This is not a guaranteed resolution time. Security and
 purchase-blocking defects receive priority; verified defects are addressed in a
 maintenance release or with a safe workaround.
 
-Unless the marketplace grants a longer term, support covers the current release
-and the previous minor release for 90 days after a newer minor release. Update
-availability and the duration of buyer support follow the terms displayed at
-the time of purchase.
+Support availability follows the buyer's active Envato support period. All
+buyers remain entitled to a product that works as described and is protected
+against major security concerns under Envato's current rules. Discretionary
+feature updates are not guaranteed.
 
 Merchants must keep a rollback theme and test updates in an unpublished copy.
 Compatibility cannot be guaranteed after theme-code changes, on unsupported

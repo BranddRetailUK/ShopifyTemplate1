@@ -42,7 +42,7 @@ merchant responsibility.
 
 ## Are demo images and products included?
 
-Only assets expressly listed inside the purchased bundle are included. Public
+Only assets expressly listed inside the ThemeForest buyer bundle are included. Public
 demo-store content and listing mockups are presentation material unless the
 marketplace listing explicitly licenses them for merchant use.
 
@@ -54,12 +54,12 @@ setting or custom code change.
 
 ## Can one purchase be used on multiple stores?
 
-Follow the license displayed by the marketplace at purchase. Unless it grants
-broader rights, the supplied standard license permits one live Shopify store.
+Follow the Envato license displayed at purchase. Purchase activation binds
+support and update eligibility to the licensed Shopify store.
 
 ## How does purchase activation work?
 
-Open `ACTIVATE-LICENSE.txt` after installation and enter the marketplace
+Open `ACTIVATE-LICENSE.txt` after installation and enter the Envato
 purchase code plus the store's permanent `*.myshopify.com` domain. Activation
 confirms support and future update eligibility for that store. It never disables
 the installed storefront. Do not place the code in theme settings or a public
