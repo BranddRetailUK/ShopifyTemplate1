@@ -36,6 +36,8 @@ h3 { margin: 2rem 0 .5rem; font-size: 1.15rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .7rem 1rem; border: 1px solid var(--ink); border-radius: .35rem; background: var(--ink); color: white; font-weight: 800; text-decoration: none; }
 .button.secondary { background: transparent; color: var(--ink); }
+.demo-credential { width: fit-content; margin: 1rem 0 0; padding: .55rem .8rem; border: 1px solid var(--line); background: var(--paper-strong); font-weight: 750; }
+.demo-credential code { margin-left: .25rem; font-size: 1rem; user-select: all; }
 .hero-art { position: relative; overflow: hidden; min-height: 28rem; background: var(--electric); }
 .hero-art::before, .hero-art::after { position: absolute; content: ""; }
 .hero-art::before { inset: 8% 10% 12%; border-radius: 50% 42% 48% 52%; background: var(--signal); transform: rotate(-12deg); }

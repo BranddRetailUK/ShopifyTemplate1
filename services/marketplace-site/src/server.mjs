@@ -40,6 +40,7 @@ function normalizePublicUrl(value, fallback) {
 
 const siteConfig = {
   demoStoreUrl: normalizePublicUrl(process.env.DEMO_STORE_URL, 'https://example.myshopify.com/'),
+  demoStorePassword: String(process.env.DEMO_STORE_PASSWORD || '').trim(),
   licenseUrl: normalizePublicUrl(
     process.env.LICENSE_ACTIVATION_URL,
     'https://modeframe-licensing-production.up.railway.app/',
@@ -59,8 +60,12 @@ function escapeHtml(value) {
 
 function render(source, requestUrl) {
   const elementsMode = requestUrl.searchParams.get('storefront') === 'envato-elements';
+  const demoPasswordBlock = siteConfig.demoStorePassword
+    ? `<p class="demo-credential" data-market-only>Demo password: <code>${escapeHtml(siteConfig.demoStorePassword)}</code></p>`
+    : '';
   return source
     .replaceAll('{{DEMO_STORE_URL}}', escapeHtml(siteConfig.demoStoreUrl))
+    .replaceAll('{{DEMO_PASSWORD_BLOCK}}', demoPasswordBlock)
     .replaceAll('{{LICENSE_URL}}', escapeHtml(siteConfig.licenseUrl))
     .replaceAll('{{SUPPORT_URL}}', escapeHtml(siteConfig.supportUrl))
     .replaceAll('{{THEME_VERSION}}', siteConfig.version)

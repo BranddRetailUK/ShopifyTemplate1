@@ -28,7 +28,9 @@ Envato loads live previews inside an iframe, while Shopify storefronts return
 security headers that prohibit third-party framing. The submitted preview URL
 therefore serves an iframe-compatible Modeframe presentation page and opens the
 exact Shopify demo in a new tab from an explicit buyer action. It has no
-analytics cookies or competing purchase links.
+analytics cookies or competing purchase links. The Shopify development store is
+password protected; the landing page displays the current public demo password,
+which is supplied through host configuration and is not included in source.
 
 ## Assets and AI disclosure
 

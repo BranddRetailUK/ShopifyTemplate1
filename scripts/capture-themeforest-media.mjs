@@ -52,9 +52,19 @@ async function openStorefront(page, pathname = '/') {
 async function discoverProductPath(page, collectionPath) {
   if (process.env.QA_PRODUCT_PATH) return process.env.QA_PRODUCT_PATH;
   await openStorefront(page, collectionPath);
-  const href = await page.locator('a[href*="/products/"]').first().getAttribute('href');
-  if (!href) throw new Error('No published product link was found in the demo catalogue.');
-  return new URL(href, baseUrl).pathname;
+  const hrefs = await page.locator('a[href*="/products/"]').evaluateAll((links) => (
+    [...new Set(links.map((link) => link.getAttribute('href')).filter(Boolean))]
+  ));
+  if (!hrefs.length) throw new Error('No published product link was found in the demo catalogue.');
+
+  for (const href of hrefs.slice(0, 20)) {
+    const productPath = new URL(href, baseUrl).pathname;
+    await openStorefront(page, productPath);
+    const addButton = page.locator('[data-add-to-cart]:visible').first();
+    if (await addButton.count() && !(await addButton.isDisabled())) return productPath;
+  }
+
+  throw new Error('No immediately purchasable product was found in the first 20 catalogue links.');
 }
 
 async function captureScreenshots(browser, productPath, collectionPath) {

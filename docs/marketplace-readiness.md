@@ -14,7 +14,8 @@ exclusivity and review path conflict with third-party distribution.
 - [x] Automated Theme Check, release, static QA, and provenance commands exist
 - [x] Exact 1.0.0 ThemeForest buyer and preview ZIPs pass the final verification
       and bundle validator after the current documentation/media update
-- [x] Exact 1.0.0 theme ZIP is installed as a fresh unpublished theme
+- [x] Exact 1.0.0 theme ZIP was installed fresh and the Modeframe demo is now the
+      live development-store theme
 - [x] Dedicated Shopify development demo store exists and the exact release is
       installed with a demo-only home configuration
 - [x] Latest source is pushed to the connected live testing theme without
@@ -57,8 +58,9 @@ exclusivity and review path conflict with third-party distribution.
 ## Demo and quality evidence
 
 - [x] Create a dedicated demo store and install the exact release candidate
-- [ ] Approve the demo catalogue/media rights and remove the storefront password;
-      Shopify development stores cannot be used as a password-free public demo
+- [x] Publish the Modeframe theme and expose the protected development store to
+      customers through a Railway-supplied public demo credential
+- [ ] Approve the demo catalogue and captured media rights for public promotion
 - [ ] Populate products, collections, filters, pages, policies, navigation,
       blog, media, markets, and special commerce fixtures
 - [ ] Complete Theme Editor add/reorder/duplicate/hide/save tests
@@ -66,34 +68,35 @@ exclusivity and review path conflict with third-party distribution.
 - [x] Public ThemeForest layer passes 15 Playwright/axe checks across desktop
       Chromium, Firefox, WebKit and mobile Chromium/WebKit
 - [x] Public preview, documentation, and support routes pass six mobile/desktop
-      Lighthouse runs at 98–100 performance, 100 accessibility, 96–100 best
+      Lighthouse runs at 97–100 performance, 100 accessibility, 96–100 best
       practices, and 90–100 SEO
 - [x] Retain the earlier exact-package Chromium evidence (9 passed across
       desktop/mobile Chromium; one inapplicable desktop mobile-menu case skipped)
-- [ ] Re-run packaged-theme automation on the new demo across desktop Chromium,
-      Firefox, WebKit and mobile Chromium/WebKit once the ignored QA password is
-      available
+- [x] Live demo passes 22 Playwright/axe checks across desktop Chromium,
+      Firefox, WebKit and mobile Chromium/WebKit, with three expected desktop
+      skips for the mobile-only menu case
 - [ ] Complete Chrome, Safari, Firefox, Edge, iOS Safari, and Android Chrome
       coverage plus representative Instagram/TikTok in-app webviews
 - [ ] Complete manual keyboard, screen-reader, 200% zoom, 400% reflow, and
       contrast review
-- [ ] Record current packaged-theme Lighthouse evidence for home, collection,
-      and product once the ignored QA password is available
+- [x] Record six live-theme Lighthouse runs for home, collection and product:
+      81–97 performance, 100 accessibility, 78–79 best practices and 100 SEO;
+      Best Practices deductions are Shopify/Shop third-party cookie findings
 - [x] Create new ThemeForest presentation compositions at 2340×1560 and
       1920×1080 rather than upscaling the earlier concepts
-- [ ] Capture truthful exact-store desktop/mobile screenshots and a 1920×1080
-      preview video once the ignored QA password is available
+- [x] Capture truthful exact-store desktop/mobile screenshots and a 22.5-second
+      H.264 1920×1080 preview video from the current live theme
 
 ## Launch status
 
 **Not publication-ready yet.** The ThemeForest-specific buyer/listing material,
 exact-theme demo installation, public iframe preview/documentation layer,
 presentation compositions, and license-service foundation are in place. The
-remaining hard gates are a public password-free rights-cleared demo, fresh
-exact-store media and cross-browser/Lighthouse evidence, final Envato item ID
-and author token plus real-purchase activation testing, legal/name clearance,
-and human browser/device/accessibility/checkout evidence. No unchecked item may
-be converted into a listing claim without evidence.
+remaining hard gates are demo/catalogue media-rights approval, final Envato item
+ID and author token plus real-purchase activation testing, legal/name clearance,
+Windows/macOS bundle opening, and human browser/device/accessibility/checkout
+evidence. No unchecked item may be converted into a listing claim without
+evidence.
 
 See `docs/qa-baseline-1.0.0.md` for the exact automated result and limitations
 of the current candidate.

@@ -14,7 +14,7 @@ form immediately before submission because category attributes can change.
 | Author/brand | Brandd |
 | Regular license list price | USD 79 |
 | Item support | Supported — six months included under Envato policy |
-| Live preview URL | `https://modeframe-preview-production.up.railway.app` |
+| Live preview URL | `https://modeframe-preview-production.up.railway.app` — displays the protected development store's public demo credential |
 | Main file | `Modeframe-1.0.0-themeforest.zip` |
 | Cover image | `01-modeframe-cover-2340x1560.png` |
 | Preview archive | `Modeframe-1.0.0-themeforest-preview.zip` for operator convenience; upload its media individually where the form requires |
@@ -24,7 +24,7 @@ form immediately before submission because category attributes can change.
 | Field | Value |
 |---|---|
 | Software version | Shopify Online Store 2.0 |
-| Compatible browsers | Chrome, Firefox, Safari, Edge |
+| Compatible browsers | Chrome, Firefox, Safari |
 | Layout | Responsive |
 | Columns | 4+ |
 | Files included | Liquid, JSON, JavaScript, CSS, HTML, Markdown, TXT |

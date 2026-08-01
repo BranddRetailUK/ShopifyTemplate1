@@ -16,7 +16,8 @@ message in `themeforest/reviewer-notes.md`.
 - Platform: **Shopify Online Store 2.0**
 - Live preview: <https://modeframe-preview-production.up.railway.app>; it opens
   the exact Shopify demo in a new tab because Shopify storefronts cannot be
-  embedded by ThemeForest
+  embedded by ThemeForest and displays the development store's public demo
+  password before visitors leave the landing page
 - Documentation: <https://modeframe-preview-production.up.railway.app/documentation>
 - Support: <https://modeframe-preview-production.up.railway.app/support>
 - Privacy: <https://modeframe-preview-production.up.railway.app/privacy>
@@ -65,13 +66,13 @@ otherwise.
 
 - 3:2 cover: `marketing/themeforest/01-modeframe-cover-2340x1560.png`
 - 16:9 preview concepts: files `02` through `04` in that directory
-- Exact-store captures: files `05` onward after final demo QA
+- Exact-store captures: files `05` through `09`
 - Motion preview: `marketing/themeforest/modeframe-preview-1920x1080.mp4`
 
 Concept presentation images are preview-only AI-assisted assets and are not in
 the buyer ZIP. Exact Shopify screenshots and video must be labeled separately,
-must come from the packaged theme on the demo store, and must contain only
-rights-cleared content.
+come from the packaged theme on the live demo store. The seller must approve
+the captured catalogue/media rights before upload.
 
 ## Final publication gate
 

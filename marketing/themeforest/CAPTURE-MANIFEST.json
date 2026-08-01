@@ -1,0 +1,12 @@
+{
+  "theme": "Modeframe",
+  "version": "1.0.0",
+  "capturedAt": "2026-08-01T09:22:54.304Z",
+  "source": "Packaged release installed on the dedicated Shopify demo store",
+  "routes": [
+    "home",
+    "collection",
+    "product"
+  ],
+  "rightsNote": "Store content and capture rights require seller approval before publication."
+}

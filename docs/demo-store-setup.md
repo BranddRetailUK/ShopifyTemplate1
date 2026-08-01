@@ -50,6 +50,9 @@ presentation unstable.
 9. Point the Railway preview service's `DEMO_STORE_URL` variable at the final
    public demo. ThemeForest embeds the Railway page; the Shopify demo opens in a
    new tab because Shopify prohibits third-party framing.
+10. If the development store remains protected, set `DEMO_STORE_PASSWORD` only
+    in Railway so the preview landing page can show the public demo credential.
+    Never commit the value to source or include it in the buyer ZIP.
 
 ## Shopify configuration outside theme code
 
@@ -63,10 +66,10 @@ presentation unstable.
 
 ## Public-demo gate
 
-Shopify development stores remain password protected. Move to a plan/store
-state that permits password removal before using the storefront as a public
-ThemeForest demo. Publish the demo only when assets and statements are
-commercially cleared; all
+Shopify development stores remain password protected. A protected demo is
+customer-accessible when the iframe landing page displays the current public
+demo credential. Publish it only when assets and statements are commercially
+cleared; all
 core routes work on desktop/mobile; test customers/orders/internal app names are
 absent; the demo matches the distributed version; and support, documentation,
 privacy, refund, and licensing links are final.

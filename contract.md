@@ -50,7 +50,8 @@ A separate cookie-free public presentation and documentation service lives in
 project. It serves the iframe-compatible preview landing page, documentation,
 support, privacy, refund, and health routes. ThemeForest may frame this service;
 the Shopify demo itself opens in a new tab because Shopify prevents third-party
-framing.
+framing. The development-store password is intentionally public for demo access
+and is rendered from Railway configuration; it is never committed to source.
 
 `layout/theme.liquid` owns the document, SEO, fonts, assets,
 `content_for_header`, header/footer section groups, skip navigation,
@@ -155,7 +156,7 @@ deliverable.
 
 Automated passes do not replace the human and platform cases in
 `docs/qa-matrix.md`. Public sale remains blocked until name/legal review,
-demo/storefront content rights, public password-free demo access, live Envato
+demo/storefront content rights, customer-accessible demo credentials, live Envato
 activation credentials, browser/device matrix, keyboard/screen-reader review,
 checkout cases, and special Shopify fixtures are recorded as complete in
 `docs/marketplace-readiness.md`.

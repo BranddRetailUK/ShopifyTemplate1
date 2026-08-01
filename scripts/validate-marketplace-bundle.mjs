@@ -50,6 +50,13 @@ if (!failures.length) {
     'Media/02-six-global-styles-1920x1080.png',
     'Media/03-commerce-layouts-1920x1080.png',
     'Media/04-section-system-1920x1080.png',
+    'Media/05-home-desktop-1920x1080.png',
+    'Media/06-collection-desktop-1920x1080.png',
+    'Media/07-product-desktop-1920x1080.png',
+    'Media/08-home-mobile-1080x1920.png',
+    'Media/09-product-mobile-1080x1920.png',
+    'Media/modeframe-preview-1920x1080.mp4',
+    'Media/CAPTURE-MANIFEST.json',
   ];
   previewRequired.forEach((entry) => {
     if (!previewEntries.includes(entry)) failures.push(`ThemeForest preview archive is missing ${entry}.`);

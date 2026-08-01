@@ -23,6 +23,9 @@ test('preview landing is frame-compatible and accessible', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Commerce, clearly framed.');
   const demo = page.getByRole('link', { name: 'Open the Shopify demo' });
   await expect(demo).toHaveAttribute('target', '_blank');
+  const credential = page.locator('.demo-credential');
+  await expect(credential).toContainText('Demo password:');
+  expect((await credential.locator('code').textContent())?.trim().length).toBeGreaterThan(0);
   await expectNoSeriousAxeViolations(page);
 });
 

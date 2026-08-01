@@ -1,9 +1,9 @@
 # Modeframe listing media
 
 These images are marketplace collateral, not distributable storefront assets.
-They are designed to communicate Modeframe's positioning and feature system;
-final product/collection screenshots must still be captured from the exact
-packaged theme on the rights-cleared demo store.
+They communicate Modeframe's positioning and feature system. Files `05` through
+`09` and the MP4 are exact live-store captures; the seller must approve the
+demo catalogue/media rights before public use.
 
 Files:
 
@@ -15,4 +15,5 @@ Files:
 ThemeForest exports live in `marketing/themeforest/`: a 2340×1560 3:2 cover and
 1920×1080 presentation images. They were regenerated as new compositions rather
 than simply scaling the earlier files. Do not describe concept compositions as
-literal screenshots; exact demo-store captures use explicit screenshot names.
+literal screenshots. Exact desktop/mobile captures and the 1920×1080 H.264
+video use explicit filenames and have a public-safe capture manifest.

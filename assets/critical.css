@@ -390,6 +390,12 @@ summary:focus-visible,
   transform: translateY(-2px);
 }
 
+.shopify-payment-button__button--unbranded {
+  background: var(--scheme-foreground, var(--ink-background)) !important;
+  color: var(--scheme-background, var(--ink-foreground)) !important;
+  font-weight: 700 !important;
+}
+
 .button--secondary {
   background: transparent;
   color: inherit;
