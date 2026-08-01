@@ -19,6 +19,11 @@ Read Licensing/MARKETPLACE-LICENSE.txt and the license supplied by your
 marketplace. The included license is marked draft until legal approval;
 marketplace terms control where required.
 
+ACTIVATION
+Open ACTIVATE-LICENSE.txt after installing the theme. Activation binds the
+marketplace purchase to one permanent Shopify store for support and update
+eligibility. It does not remotely enable or disable the storefront.
+
 SUPPORT
 https://brandd.co.uk/contact
 

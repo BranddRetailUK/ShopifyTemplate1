@@ -64,10 +64,14 @@ const requiredFiles = [
   'docs/third-party-platform-fit.md',
   'docs/shopify-theme-store-compatibility.md',
   'docs/source-provenance.md',
+  'docs/licensing-architecture.md',
   'distribution/README.txt',
   'distribution/QUICK-START.txt',
+  'distribution/ACTIVATE-LICENSE.txt',
   'distribution/MARKETPLACE-LICENSE.txt',
   'distribution/ASSET-CREDITS.txt',
+  'services/license-api/src/server.mjs',
+  'services/license-api/test/license.test.mjs',
 ];
 
 requiredFiles.forEach(requireFile);

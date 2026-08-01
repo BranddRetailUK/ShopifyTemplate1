@@ -57,6 +57,14 @@ setting or custom code change.
 Follow the license displayed by the marketplace at purchase. Unless it grants
 broader rights, the supplied standard license permits one live Shopify store.
 
+## How does purchase activation work?
+
+Open `ACTIVATE-LICENSE.txt` after installation and enter the marketplace
+purchase code plus the store's permanent `*.myshopify.com` domain. Activation
+confirms support and future update eligibility for that store. It never disables
+the installed storefront. Do not place the code in theme settings or a public
+support request.
+
 ## Where can I get support?
 
 Read the merchant manual and support policy first, then use

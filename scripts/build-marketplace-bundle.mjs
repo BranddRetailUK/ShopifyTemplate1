@@ -37,6 +37,7 @@ try {
   copy('distribution/ASSET-CREDITS.txt', 'Licensing/ASSET-CREDITS.txt');
   copy('distribution/README.txt', 'README.txt');
   copy('distribution/QUICK-START.txt', 'QUICK-START.txt');
+  copy('distribution/ACTIVATE-LICENSE.txt', 'ACTIVATE-LICENSE.txt');
   copy('RELEASE_NOTES.md', 'RELEASE-NOTES.md');
 
   const themeDigest = crypto.createHash('sha256').update(fs.readFileSync(finalThemeArchive)).digest('hex');

@@ -1,0 +1,20 @@
+MODEFRAME LICENSE ACTIVATION
+
+Activation URL:
+https://modeframe-licensing-production.up.railway.app
+
+After installing Modeframe, enter:
+
+1. The purchase code supplied by the marketplace.
+2. The store's permanent your-store.myshopify.com domain.
+
+One purchase activates support and update eligibility for one Shopify store,
+including unpublished Modeframe copies on that same store. A second store needs
+a separate license unless the marketplace terms explicitly say otherwise.
+
+Activation does not remotely enable or disable the storefront. Never paste a
+purchase code into theme settings, Custom Liquid, JavaScript, screenshots, or a
+public support message.
+
+If a licensed store must move to a different permanent Shopify domain, contact:
+https://brandd.co.uk/contact

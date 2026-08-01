@@ -3,7 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 
 const root = process.cwd();
-const scanRoots = ['assets', 'blocks', 'config', 'distribution', 'docs', 'layout', 'locales', 'sections', 'snippets', 'templates'];
+const scanRoots = ['assets', 'blocks', 'config', 'distribution', 'docs', 'layout', 'locales', 'sections', 'services', 'snippets', 'templates'];
 const failures = [];
 const secretPatterns = [
   /shpat_[a-z0-9]{20,}/i,

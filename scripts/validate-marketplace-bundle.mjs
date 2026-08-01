@@ -29,6 +29,7 @@ if (!failures.length) {
     'Licensing/ASSET-CREDITS.txt',
     'README.txt',
     'QUICK-START.txt',
+    'ACTIVATE-LICENSE.txt',
     'RELEASE-NOTES.md',
     'SHA256SUMS.txt',
   ];

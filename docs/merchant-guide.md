@@ -20,6 +20,19 @@ and orders.
 Upload only the inner theme ZIP to Shopify. The complete marketplace ZIP also
 contains documentation and licensing files and is not itself installable.
 
+## Activate the purchase
+
+After installation, open `ACTIVATE-LICENSE.txt` from the marketplace package or
+visit <https://modeframe-licensing-production.up.railway.app>. Enter the
+marketplace purchase code and the store's permanent `*.myshopify.com` domain.
+Do not use a custom storefront domain because it can change independently of
+the Shopify store.
+
+Activation binds support and future update eligibility to one Shopify store.
+It does not remotely enable or disable the theme, and the code must never be
+placed in theme settings, Custom Liquid, JavaScript, screenshots, or a public
+support request. Contact support for a reviewed domain transfer.
+
 ## First-run checklist
 
 - Add a logo, favicon, main menu, account menu, social links, and footer menu.
@@ -106,13 +119,17 @@ Slideshow controls pause during interaction and when out of view. Reduced
 motion preferences are respected. Set the storefront-wide motion intensity to
 None, Subtle, or Expressive under **Theme settings > Motion**.
 
-## Apps, forms, and analytics
+## Apps, forms, analytics, and licensing
 
 Product, cart, contact, newsletter, customer, password, and gift-card forms use
 Shopify endpoints. Add supported integrations with app blocks. Use Shopify
 Customer Events or a reviewed pixel app for analytics. Never paste API keys,
 passwords, tokens, or customer data into theme settings, Custom Liquid,
 JavaScript, or CSS.
+
+The marketplace verification token is held by Brandd's server-side activation
+service. Modeframe never contains a seller token or sends a purchase code from
+the customer-facing storefront.
 
 ## Updating and rollback
 

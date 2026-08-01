@@ -8,6 +8,8 @@
   documentation, FAQ, licensing, credits, support policy, and checksums.
 - Added static, provenance, bundle, and Playwright storefront QA workflows.
 - Added listing copy and a marketplace marketing-image set.
+- Added a server-side, domain-bound marketplace purchase activation service for
+  support and future update eligibility, without storefront DRM.
 - Retained six internal Global styles: Paper, Ink, Signal, Electric, All light,
   and All dark.
 - Included variant-aware selling plans, plan pricing and URL state, rich product

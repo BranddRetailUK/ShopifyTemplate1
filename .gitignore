@@ -4,6 +4,7 @@
 
 # Dependencies and test output
 /node_modules/
+/services/*/node_modules/
 /playwright-report/
 /test-results/
 /qa-results/

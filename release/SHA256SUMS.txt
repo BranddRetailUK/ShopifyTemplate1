@@ -1,2 +1,2 @@
-a31628f232ae15e014ce7a857c5841649b97b6d6949dfd2a3ef662ca629e82dd  Modeframe-1.0.0-theme.zip
-ff041f8c36fb422b206f8bb6d71eeee0bf5357150b3f9b50cd6db6bb4f46849e  Modeframe-1.0.0-marketplace.zip
+fa6fb6a56f2f1953f0053965781ebf88306ee7950b410f5c98470f25adbc2fab  Modeframe-1.0.0-theme.zip
+1c65bfce16298a9c30b603304ffee7126607e96138cf1c945f279a316c8bbcf5  Modeframe-1.0.0-marketplace.zip
