@@ -1,0 +1,21 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "contact-form",
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "Contact",
+        "heading": "Start a conversation",
+        "text": "<p>Tell us what you need and our team will get back to you.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

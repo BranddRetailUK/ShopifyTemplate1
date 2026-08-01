@@ -1,0 +1,244 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "accessibility": {
+    "close": "Close",
+    "error": "Error",
+    "loading": "Loading",
+    "next": "Next",
+    "next_slide": "Next slide",
+    "pagination": "Pagination",
+    "pause_slideshow": "Pause slideshow",
+    "play_slideshow": "Play slideshow",
+    "previous": "Previous",
+    "previous_slide": "Previous slide",
+    "skip_to_text": "Skip to content",
+    "slide_status": "Slide {{ index }} of {{ total }}",
+    "slideshow_controls": "Slideshow controls"
+  },
+  "localization": {
+    "country": "Country/region",
+    "language": "Language"
+  },
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "menu": "Menu",
+    "read_more": "Read more",
+    "search": "Search",
+    "share": "Share",
+    "view_all": "View all"
+  },
+  "404": {
+    "back_home": "Return home",
+    "title": "Page not found",
+    "not_found": "The page you were looking for does not exist or has moved.",
+    "back_to_shopping": "Return to the shop"
+  },
+  "blog": {
+    "all": "All",
+    "article_count": "{{ count }} articles",
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post comment",
+    "comment_form_title": "Leave a comment",
+    "comment_posted": "Your comment was posted.",
+    "comment_pending": "Your comment was submitted and will appear after approval.",
+    "back_to_blog": "Return to the journal",
+    "empty": "No articles have been published yet.",
+    "tags": "Article topics",
+    "read_more": "Read article"
+  },
+  "cart": {
+    "general": {
+      "cart": "Cart",
+      "checkout": "Checkout",
+      "empty": "Your cart is currently empty.",
+      "error": "There was a problem updating your cart. Please try again.",
+      "item_count": "{{ count }} items",
+      "note": "Order note",
+      "remove": "Remove",
+      "remove_item": "Remove {{ title }}",
+      "subtotal": "Subtotal",
+      "taxes_included": "Taxes included.",
+      "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout.",
+      "title": "Your cart",
+      "update": "Update cart"
+    }
+  },
+  "collections": {
+    "apply": "Apply",
+    "all": "All products",
+    "clear_all": "Clear all",
+    "collection": "Collection",
+    "empty": "No products found in this collection.",
+    "filter": "Filter",
+    "remove_filter": "Remove filter",
+    "product_count": "{{ count }} products",
+    "products": "products",
+    "sort_by": "Sort by",
+    "title": "Collections"
+  },
+  "contact": {
+    "email": "Email",
+    "message": "Message",
+    "name": "Name",
+    "phone": "Phone",
+    "send": "Send message",
+    "success": "Thanks for getting in touch. Your message has been sent."
+  },
+  "customer": {
+    "account": "Account",
+    "activate": "Activate account",
+    "activate_text": "Create a password to activate your account.",
+    "add_address": "Add address",
+    "address_1": "Address",
+    "address_2": "Apartment, suite, etc.",
+    "addresses": "Addresses",
+    "billing_address": "Billing address",
+    "cancel": "Cancel",
+    "city": "City",
+    "company": "Company",
+    "country": "Country/region",
+    "create": "Create account",
+    "date": "Date",
+    "decline": "Decline invitation",
+    "default_address": "Default address",
+    "delete_address": "Delete address",
+    "duties": "Duties",
+    "edit_address": "Edit address",
+    "email": "Email",
+    "first_name": "First name",
+    "fulfilled_at": "Fulfilled",
+    "fulfilment_status": "Fulfillment status",
+    "guest_continue": "Continue as guest",
+    "guest_title": "Continue without an account",
+    "last_name": "Last name",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "manage_addresses": "Manage addresses",
+    "new_customer": "New here?",
+    "no_address": "You do not have a saved address yet.",
+    "no_orders": "You have not placed any orders yet.",
+    "order": "Order",
+    "order_cancelled": "Canceled on {{ date }}.",
+    "order_date": "Placed on {{ date }}",
+    "order_history": "Order history",
+    "order_title": "Order {{ name }}",
+    "password_confirmation": "Confirm password",
+    "password": "Password",
+    "payment_status": "Payment status",
+    "phone": "Phone",
+    "postcode": "Postcode",
+    "price": "Price",
+    "product": "Product",
+    "province": "Province/state",
+    "recover": "Forgot your password?",
+    "recover_success": "We sent you an email with a link to reset your password.",
+    "recover_text": "Enter your email and we will send you a reset link.",
+    "recover_title": "Reset your password",
+    "register": "Create account",
+    "register_prompt": "Create an account to see orders and save addresses.",
+    "reset": "Reset password",
+    "reset_text": "Choose a new password for your account.",
+    "return": "Return to account",
+    "set_default": "Set as default address",
+    "shipping_address": "Shipping address",
+    "sku": "SKU",
+    "submit": "Submit",
+    "total": "Total",
+    "track_shipment": "Track shipment",
+    "update_address": "Update address"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "for_recipient": "For {{ recipient }}",
+    "print": "Print gift card",
+    "qr_code": "Gift card QR code",
+    "scheduled_for": "Scheduled for {{ send_on }}",
+    "use_at_checkout": "Use this code at checkout"
+  },
+  "newsletter": {
+    "email": "Email address",
+    "success": "Thanks for signing up.",
+    "submit": "Subscribe"
+  },
+  "onboarding": {
+    "article_title": "Article title",
+    "choose_blog": "Choose a blog to feature recent articles.",
+    "choose_product": "Choose a product to feature in this section.",
+    "product_title": "Featured product",
+    "slideshow_eyebrow": "Featured",
+    "slideshow_heading": "Add slides in the theme editor."
+  },
+  "testimonials": {
+    "rating": "{{ count }} out of 5 stars"
+  },
+  "password": {
+    "email": "Email address",
+    "enter": "Enter store",
+    "newsletter": "Be first to know when we open.",
+    "password": "Password",
+    "title": "Opening soon"
+  },
+  "pages": {
+    "empty": "Add content to this page in Shopify."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "added_to_cart": "Added to cart",
+      "choose_options": "Choose options",
+      "choose_purchase_option": "Choose purchase option",
+      "compare_at": "Regular price",
+      "due_at_checkout": "{{ amount }} due at checkout",
+      "inventory_in_stock": "In stock",
+      "inventory_low": "Only {{ count }} left",
+      "inventory_out_of_stock": "Out of stock",
+      "pickup_available": "Pickup available",
+      "pickup_unavailable": "Pickup currently unavailable",
+      "purchase_options": "Purchase options",
+      "quantity": "Quantity",
+      "regular_price": "Price",
+      "sale_price": "Sale price",
+      "share": "Share",
+      "sku": "SKU",
+      "sold_out": "Sold out",
+      "unit_price": "Unit price",
+      "unavailable": "Unavailable",
+      "view_details": "View product details",
+      "vendor": "Vendor",
+      "one_time_purchase": "One-time purchase"
+    },
+    "recommendations": {
+      "complementary": "Pair it with",
+      "related": "You may also like"
+    }
+  },
+  "search": {
+    "article": "Article",
+    "clear": "Clear",
+    "collection": "Collection",
+    "no_results_html": "No results found for “{{ terms }}”.",
+    "placeholder": "Search products, collections and stories",
+    "page": "Page",
+    "result_count": "{{ count }} results",
+    "results_for_html": "{{ count }} results for “{{ terms }}”",
+    "submit": "Search",
+    "title": "Search",
+    "try_again": "Check the spelling or try a broader search.",
+    "view_all": "View all results for “{{ terms }}”"
+  }
+}

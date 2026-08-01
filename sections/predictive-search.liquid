@@ -1,0 +1,160 @@
+<div id="PredictiveSearchResults">
+  {% if predictive_search.performed %}
+    {% assign result_count = predictive_search.resources.products.size
+      | plus: predictive_search.resources.collections.size
+      | plus: predictive_search.resources.pages.size
+      | plus: predictive_search.resources.articles.size
+      | plus: predictive_search.resources.queries.size
+    %}
+
+    {% if result_count > 0 %}
+      <div class="predictive-search__grid" role="listbox">
+        {% if predictive_search.resources.queries.size > 0 %}
+          <div class="predictive-search__group">
+            <h2>Suggestions</h2>
+            <ul role="list">
+              {% for query in predictive_search.resources.queries %}
+                <li role="option">
+                  <a href="{{ query.url }}">{{ query.styled_text }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if predictive_search.resources.products.size > 0 %}
+          <div class="predictive-search__group predictive-search__products">
+            <h2>Products</h2>
+            <ul role="list">
+              {% for product in predictive_search.resources.products %}
+                <li role="option">
+                  <a href="{{ product.url }}">
+                    {% if product.featured_image %}
+                      {{
+                        product.featured_image
+                        | image_url: width: 160
+                        | image_tag:
+                          widths: '80, 120, 160',
+                          sizes: '64px',
+                          loading: 'lazy',
+                          alt: product.featured_image.alt
+                      }}
+                    {% endif %}
+                    <span>
+                      <strong>{{ product.title }}</strong>
+                      <small>{{ product.price | money }}</small>
+                    </span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if predictive_search.resources.collections.size > 0 %}
+          <div class="predictive-search__group">
+            <h2>Collections</h2>
+            <ul role="list">
+              {% for collection in predictive_search.resources.collections %}
+                <li role="option"><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if predictive_search.resources.pages.size > 0 or predictive_search.resources.articles.size > 0 %}
+          <div class="predictive-search__group">
+            <h2>Stories and pages</h2>
+            <ul role="list">
+              {% for page in predictive_search.resources.pages %}
+                <li role="option"><a href="{{ page.url }}">{{ page.title }}</a></li>
+              {% endfor %}
+              {% for article in predictive_search.resources.articles %}
+                <li role="option"><a href="{{ article.url }}">{{ article.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <a
+      class="button button--secondary predictive-search__view-all"
+      href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last"
+    >
+      {{ 'search.view_all' | t: terms: predictive_search.terms }}
+    </a>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .predictive-search__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .predictive-search__group {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+  }
+
+  .predictive-search__group h2 {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .predictive-search__group ul {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .predictive-search__group a {
+    text-decoration: none;
+  }
+
+  .predictive-search__products {
+    grid-row: span 2;
+  }
+
+  .predictive-search__products a {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .predictive-search__products img {
+    width: 64px;
+    height: 78px;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .predictive-search__products span {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .predictive-search__view-all {
+    width: 100%;
+    margin-block-start: 1.5rem;
+  }
+
+  @media (max-width: 649px) {
+    .predictive-search__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Predictive search",
+  "settings": []
+}
+{% endschema %}

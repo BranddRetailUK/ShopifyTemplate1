@@ -1,0 +1,74 @@
+{% doc %}
+  A short, styleable text block for Modeframe block-enabled sections.
+
+  @example
+  {% content_for 'block', type: 'text', id: 'supporting-copy' %}
+{% enddoc %}
+
+<div
+  class="modeframe-copy modeframe-copy--{{ block.settings.scale }}"
+  style="--modeframe-copy-align: {{ block.settings.alignment }};"
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.content }}
+</div>
+
+{% stylesheet %}
+  .modeframe-copy {
+    max-width: 65ch;
+    text-align: var(--modeframe-copy-align);
+  }
+
+  .modeframe-copy > :first-child {
+    margin-block-start: 0;
+  }
+
+  .modeframe-copy > :last-child {
+    margin-block-end: 0;
+  }
+
+  .modeframe-copy--display {
+    max-width: 18ch;
+    font-family: var(--font-heading-family);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+  }
+
+  .modeframe-copy--lead {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    line-height: 1.35;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Share a concise message with your customers.</p>"
+    },
+    {
+      "type": "select",
+      "id": "scale",
+      "label": "Scale",
+      "default": "body",
+      "options": [
+        { "value": "display", "label": "Display" },
+        { "value": "lead", "label": "Lead" },
+        { "value": "body", "label": "Body" }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Text alignment",
+      "default": "left"
+    }
+  ],
+  "presets": [{ "name": "Text", "category": "Modeframe content" }]
+}
+{% endschema %}

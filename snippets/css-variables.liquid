@@ -1,0 +1,164 @@
+{% style %}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-heading-family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading-style: {{ settings.type_heading_font.style }};
+    --font-heading-weight: {{ settings.type_heading_font.weight }};
+    --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+    --font-heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+    --heading-letter-spacing: {{ settings.heading_letter_spacing | divided_by: 100.0 }}em;
+
+    --page-width: {{ settings.page_width }}px;
+    --page-margin: {{ settings.page_margin }}px;
+    --section-spacing: {{ settings.section_spacing }}px;
+
+    --palette-paper-background: {{ settings.paper_background }};
+    --palette-paper-foreground: {{ settings.paper_foreground }};
+    --palette-ink-background: {{ settings.ink_background }};
+    --palette-ink-foreground: {{ settings.ink_foreground }};
+    --palette-signal-background: {{ settings.signal_background }};
+    --palette-signal-foreground: {{ settings.signal_foreground }};
+    --palette-electric-background: {{ settings.electric_background }};
+    --palette-electric-foreground: {{ settings.electric_foreground }};
+    --palette-light-background: {{ settings.light_background }};
+    --palette-light-foreground: {{ settings.light_foreground }};
+    --palette-dark-background: {{ settings.dark_background }};
+    --palette-dark-foreground: {{ settings.dark_foreground }};
+
+    --paper-background: var(--palette-paper-background);
+    --paper-foreground: var(--palette-paper-foreground);
+    --paper-nav-tone: light;
+    --ink-background: var(--palette-ink-background);
+    --ink-foreground: var(--palette-ink-foreground);
+    --ink-nav-tone: dark;
+    --signal-background: var(--palette-signal-background);
+    --signal-foreground: var(--palette-signal-foreground);
+    --signal-nav-tone: light;
+    --electric-background: var(--palette-electric-background);
+    --electric-foreground: var(--palette-electric-foreground);
+    --electric-nav-tone: dark;
+    --accent-primary: var(--signal-background);
+    --accent-secondary: var(--electric-background);
+    --accent-contrast: var(--signal-foreground);
+    --header-light-background: var(--palette-paper-background);
+    --header-light-foreground: var(--palette-paper-foreground);
+    --header-dark-background: var(--palette-ink-background);
+    --header-dark-foreground: var(--palette-ink-foreground);
+
+    --button-radius: {{ settings.button_radius }}px;
+    --card-radius: {{ settings.card_radius }}px;
+    --input-radius: {{ settings.input_radius }}px;
+    --border-subtle: color-mix(in srgb, currentcolor 18%, transparent);
+    --shadow-soft: 0 24px 70px rgb(0 0 0 / 12%);
+    --header-height: 80px;
+  }
+
+  body.theme-preset-ink {
+    --paper-background: var(--palette-ink-background);
+    --paper-foreground: var(--palette-ink-foreground);
+    --paper-nav-tone: dark;
+    --ink-background: var(--palette-paper-background);
+    --ink-foreground: var(--palette-paper-foreground);
+    --ink-nav-tone: light;
+    --signal-background: var(--palette-electric-background);
+    --signal-foreground: var(--palette-electric-foreground);
+    --signal-nav-tone: dark;
+    --electric-background: var(--palette-signal-background);
+    --electric-foreground: var(--palette-signal-foreground);
+    --electric-nav-tone: light;
+    --accent-primary: var(--palette-electric-background);
+    --accent-secondary: var(--palette-signal-background);
+    --accent-contrast: var(--palette-electric-foreground);
+  }
+
+  body.theme-preset-signal {
+    --paper-background: var(--palette-signal-background);
+    --paper-foreground: var(--palette-signal-foreground);
+    --paper-nav-tone: light;
+    --ink-background: var(--palette-ink-background);
+    --ink-foreground: var(--palette-ink-foreground);
+    --ink-nav-tone: dark;
+    --signal-background: var(--palette-paper-background);
+    --signal-foreground: var(--palette-paper-foreground);
+    --signal-nav-tone: light;
+    --electric-background: var(--palette-electric-background);
+    --electric-foreground: var(--palette-electric-foreground);
+    --electric-nav-tone: dark;
+    --accent-primary: var(--palette-paper-background);
+    --accent-secondary: var(--palette-electric-background);
+    --accent-contrast: var(--palette-paper-foreground);
+  }
+
+  body.theme-preset-electric {
+    --paper-background: var(--palette-electric-background);
+    --paper-foreground: var(--palette-electric-foreground);
+    --paper-nav-tone: dark;
+    --ink-background: var(--palette-paper-background);
+    --ink-foreground: var(--palette-paper-foreground);
+    --ink-nav-tone: light;
+    --signal-background: var(--palette-signal-background);
+    --signal-foreground: var(--palette-signal-foreground);
+    --signal-nav-tone: light;
+    --electric-background: var(--palette-ink-background);
+    --electric-foreground: var(--palette-ink-foreground);
+    --electric-nav-tone: dark;
+    --accent-primary: var(--palette-signal-background);
+    --accent-secondary: var(--palette-ink-background);
+    --accent-contrast: var(--palette-signal-foreground);
+  }
+
+  body.theme-preset-all-light {
+    --paper-background: var(--palette-light-background);
+    --paper-foreground: var(--palette-light-foreground);
+    --paper-nav-tone: light;
+    --ink-background: var(--palette-light-background);
+    --ink-foreground: var(--palette-light-foreground);
+    --ink-nav-tone: light;
+    --signal-background: var(--palette-light-background);
+    --signal-foreground: var(--palette-light-foreground);
+    --signal-nav-tone: light;
+    --electric-background: var(--palette-light-background);
+    --electric-foreground: var(--palette-light-foreground);
+    --electric-nav-tone: light;
+    --accent-primary: var(--palette-light-foreground);
+    --accent-secondary: color-mix(in srgb, var(--palette-light-foreground) 46%, var(--palette-light-background));
+    --accent-contrast: var(--palette-light-background);
+    --header-light-background: var(--palette-light-background);
+    --header-light-foreground: var(--palette-light-foreground);
+    --header-dark-background: var(--palette-light-background);
+    --header-dark-foreground: var(--palette-light-foreground);
+  }
+
+  body.theme-preset-all-dark {
+    --paper-background: var(--palette-dark-background);
+    --paper-foreground: var(--palette-dark-foreground);
+    --paper-nav-tone: dark;
+    --ink-background: var(--palette-dark-background);
+    --ink-foreground: var(--palette-dark-foreground);
+    --ink-nav-tone: dark;
+    --signal-background: var(--palette-dark-background);
+    --signal-foreground: var(--palette-dark-foreground);
+    --signal-nav-tone: dark;
+    --electric-background: var(--palette-dark-background);
+    --electric-foreground: var(--palette-dark-foreground);
+    --electric-nav-tone: dark;
+    --accent-primary: var(--palette-dark-foreground);
+    --accent-secondary: color-mix(in srgb, var(--palette-dark-foreground) 54%, var(--palette-dark-background));
+    --accent-contrast: var(--palette-dark-background);
+    --header-light-background: var(--palette-dark-background);
+    --header-light-foreground: var(--palette-dark-foreground);
+    --header-dark-background: var(--palette-dark-background);
+    --header-dark-foreground: var(--palette-dark-foreground);
+  }
+{% endstyle %}

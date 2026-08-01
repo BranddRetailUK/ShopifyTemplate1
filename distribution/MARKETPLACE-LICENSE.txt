@@ -1,0 +1,52 @@
+MODEFRAME MARKETPLACE LICENSE — DRAFT FOR LEGAL REVIEW
+Version 1.0 — 1 August 2026
+
+Copyright (c) 2026 Brandd. All rights reserved.
+
+DO NOT USE THIS DRAFT FOR A PUBLIC SALE UNTIL QUALIFIED LEGAL REVIEW CONFIRMS
+SOURCE PROVENANCE, OWNERSHIP, AND THE SELECTED MARKETPLACE'S REQUIRED TERMS.
+
+This license applies when the marketplace through which you purchased
+Modeframe does not supply mandatory license terms. If marketplace terms apply,
+those terms control to the extent of a conflict.
+
+1. GRANT
+Subject to Brandd owning or controlling all required rights, Brandd grants the
+purchaser a non-exclusive, non-transferable license to use, modify, and publish
+Modeframe for one live Shopify store. Unpublished test or development copies
+for that licensed store are permitted.
+
+2. RESTRICTIONS
+You may not resell, sublicense, redistribute, share, publish, or make Modeframe
+or a substantially similar derivative available as a theme, template, starter,
+download, service asset, or source-code product. A separate purchase or written
+license is required for each additional live store unless the marketplace
+license expressly grants broader rights.
+
+3. CLIENT WORK
+An agency or contractor may configure Modeframe for the licensed store on the
+purchaser's behalf, but may not retain or reuse it for other stores or clients.
+
+4. THIRD-PARTY SERVICES AND ASSETS
+Shopify, apps, fonts, demo content, listing media, and other third-party
+materials are governed by their respective terms. Only files included in the
+purchased package are licensed. Shopify is a trademark of Shopify Inc.; Brandd
+and Modeframe are not endorsed by or affiliated with Shopify Inc.
+
+5. SUPPORT AND UPDATES
+Support and update availability follow the support policy and marketplace terms
+displayed at purchase. Custom development and third-party app support are not
+included.
+
+6. WARRANTY AND LIABILITY
+To the maximum extent permitted by law, Modeframe is supplied "as is" without
+warranties beyond rights that cannot legally be excluded. Brandd is not liable
+for indirect, incidental, special, or consequential loss. Nothing in this
+license excludes liability that cannot lawfully be excluded.
+
+7. TERMINATION
+This license ends if you materially breach its terms and do not remedy the
+breach after notice where a remedy is legally required. On termination, cease
+use and delete all copies except records required by law.
+
+Contact: https://brandd.co.uk/contact

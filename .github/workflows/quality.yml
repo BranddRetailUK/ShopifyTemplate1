@@ -1,0 +1,32 @@
+name: Modeframe quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  release-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Install pinned Shopify CLI
+        run: npm install --global @shopify/cli@3.92.0
+      - name: Verify source and theme
+        run: npm run verify
+      - name: Build and validate buyer bundle
+        run: npm run bundle && npm run bundle:check
+      - name: Preserve release archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: modeframe-${{ github.sha }}
+          path: release/
+          if-no-files-found: error

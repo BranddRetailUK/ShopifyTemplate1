@@ -1,0 +1,129 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section class="page-main section scheme-{{ section.settings.scheme }}" data-nav-tone="{{ nav_tone }}">
+  <div class="page-width page-main__inner page-main__inner--{{ section.settings.width }}">
+    {% if section.settings.show_title %}
+      <header class="section-header" data-reveal>
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h1>{{ page.title | escape }}</h1>
+      </header>
+    {% endif %}
+
+    {% if page.content != blank %}
+      <div class="rte page-main__content" data-reveal>{{ page.content }}</div>
+    {% else %}
+      <div class="rte page-main__content" data-reveal>
+        <p>{{ 'pages.empty' | t }}</p>
+      </div>
+    {% endif %}
+
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when '@app' %}
+          {% render block %}
+        {% when 'custom_liquid' %}
+          <div class="page-main__custom" {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .page-main__inner {
+    display: grid;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .page-main__inner--narrow {
+    max-width: min(52rem, calc(var(--page-width) + (var(--page-margin) * 2)));
+  }
+
+  .page-main__inner--wide {
+    max-width: min(90rem, calc(var(--page-width) + (var(--page-margin) * 2)));
+  }
+
+  .page-main__content {
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "wide", "label": "Wide" }
+      ],
+      "default": "narrow"
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

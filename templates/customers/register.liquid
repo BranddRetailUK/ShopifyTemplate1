@@ -1,0 +1,42 @@
+<section class="customer scheme-paper" data-nav-tone="light">
+  <div class="page-width customer__inner">
+    <header class="customer__header">
+      <p class="eyebrow">{{ 'customer.account' | t }}</p>
+      <h1>{{ 'customer.register' | t }}</h1>
+    </header>
+
+    {% form 'create_customer', class: 'customer__form' %}
+      {{ form.errors | default_errors }}
+      <div class="form-grid form-grid--two">
+        <div class="field">
+          <label for="RegisterFirstName">{{ 'customer.first_name' | t }}</label>
+          <input id="RegisterFirstName" type="text" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="RegisterLastName">{{ 'customer.last_name' | t }}</label>
+          <input id="RegisterLastName" type="text" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="field">
+        <label for="RegisterEmail">{{ 'customer.email' | t }}</label>
+        <input
+          id="RegisterEmail"
+          type="email"
+          name="customer[email]"
+          value="{{ form.email }}"
+          autocomplete="email"
+          autocapitalize="off"
+          required
+        >
+      </div>
+      <div class="field">
+        <label for="RegisterPassword">{{ 'customer.password' | t }}</label>
+        <input id="RegisterPassword" type="password" name="customer[password]" autocomplete="new-password" required>
+      </div>
+      <div class="customer__actions">
+        <button class="button" type="submit">{{ 'customer.create' | t }}</button>
+        <a href="{{ routes.account_login_url }}">{{ 'customer.login' | t }}</a>
+      </div>
+    {% endform %}
+  </div>
+</section>

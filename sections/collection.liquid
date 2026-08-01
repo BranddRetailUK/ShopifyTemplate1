@@ -1,0 +1,249 @@
+{% render 'section-background-override', section: section %}
+
+{% comment %}
+  Main collection storefront with native Search & Discovery filters.
+{% endcomment %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="collection-page scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="
+    --desktop-columns: {{ section.settings.columns_desktop }};
+    --mobile-columns: {{ section.settings.columns_mobile }};
+    --grid-gap: {{ section.settings.grid_gap }}px;
+  "
+>
+  <header class="collection-hero{% if section.settings.show_collection_image and collection.featured_image %} collection-hero--with-image{% endif %}">
+    <div class="page-width collection-hero__inner">
+      <div class="collection-hero__content" data-reveal>
+        {% if section.settings.show_eyebrow %}
+          <p class="eyebrow">{{ 'collections.collection' | t }}</p>
+        {% endif %}
+        <h1>{{ collection.title | escape }}</h1>
+        {% if section.settings.show_description and collection.description != blank %}
+          <div class="rte">{{ collection.description }}</div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_collection_image and collection.featured_image %}
+        <div class="collection-hero__media" data-reveal>
+          {% render 'image',
+            image: collection.featured_image,
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            width: 1800
+          %}
+        </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="page-width collection-page__products">
+    {% paginate collection.products by section.settings.products_per_page %}
+      {% render 'facets',
+        results: collection,
+        enable_filtering: section.settings.enable_filtering,
+        enable_sorting: section.settings.enable_sorting,
+        id_prefix: section.id
+      %}
+
+      <p class="results-count" role="status">
+        {{ 'collections.product_count' | t: count: collection.products_count }}
+      </p>
+
+      {% if collection.products.size == 0 %}
+        <div class="empty-state">
+          <h2>{{ 'collections.empty' | t }}</h2>
+          <a class="button" href="{{ routes.all_products_collection_url }}">
+            {{ 'general.continue_shopping' | t }}
+          </a>
+        </div>
+      {% else %}
+        <div class="product-grid" data-product-grid>
+          {% for product in collection.products %}
+            {% liquid
+              assign eager_card = false
+              if forloop.index <= section.settings.columns_desktop
+                assign eager_card = true
+              endif
+            %}
+            {% render 'product-card',
+              product: product,
+              eager: eager_card,
+              heading_level: 'h2'
+            %}
+          {% endfor %}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-hero {
+    padding-block: clamp(4rem, 10vw, 9rem);
+  }
+
+  .collection-hero__inner {
+    display: grid;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .collection-hero__content {
+    display: grid;
+    max-width: 66rem;
+    align-content: end;
+    gap: 1.25rem;
+  }
+
+  .collection-hero__content h1 {
+    max-width: 12ch;
+    font-size: clamp(3rem, 9vw, 8.5rem);
+    line-height: 0.86;
+  }
+
+  .collection-hero__content .rte {
+    max-width: 58ch;
+  }
+
+  .collection-hero__media {
+    overflow: hidden;
+    min-height: 22rem;
+    border-radius: var(--media-radius);
+  }
+
+  .collection-hero__media .image,
+  .collection-hero__media img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-hero__media img {
+    object-fit: cover;
+  }
+
+  .collection-page__products {
+    padding-block: clamp(2rem, 5vw, 5rem) var(--section-spacing);
+  }
+
+  @media (min-width: 990px) {
+    .collection-hero--with-image .collection-hero__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(24rem, 0.8fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_eyebrow",
+      "label": "Show collection label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "info": "Configure filters in the Shopify Search and Discovery app.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

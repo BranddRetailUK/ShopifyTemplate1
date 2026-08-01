@@ -1,0 +1,87 @@
+{% doc %}
+  Renders an accessible quantity input.
+
+  @param {string} id - Input ID.
+  @param {string} name - Input name.
+  @param {number} [value] - Current value.
+  @param {number} [min] - Minimum value.
+  @param {number} [max] - Maximum value.
+  @param {number} [step] - Quantity increment.
+  @param {number} [line] - Cart line number.
+  @param {string} [form] - Associated form ID.
+{% enddoc %}
+
+<quantity-input class="quantity-input">
+  <button type="button" data-step="down" aria-label="Decrease quantity">
+    {% render 'icon', name: 'minus' %}
+  </button>
+  <input
+    id="{{ id }}"
+    type="number"
+    name="{{ name }}"
+    value="{{ value | default: 1 }}"
+    min="{{ min | default: 1 }}"
+    step="{{ step | default: 1 }}"
+    inputmode="numeric"
+    {% if max %}
+      max="{{ max }}"
+    {% endif %}
+    {% if line %}
+      data-cart-line-input
+      data-line="{{ line }}"
+    {% endif %}
+    {% if form %}
+      form="{{ form }}"
+    {% endif %}
+    aria-label="{{ 'products.product.quantity' | t }}"
+  >
+  <button type="button" data-step="up" aria-label="Increase quantity">
+    {% render 'icon', name: 'plus' %}
+  </button>
+</quantity-input>
+
+{% stylesheet %}
+  .quantity-input {
+    display: grid;
+    width: fit-content;
+    grid-template-columns: 42px minmax(54px, 68px) 42px;
+    align-items: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--input-radius);
+    overflow: hidden;
+  }
+
+  .quantity-input button,
+  .quantity-input input {
+    min-height: 44px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .quantity-input button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+  }
+
+  .quantity-input button:hover {
+    background: color-mix(in srgb, currentcolor 8%, transparent);
+  }
+
+  .quantity-input svg {
+    width: 1rem;
+  }
+
+  .quantity-input input {
+    appearance: textfield;
+    border-inline: 1px solid var(--border-subtle);
+    padding-inline: 0.25rem;
+    text-align: center;
+  }
+
+  .quantity-input input::-webkit-inner-spin-button,
+  .quantity-input input::-webkit-outer-spin-button {
+    appearance: none;
+  }
+{% endstylesheet %}

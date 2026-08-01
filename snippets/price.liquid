@@ -1,0 +1,82 @@
+{% doc %}
+  Renders product or variant pricing.
+
+  @param {product} [product] - Product object.
+  @param {variant} [variant] - Variant object.
+  @param {boolean} [use_variant] - Render selected variant pricing.
+  @param {boolean} [show_badges] - Render sale and sold-out badges.
+  @param {string} [class] - Additional class.
+{% enddoc %}
+
+{% liquid
+  if use_variant and variant
+    assign target = variant
+  else
+    assign target = product
+  endif
+
+  assign price = target.price | default: 0
+  assign compare_at_price = target.compare_at_price
+  assign available = target.available | default: false
+  assign unit_target = target
+  if product and unit_target.unit_price_measurement == nil
+    assign unit_target = product.selected_or_first_available_variant
+  endif
+  assign money_price = price | money
+  if product and product.price_varies and use_variant != true
+    assign minimum_money = product.price_min | money
+    assign maximum_money = product.price_max | money
+    assign money_price = minimum_money | append: ' – ' | append: maximum_money
+  endif
+%}
+
+<div class="price {{ class }}">
+  <span
+    class="price__current"
+    {% if use_variant %}
+      data-product-price
+    {% endif %}
+  >
+    {{ money_price }}
+  </span>
+
+  <s
+    class="price__compare"
+    {% if use_variant %}
+      data-product-compare-price
+    {% endif %}
+    {% unless compare_at_price > price %}
+      hidden
+    {% endunless %}
+  >
+    <span class="visually-hidden">{{ 'products.product.compare_at' | t }}</span>
+    {{ compare_at_price | money }}
+  </s>
+
+  {% if unit_target.unit_price_measurement %}
+    <small
+      class="price__unit"
+      {% if use_variant %}
+        data-product-unit-price
+      {% endif %}
+    >
+      <span class="visually-hidden">{{ 'products.product.unit_price' | t }}</span>
+      {{ unit_target.unit_price | money }} /
+      {% if unit_target.unit_price_measurement.reference_value != 1 %}
+        {{ unit_target.unit_price_measurement.reference_value }}
+      {% endif %}
+      {{ unit_target.unit_price_measurement.reference_unit }}
+    </small>
+  {% elsif use_variant %}
+    <small class="price__unit" data-product-unit-price hidden></small>
+  {% endif %}
+
+  {% if show_badges %}
+    {% if compare_at_price > price %}
+      <span class="badge">{{ 'products.product.sale_price' | t }}</span>
+    {% endif %}
+    {% unless available %}
+      <span class="badge">{{ 'products.product.sold_out' | t }}</span>
+    {% endunless %}
+  {% endif %}
+</div>

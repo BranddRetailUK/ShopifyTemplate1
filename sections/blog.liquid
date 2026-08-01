@@ -1,0 +1,201 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="blog-main section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="--blog-columns: {{ section.settings.columns_desktop }}; --grid-gap: {{ section.settings.grid_gap }}px;"
+>
+  <div class="page-width">
+    <header class="blog-main__header" data-reveal>
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h1>{{ blog.title | escape }}</h1>
+      {% if blog.articles_count > 0 %}
+        <p>{{ 'blog.article_count' | t: count: blog.articles_count }}</p>
+      {% endif %}
+    </header>
+
+    {% if blog.all_tags.size > 0 and section.settings.show_tags %}
+      <nav class="blog-main__tags" aria-label="{{ 'blog.tags' | t }}">
+        <a{% if current_tags == blank %} aria-current="page"{% endif %} href="{{ blog.url }}">{{ 'blog.all' | t }}</a>
+        {% for tag in blog.all_tags %}
+          <a
+            {% if current_tags contains tag %}
+              aria-current="page"
+            {% endif %}
+            href="{{ blog.url }}/tagged/{{ tag | handle }}"
+          >
+            {{ tag | escape }}
+          </a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+
+    {% paginate blog.articles by section.settings.articles_per_page %}
+      <div class="blog-main__grid">
+        {% for article in blog.articles %}
+          {% render 'article-card',
+            article: article,
+            show_author: section.settings.show_author,
+            show_date: section.settings.show_date,
+            show_excerpt: section.settings.show_excerpt
+          %}
+        {% else %}
+          <div class="empty-state">
+            <h2>{{ 'blog.empty' | t }}</h2>
+          </div>
+        {% endfor %}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .blog-main__header {
+    display: grid;
+    gap: 0.75rem;
+    margin-block-end: clamp(2rem, 6vw, 5rem);
+  }
+
+  .blog-main__header h1 {
+    font-size: clamp(3rem, 9vw, 8rem);
+    line-height: 0.86;
+  }
+
+  .blog-main__tags {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    margin-block-end: 2rem;
+    padding-block-end: 0.5rem;
+  }
+
+  .blog-main__tags a {
+    flex: 0 0 auto;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.78rem;
+    text-decoration: none;
+  }
+
+  .blog-main__tags a[aria-current='page'] {
+    background: currentcolor;
+    color: var(--scheme-background);
+  }
+
+  .blog-main__grid {
+    display: grid;
+    gap: var(--grid-gap, 1rem);
+  }
+
+  @media (min-width: 750px) {
+    .blog-main__grid {
+      grid-template-columns: repeat(var(--blog-columns, 3), minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Journal"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "Articles per page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,222 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="testimonials section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="--testimonial-columns: {{ section.settings.columns_desktop }};"
+>
+  <div class="page-width">
+    <header class="section-header" data-reveal>
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2>{{ section.settings.heading | escape }}</h2>
+    </header>
+
+    <div class="testimonials__grid">
+      {% for block in section.blocks %}
+        <figure class="testimonial" {{ block.shopify_attributes }} data-reveal>
+          {% if block.settings.rating > 0 %}
+            <div class="testimonial__stars">
+              <span aria-hidden="true">{% for star in (1..block.settings.rating) %}★{% endfor %}</span>
+              <span class="visually-hidden">{{ 'testimonials.rating' | t: count: block.settings.rating }}</span>
+            </div>
+          {% endif %}
+          <blockquote>{{ block.settings.quote }}</blockquote>
+          <figcaption>
+            {% if block.settings.image %}
+              {% render 'image', image: block.settings.image, sizes: '64px', width: 128 %}
+            {% endif %}
+            <span>
+              <strong>{{ block.settings.author | escape }}</strong>
+              {% if block.settings.context != blank %}<small>{{ block.settings.context | escape }}</small>{% endif %}
+            </span>
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .testimonials__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .testimonial {
+    display: grid;
+    min-width: 0;
+    align-content: space-between;
+    gap: 2rem;
+    margin: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--card-radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .testimonial__stars {
+    color: var(--accent-primary);
+    letter-spacing: 0.2em;
+  }
+
+  .testimonial blockquote {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.5rem, 3vw, 2.7rem);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .testimonial blockquote p {
+    margin: 0;
+  }
+
+  .testimonial figcaption {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .testimonial figcaption .image,
+  .testimonial figcaption img {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+  }
+
+  .testimonial figcaption img {
+    object-fit: cover;
+  }
+
+  .testimonial figcaption span {
+    display: grid;
+  }
+
+  .testimonial figcaption small {
+    opacity: 0.68;
+  }
+
+  @media (min-width: 750px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(var(--testimonial-columns, 3), minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "In their words"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What customers remember."
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Share a concise, specific comment from a real customer.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer image"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "default": "Customer name"
+        },
+        {
+          "type": "text",
+          "id": "context",
+          "label": "Context",
+          "default": "Verified customer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

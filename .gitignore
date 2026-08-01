@@ -1,0 +1,26 @@
+# Shopify CLI and store-specific configuration
+/.shopify/
+/shopify.theme.toml
+
+# Dependencies and test output
+/node_modules/
+/playwright-report/
+/test-results/
+/qa-results/
+
+# Generated install archives are intermediate artifacts
+/*-theme.zip
+
+# Local environment and operating-system files
+.env
+.env.*
+!.env.example
+.DS_Store
+*.pem
+*.key
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

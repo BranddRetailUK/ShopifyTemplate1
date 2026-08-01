@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Modeframe 1.0.0 — Merchant Manual</title>
+    <style>
+      :root { color-scheme: light; --paper:#f4f1e9; --ink:#111114; --violet:#6838ff; --line:#cdc7bc; --panel:#fffdf8; }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      a { color: inherit; text-decoration-thickness: .08em; text-underline-offset: .2em; }
+      header { padding: clamp(2rem, 7vw, 7rem) max(1.25rem, calc((100vw - 1120px) / 2)); color: white; background: var(--ink); }
+      header p { max-width: 54ch; font-size: clamp(1.1rem, 2vw, 1.4rem); color: #d7d3e2; }
+      h1 { max-width: 12ch; margin: 0; font-size: clamp(3rem, 9vw, 7.5rem); line-height: .9; letter-spacing: -.06em; }
+      .tag { display:inline-block; margin-bottom: 2rem; padding:.35rem .7rem; border:1px solid #77727f; border-radius:999px; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; }
+      .shell { display:grid; grid-template-columns: 16rem minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); max-width:1120px; margin:auto; padding:4rem 1.25rem 8rem; }
+      nav { align-self:start; position:sticky; top:1rem; }
+      nav a { display:block; padding:.45rem 0; text-decoration:none; }
+      nav a:hover, nav a:focus-visible { color:var(--violet); }
+      main { min-width:0; }
+      section { padding:0 0 3.5rem; border-bottom:1px solid var(--line); margin-bottom:3.5rem; }
+      h2 { font-size:clamp(2rem, 5vw, 3.5rem); line-height:1; letter-spacing:-.045em; }
+      h3 { margin-top:2rem; font-size:1.2rem; }
+      code { padding:.15rem .35rem; border-radius:.25rem; background:#e5e0d6; }
+      .note { padding:1.2rem 1.4rem; border-left:.35rem solid var(--violet); background:var(--panel); }
+      .modes { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.6rem; padding:0; list-style:none; }
+      .modes li { min-height:6rem; padding:1rem; border:1px solid var(--line); background:var(--panel); }
+      footer { padding:2rem 1.25rem; color:#d7d3e2; background:var(--ink); text-align:center; }
+      @media (max-width: 760px) { .shell { grid-template-columns:1fr; } nav { position:static; padding-bottom:1rem; border-bottom:1px solid var(--line); } .modes { grid-template-columns:1fr 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="tag">Shopify Online Store 2.0 · Version 1.0.0</span>
+      <h1>Modeframe merchant manual</h1>
+      <p>A practical setup and operations guide for a clean, editorial Shopify storefront.</p>
+    </header>
+    <div class="shell">
+      <nav aria-label="Manual contents">
+        <strong>Contents</strong>
+        <a href="#install">Install</a>
+        <a href="#setup">First setup</a>
+        <a href="#styles">Global styles</a>
+        <a href="#commerce">Commerce</a>
+        <a href="#sections">Sections</a>
+        <a href="#apps">Apps and security</a>
+        <a href="#updates">Updates</a>
+        <a href="#support">Support</a>
+      </nav>
+      <main>
+        <section id="install">
+          <h2>Install the right file</h2>
+          <ol>
+            <li>Unzip the complete marketplace download on your computer.</li>
+            <li>In Shopify admin, open <strong>Online Store &gt; Themes</strong>.</li>
+            <li>Choose <strong>Add theme &gt; Upload zip file</strong>.</li>
+            <li>Upload <code>Theme/Modeframe-1.0.0-theme.zip</code>.</li>
+            <li>Leave it unpublished while configuring and testing.</li>
+          </ol>
+          <p class="note"><strong>Do not upload the complete marketplace ZIP.</strong> It contains the manual, license, and release files and is not an installable Shopify theme.</p>
+        </section>
+        <section id="setup">
+          <h2>First setup</h2>
+          <p>Add your logo, favicon, menus, products, collections, pages, blog, imagery, policies, market settings, social links, and footer content. Select real resources in every visible section; empty selectors intentionally show editor placeholders.</p>
+          <p>Review home, collection, product, search, cart, contact, account, policy, password, gift-card, and 404 templates on desktop and mobile. Complete a Shopify test order before launch, and keep a duplicate of the previous live theme as rollback.</p>
+        </section>
+        <section id="styles">
+          <h2>Six global styles</h2>
+          <p>These modes restyle one Modeframe install. They are not separate products or presets.</p>
+          <ul class="modes">
+            <li><strong>Paper</strong><br>Warm editorial neutral</li><li><strong>Ink</strong><br>Dark high contrast</li><li><strong>Signal</strong><br>Acid highlight</li><li><strong>Electric</strong><br>Violet energy</li><li><strong>All light</strong><br>Clean white</li><li><strong>All dark</strong><br>Neutral dark</li>
+          </ul>
+          <p>Use Theme settings for typography, widths, spacing, radii, motion, search, and cart behaviour. Sections provide contextual layout and color controls.</p>
+        </section>
+        <section id="commerce">
+          <h2>Commerce setup</h2>
+          <h3>Products</h3>
+          <p>Modeframe supports variant selectors and swatches, rich product media, unit pricing, quantity rules, inventory, pickup, accelerated checkout, gift-card recipients, recommendations, and app-created selling plans.</p>
+          <h3>Collections and search</h3>
+          <p>Configure filters and recommendations using Shopify Search &amp; Discovery. Quick add appears only when no further product choice is required.</p>
+          <h3>Cart and checkout</h3>
+          <p>Choose drawer or page cart in Theme settings. Shopify remains responsible for prices, discounts, tax, shipping, payment, and checkout. Test both the cart interaction and checkout handoff.</p>
+        </section>
+        <section id="sections">
+          <h2>Build editorial pages</h2>
+          <p>The library includes Hero, Slideshow, Scroll Bridge, Motion Accents, Scrolling text, Rich text, Feature grid, Media with text, Featured collection/product, Collection list, Testimonials, Logo list, Featured blog, Video, Collapsible content, Newsletter, Call to action, and Custom Liquid.</p>
+          <p>Motion controls respect reduced-motion preferences. Check the fixed header over every major section and color treatment after changing media or colors.</p>
+        </section>
+        <section id="apps">
+          <h2>Apps, forms, and security</h2>
+          <p>Use app blocks for supported integrations. Selling plans require a compatible purchase-options app; markets, payments, pickup, instalments, and Follow on Shop depend on Shopify configuration and eligibility.</p>
+          <p class="note">Never paste passwords, API keys, tokens, customer data, or payment information into theme settings, Custom Liquid, CSS, JavaScript, or a public support request.</p>
+        </section>
+        <section id="updates">
+          <h2>Update without surprises</h2>
+          <p>Install each update as a separate unpublished theme, transfer settings carefully, and retest. Shopify does not automatically merge every editor setting or custom code change. Keep the previous version until the update passes storefront and checkout checks.</p>
+        </section>
+        <section id="support">
+          <h2>Get support</h2>
+          <p>First reproduce the issue in an unmodified Modeframe copy. Send the version, affected URL, browser/device, steps, expected result, actual result, and a screenshot where useful. Read the included FAQ and support policy for scope.</p>
+          <p><a href="https://brandd.co.uk/contact">brandd.co.uk/contact</a></p>
+        </section>
+      </main>
+    </div>
+    <footer>Modeframe 1.0.0 · Copyright © 2026 Brandd</footer>
+  </body>
+</html>

@@ -1,0 +1,273 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "scheme": "paper",
+        "nav_tone": "light",
+        "overlay_opacity": 20,
+        "eyebrow": "New collection",
+        "heading": "Give your products room to speak.",
+        "text": "<p>Introduce the collection, material, or point of view that makes your brand different.</p>",
+        "primary_label": "Shop the collection",
+        "secondary_label": "Read our story",
+        "height": "full",
+        "content_position": "bottom-left",
+        "content_width": 68,
+        "show_accents": true
+      }
+    },
+    "bridge_intro": {
+      "type": "scroll-bridge",
+      "settings": {
+        "top_scheme": "paper",
+        "bottom_scheme": "ink",
+        "variant": "long-drift",
+        "label": "From discovery to desire",
+        "show_label": false,
+        "height": 320,
+        "accent_thickness": 24,
+        "intensity": 110,
+        "rounded": true
+      }
+    },
+    "marquee": {
+      "type": "scrolling-text",
+      "blocks": {
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "Designed with purpose"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "Made to be used"
+          }
+        },
+        "text_3": {
+          "type": "text",
+          "settings": {
+            "text": "Built to last"
+          }
+        }
+      },
+      "block_order": ["text_1", "text_2", "text_3"],
+      "settings": {
+        "scheme": "ink",
+        "accessibility_label": "Store highlights",
+        "separator": "✦",
+        "speed": 28,
+        "text_size": 2.5,
+        "direction": "left"
+      }
+    },
+    "statement": {
+      "type": "rich-text",
+      "settings": {
+        "scheme": "ink",
+        "eyebrow": "Our point of view",
+        "heading": "Useful objects can still feel extraordinary.",
+        "text": "<p>Use this space to explain what you make, why it matters, and how it fits into your customers’ lives.</p>",
+        "alignment": "left",
+        "width": "wide"
+      }
+    },
+    "features": {
+      "type": "feature-grid",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "heading": "Made with intent",
+            "text": "<p>Explain your materials, process, or design decision.</p>"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "heading": "Easy to live with",
+            "text": "<p>Show how the product earns a place in everyday life.</p>"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "heading": "Supported properly",
+            "text": "<p>Set a clear expectation for delivery, care, and support.</p>"
+          }
+        }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3"],
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "What matters",
+        "heading": "A clear reason to choose your brand.",
+        "card_style": "lines",
+        "show_numbers": true,
+        "columns_desktop": 3,
+        "grid_gap": 24
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "Selected for you",
+        "heading": "Featured collection",
+        "show_view_all": true,
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "columns_mobile": "2",
+        "mobile_scroll": false,
+        "grid_gap": 16
+      }
+    },
+    "motion_accents": {
+      "type": "motion-accents",
+      "settings": {
+        "scheme": "paper",
+        "layout": "cross",
+        "color": "gradient",
+        "rail_count": "3",
+        "height": 240,
+        "rail_width": 80,
+        "rail_thickness": 20,
+        "intensity": 100,
+        "glow": true
+      }
+    },
+    "story": {
+      "type": "media-with-text",
+      "settings": {
+        "scheme": "ink",
+        "autoplay": false,
+        "media_position": "left",
+        "media_ratio": "portrait",
+        "eyebrow": "Behind the product",
+        "heading": "Show the thinking behind what you make.",
+        "text": "<p>Pair strong imagery with the details customers need to understand your materials, process, or point of view.</p>",
+        "button_label": "Read the story"
+      }
+    },
+    "collections": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "placeholder_title": "Choose a collection"
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "placeholder_title": "Choose a collection"
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "placeholder_title": "Choose a collection"
+          }
+        }
+      },
+      "block_order": ["collection_1", "collection_2", "collection_3"],
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "Explore",
+        "heading": "Shop by collection",
+        "show_product_count": true,
+        "show_view_all": true,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "grid_gap": 16
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Share a concise, specific comment from a real customer.</p>",
+            "author": "Customer name",
+            "context": "Verified customer"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Use social proof that speaks to quality, service, or the product experience.</p>",
+            "author": "Customer name",
+            "context": "Verified customer"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Keep testimonials authentic, useful, and easy to understand.</p>",
+            "author": "Customer name",
+            "context": "Verified customer"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
+      "settings": {
+        "scheme": "signal",
+        "eyebrow": "In their words",
+        "heading": "What customers remember.",
+        "columns_desktop": 3
+      }
+    },
+    "journal": {
+      "type": "featured-blog",
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "From the journal",
+        "heading": "Ideas, objects, and ways of working.",
+        "articles_to_show": 3,
+        "columns_desktop": 3,
+        "show_author": true,
+        "show_date": true,
+        "show_excerpt": true,
+        "show_view_all": true
+      }
+    },
+    "cta": {
+      "type": "call-to-action",
+      "settings": {
+        "scheme": "ink",
+        "overlay_opacity": 35,
+        "eyebrow": "Find your next favourite",
+        "heading": "Ready when you are.",
+        "button_label": "Shop all products"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "bridge_intro",
+    "marquee",
+    "statement",
+    "features",
+    "featured_collection",
+    "motion_accents",
+    "story",
+    "collections",
+    "testimonials",
+    "journal",
+    "cta"
+  ]
+}

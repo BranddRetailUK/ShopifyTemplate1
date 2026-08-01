@@ -1,0 +1,51 @@
+{% liquid
+  assign social_platforms = 'instagram,tiktok,youtube,facebook,x' | split: ','
+  assign has_social_links = false
+
+  for platform in social_platforms
+    assign setting_key = 'social_' | append: platform
+    if settings[setting_key] != blank
+      assign has_social_links = true
+      break
+    endif
+  endfor
+%}
+
+{% if has_social_links %}
+  <ul class="social-links" role="list">
+    {% for platform in social_platforms %}
+      {% assign setting_key = 'social_' | append: platform %}
+      {% assign social_url = settings[setting_key] %}
+      {% if social_url != blank %}
+        <li>
+          <a href="{{ social_url }}" target="_blank" rel="noopener" aria-label="{{ platform | capitalize }}">
+            {% render 'icon', name: platform %}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% stylesheet %}
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .social-links a {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+  }
+
+  .social-links svg {
+    width: 1.1rem;
+  }
+{% endstylesheet %}

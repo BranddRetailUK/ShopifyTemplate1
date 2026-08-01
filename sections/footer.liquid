@@ -1,0 +1,293 @@
+{% render 'section-background-override', section: section %}
+
+<footer
+  class="site-footer section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{% if section.settings.scheme == 'paper' or section.settings.scheme == 'signal' %}light{% else %}dark{% endif %}"
+>
+  <div class="site-footer__grid">
+    <div class="site-footer__brand">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% if settings.logo %}
+          {{
+            settings.logo
+            | image_url: width: 360
+            | image_tag:
+              widths: '120, 180, 240, 320, 360',
+              sizes: '220px',
+              loading: 'lazy',
+              alt: shop.name
+          }}
+        {% else %}
+          <span>{{ shop.name }}</span>
+        {% endif %}
+      </a>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.show_social %}
+        {% render 'social-links' %}
+      {% endif %}
+      {% if section.settings.show_follow_on_shop %}
+        <div class="site-footer__follow">
+          {{ shop | login_button: action: 'follow' }}
+        </div>
+      {% endif %}
+    </div>
+
+    <nav class="site-footer__menu" aria-label="Footer navigation">
+      <span class="eyebrow">{{ section.settings.menu_heading | escape }}</span>
+      <ul role="list">
+        {% for link in section.settings.menu.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="site-footer__utility">
+      {% if section.settings.show_localization %}
+        {% render 'localization-form', id_prefix: 'Footer' %}
+      {% endif %}
+
+      <div class="site-footer__policies">
+        {% for policy in shop.policies %}
+          {% if policy != blank %}
+            <a href="{{ policy.url }}">{{ policy.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="site-footer__bottom">
+    <p>
+      &copy; {{ 'now' | date: '%Y' }}
+      <a href="{{ routes.root_url }}">{{ shop.name }}</a>.
+      {{ powered_by_link }}
+    </p>
+
+    {% if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 %}
+      <ul class="site-footer__payments" aria-label="Payment methods" role="list">
+        {% for type in shop.enabled_payment_types %}
+          <li>{{ type | payment_type_svg_tag }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</footer>
+
+{% stylesheet %}
+  .site-footer {
+    padding-block-end: 2rem;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    width: min(var(--page-width), calc(100% - (var(--page-margin) * 2)));
+    grid-template-columns: minmax(0, 1.25fr) minmax(180px, 0.55fr) minmax(260px, 0.8fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    margin-inline: auto;
+  }
+
+  .site-footer__brand,
+  .site-footer__menu,
+  .site-footer__utility {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+  }
+
+  .site-footer__brand > a {
+    display: block;
+    width: min(240px, 70%);
+    color: inherit;
+    font-family: var(--font-heading-family);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .site-footer__brand img {
+    width: 100%;
+    max-height: 74px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .scheme-ink .site-footer__brand img,
+  .scheme-electric .site-footer__brand img {
+    filter: brightness(0) invert(1);
+  }
+
+  .site-footer__brand .rte {
+    max-width: 44ch;
+  }
+
+  .site-footer__follow {
+    width: fit-content;
+  }
+
+  .site-footer__menu ul,
+  .site-footer__policies {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__menu a,
+  .site-footer__policies a,
+  .site-footer__bottom a {
+    text-decoration: none;
+  }
+
+  .site-footer__menu a:hover,
+  .site-footer__policies a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    width: min(var(--page-width), calc(100% - (var(--page-margin) * 2)));
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    border-block-start: 1px solid var(--border-subtle);
+    margin-block-start: clamp(3rem, 7vw, 6rem);
+    margin-inline: auto;
+    padding-block-start: 1.5rem;
+    font-size: 0.78rem;
+  }
+
+  .site-footer__payments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__payments li {
+    display: grid;
+  }
+
+  .site-footer__payments svg {
+    width: 38px;
+    height: auto;
+  }
+
+  @media (max-width: 989px) {
+    .site-footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 649px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .site-footer__brand {
+      grid-column: auto;
+    }
+
+    .site-footer__bottom {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .site-footer__payments {
+      justify-content: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Objects, ideas and everyday essentials selected with intent.</p>"
+    },
+    {
+      "type": "text",
+      "id": "menu_heading",
+      "label": "Menu heading",
+      "default": "Explore"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_follow_on_shop",
+      "label": "Show Follow on Shop",
+      "info": "Requires the Shop channel and Shop Pay. Shopify controls the branded button appearance.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "Show country and language selectors",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "ink"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

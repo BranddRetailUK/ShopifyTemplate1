@@ -1,0 +1,152 @@
+{% render 'section-background-override', section: section %}
+
+{% comment %}
+  Main list-collections page.
+{% endcomment %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="
+    --desktop-columns: {{ section.settings.columns_desktop }};
+    --mobile-columns: {{ section.settings.columns_mobile }};
+    --grid-gap: {{ section.settings.grid_gap }}px;
+  "
+>
+  <div class="page-width">
+    <header class="section-header" data-reveal>
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h1>{{ section.settings.heading | default: 'collections.title' | t }}</h1>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </header>
+
+    {% paginate collections by section.settings.collections_per_page %}
+      <div class="collection-grid">
+        {% for collection in collections %}
+          {% render 'collection-card', collection: collection, show_count: section.settings.show_product_count %}
+        {% else %}
+          {% for index in (1..6) %}
+            <article class="collection-card card">
+              <div class="collection-card__media">
+                {{ 'collection-' | append: index | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+              <div class="collection-card__content">
+                <h2>{{ 'collections.collection' | t }} {{ index }}</h2>
+              </div>
+            </article>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Collections"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show product count",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "label": "Collections per page",
+      "min": 6,
+      "max": 36,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

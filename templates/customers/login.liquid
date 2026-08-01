@@ -1,0 +1,88 @@
+<section class="customer scheme-paper" data-nav-tone="light">
+  <div class="page-width customer__inner">
+    <header class="customer__header">
+      <p class="eyebrow">{{ 'customer.account' | t }}</p>
+      <h1>{{ 'customer.login' | t }}</h1>
+    </header>
+
+    <div class="customer__grid customer__grid--two">
+      <div class="customer__panel" id="CustomerLogin">
+        {% form 'customer_login', class: 'customer__form' %}
+          {{ form.errors | default_errors }}
+          <div class="field">
+            <label for="CustomerEmail">{{ 'customer.email' | t }}</label>
+            <input
+              id="CustomerEmail"
+              type="email"
+              name="customer[email]"
+              autocomplete="email"
+              autocapitalize="off"
+              required
+            >
+          </div>
+          {% if form.password_needed %}
+            <div class="field">
+              <label for="CustomerPassword">{{ 'customer.password' | t }}</label>
+              <input
+                id="CustomerPassword"
+                type="password"
+                name="customer[password]"
+                autocomplete="current-password"
+                required
+              >
+            </div>
+          {% endif %}
+          <div class="customer__actions">
+            <button class="button" type="submit">{{ 'customer.login' | t }}</button>
+            {% if form.password_needed %}
+              <a href="#RecoverPassword">{{ 'customer.recover' | t }}</a>
+            {% endif %}
+          </div>
+        {% endform %}
+      </div>
+
+      <div class="customer__panel">
+        <h2>{{ 'customer.new_customer' | t }}</h2>
+        <p>{{ 'customer.register_prompt' | t }}</p>
+        <a class="button button--secondary" href="{{ routes.account_register_url }}">
+          {{ 'customer.create' | t }}
+        </a>
+      </div>
+    </div>
+
+    <div class="customer__panel" id="RecoverPassword">
+      {% form 'recover_customer_password', class: 'customer__form' %}
+        <h2>{{ 'customer.recover_title' | t }}</h2>
+        <p>{{ 'customer.recover_text' | t }}</p>
+        {% if form.posted_successfully? %}
+          <p class="form-status form-status--success">{{ 'customer.recover_success' | t }}</p>
+        {% endif %}
+        {{ form.errors | default_errors }}
+        <div class="field">
+          <label for="RecoverEmail">{{ 'customer.email' | t }}</label>
+          <input
+            id="RecoverEmail"
+            type="email"
+            name="email"
+            autocomplete="email"
+            autocapitalize="off"
+            required
+          >
+        </div>
+        <div class="customer__actions">
+          <button class="button" type="submit">{{ 'customer.submit' | t }}</button>
+          <a href="#CustomerLogin">{{ 'customer.cancel' | t }}</a>
+        </div>
+      {% endform %}
+    </div>
+
+    {% if shop.checkout.guest_login %}
+      <div class="customer__panel">
+        {% form 'guest_login', class: 'customer__form' %}
+          <h2>{{ 'customer.guest_title' | t }}</h2>
+          <button class="button button--secondary" type="submit">{{ 'customer.guest_continue' | t }}</button>
+        {% endform %}
+      </div>
+    {% endif %}
+  </div>
+</section>

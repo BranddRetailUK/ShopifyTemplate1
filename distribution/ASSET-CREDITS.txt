@@ -1,0 +1,22 @@
+MODEFRAME ASSET AND ATTRIBUTION RECORD
+
+Theme source, styling, included SVG icons, documentation, and buyer-facing
+package materials are authored for Modeframe by Brandd unless a file explicitly
+states otherwise.
+
+The theme uses Shopify Liquid objects, platform web components, hosted fonts,
+and storefront APIs at runtime. These platform capabilities are supplied by
+Shopify and remain subject to Shopify's terms and trademark guidelines.
+
+Marketplace promotional compositions in marketing/ are created for the
+Modeframe listing. They are listing collateral, not merchant demo content and
+are not included in the installable theme archive.
+
+No stock photography, commercial logo, testimonial, product description,
+video, audio, or third-party font file is included in the installable theme.
+Any public demo-store or marketplace photography added later must be recorded
+here with its creator, source, purchase/license identifier, permitted uses, and
+required attribution before release.
+
+Shopify is a trademark of Shopify Inc. Modeframe and Brandd are independent and
+are not endorsed by or affiliated with Shopify Inc.

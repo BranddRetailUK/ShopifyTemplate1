@@ -1,0 +1,106 @@
+{% doc %}
+  Renders variant-aware purchase options inside a product form.
+
+  @param {product} product - Product whose plans should be rendered.
+  @param {variant} current_variant - Initially selected variant.
+{% enddoc %}
+
+{% if product.selling_plan_groups.size > 0 %}
+  <selling-plan-picker class="selling-plan-picker">
+    {% for variant in product.variants %}
+      {% liquid
+        assign is_current_variant = false
+        if variant.id == current_variant.id
+          assign is_current_variant = true
+        endif
+        assign selected_plan_assigned = false
+      %}
+      <div
+        data-selling-plan-variant="{{ variant.id }}"
+        data-requires-selling-plan="{{ variant.requires_selling_plan }}"
+        {% unless is_current_variant %}
+          hidden
+        {% endunless %}
+      >
+        <fieldset class="selling-plan-picker__fieldset">
+          <legend>{{ 'products.product.purchase_options' | t }}</legend>
+
+          {% unless variant.requires_selling_plan %}
+            <label class="selling-plan-picker__option">
+              <input
+                type="radio"
+                name="selling_plan"
+                value=""
+                data-selling-plan-input
+                data-price="{{ variant.price }}"
+                data-compare-at-price="{{ variant.compare_at_price | default: 0 }}"
+                data-unit-price="{{ variant.unit_price | default: 0 }}"
+                {% if is_current_variant and product.selected_selling_plan == nil %}
+                  checked
+                {% endif %}
+                {% unless is_current_variant %}
+                  disabled
+                {% endunless %}
+              >
+              <span>
+                <strong>{{ 'products.product.one_time_purchase' | t }}</strong>
+                <small>{{ variant.price | money }}</small>
+              </span>
+            </label>
+          {% endunless %}
+
+          {% for selling_plan_group in product.selling_plan_groups %}
+            {% assign allocations = variant.selling_plan_allocations | where: 'selling_plan_group_id', selling_plan_group.id %}
+            {% if allocations.size > 0 %}
+              <div class="selling-plan-picker__group">
+                <p>{{ selling_plan_group.name | escape }}</p>
+                <div class="selling-plan-picker__options">
+                  {% for allocation in allocations %}
+                    {% liquid
+                      assign is_selected_plan = false
+                      if allocation.selling_plan.id == product.selected_selling_plan.id
+                        assign is_selected_plan = true
+                        assign selected_plan_assigned = true
+                      elsif variant.requires_selling_plan and selected_plan_assigned == false
+                        assign is_selected_plan = true
+                        assign selected_plan_assigned = true
+                      endif
+                      assign checkout_charge = allocation.checkout_charge_amount | money
+                    %}
+                    <label class="selling-plan-picker__option">
+                      <input
+                        type="radio"
+                        name="selling_plan"
+                        value="{{ allocation.selling_plan.id }}"
+                        data-selling-plan-input
+                        data-price="{{ allocation.price }}"
+                        data-compare-at-price="{{ allocation.compare_at_price | default: 0 }}"
+                        data-unit-price="{{ allocation.unit_price | default: 0 }}"
+                        {% if is_current_variant and is_selected_plan %}
+                          checked
+                        {% endif %}
+                        {% unless is_current_variant %}
+                          disabled
+                        {% endunless %}
+                      >
+                      <span>
+                        <strong>{{ allocation.selling_plan.name | escape }}</strong>
+                        <small>{{ allocation.price | money }}</small>
+                        {% if allocation.selling_plan.description != blank %}
+                          <small>{{ allocation.selling_plan.description | escape }}</small>
+                        {% endif %}
+                        {% if allocation.checkout_charge_amount != allocation.price %}
+                          <small>{{ 'products.product.due_at_checkout' | t: amount: checkout_charge }}</small>
+                        {% endif %}
+                      </span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+      </div>
+    {% endfor %}
+  </selling-plan-picker>
+{% endif %}

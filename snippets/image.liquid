@@ -1,0 +1,62 @@
+{% doc %}
+  Outputs a responsive image inside an optional link.
+
+  @param {image} image - Shopify image object.
+  @param {string} [url] - Destination URL.
+  @param {string} [class] - Additional wrapper class.
+  @param {string} [sizes] - Responsive sizes instruction.
+  @param {string} [loading] - Browser loading strategy.
+  @param {string} [fetchpriority] - Browser fetch priority.
+  @param {string} [alt] - Alternative text override.
+  @param {number} [width] - Largest generated image width.
+  @param {number} [height] - Requested generated image height.
+  @param {string} [crop] - Shopify crop value.
+{% enddoc %}
+
+{%- liquid
+  assign requested_width = width | default: image.width | at_most: 2400
+  assign responsive_sizes = sizes | default: '(min-width: 990px) 50vw, 100vw'
+  assign loading_mode = loading | default: 'lazy'
+  assign priority = fetchpriority | default: 'auto'
+  assign accessible_alt = alt | default: image.alt | escape
+  assign focal_position = image.presentation.focal_point | default: 'center'
+-%}
+
+{%- capture responsive_image -%}
+  {{-
+    image
+    | image_url: width: requested_width, height: height, crop: crop
+    | image_tag:
+      widths: '180, 280, 360, 480, 640, 800, 1000, 1200, 1600, 2000, 2400',
+      sizes: responsive_sizes,
+      loading: loading_mode,
+      fetchpriority: priority,
+      alt: accessible_alt
+  -}}
+{%- endcapture -%}
+
+{%- if url != blank -%}
+  <a class="modeframe-media {{ class }}" href="{{ url }}" style="--media-focus: {{ focal_position }}">
+    {{ responsive_image }}
+  </a>
+{%- else -%}
+  <div class="modeframe-media {{ class }}" style="--media-focus: {{ focal_position }}">
+    {{ responsive_image }}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .modeframe-media {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .modeframe-media > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--media-focus, center);
+  }
+{% endstylesheet %}

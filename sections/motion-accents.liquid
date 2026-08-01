@@ -1,0 +1,290 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<scroll-motion
+  class="
+    motion-accents
+    motion-accents--{{ section.settings.layout }}
+    motion-accents--{{ section.settings.color }}
+    scheme-{{ section.settings.scheme }}
+    {% if section.settings.override_accent_colors %}motion-accents--custom-colors{% endif %}
+    {% if section.settings.glow %}motion-accents--glow{% endif %}
+  "
+  data-motion-kind="accents"
+  data-motion-variant="{{ section.settings.layout }}"
+  data-motion-intensity="{{ section.settings.intensity }}"
+  data-accent-colors="{% if section.settings.override_accent_colors %}custom{% else %}preset{% endif %}"
+  data-nav-tone="{{ nav_tone }}"
+  style="
+    --motion-accents-height: {{ section.settings.height }}px;
+    --motion-accents-width: {{ section.settings.rail_width }}vw;
+    --motion-accents-thickness: {{ section.settings.rail_thickness }}px;
+    --motion-accents-left: {% if section.settings.override_accent_colors %}{{ section.settings.accent_left_color }}{% else %}var(--accent-primary){% endif %};
+    --motion-accents-right: {% if section.settings.override_accent_colors %}{{ section.settings.accent_right_color }}{% else %}var(--accent-secondary){% endif %};
+  "
+  aria-hidden="true"
+>
+  <span class="motion-accents__rail motion-accents__rail--one"></span>
+  <span class="motion-accents__rail motion-accents__rail--two"></span>
+  {% if section.settings.rail_count == '3' %}
+    <span class="motion-accents__rail motion-accents__rail--three"></span>
+  {% endif %}
+</scroll-motion>
+
+{% stylesheet %}
+  .motion-accents {
+    position: relative;
+    display: block;
+    min-height: clamp(10rem, var(--motion-accents-height), 25rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .motion-accents__rail {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    width: min(var(--motion-accents-width), 94vw);
+    height: var(--motion-accents-thickness);
+    border-radius: var(--card-radius);
+    background: linear-gradient(90deg, var(--motion-accents-left), var(--motion-accents-right));
+    background-size: 220% 100%;
+    pointer-events: none;
+    transform-origin: center;
+    animation: motion-accent-shift 5.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .motion-accents__rail--one {
+    transform:
+      translate3d(
+        calc(-50% + var(--accent-one-x, 0%)),
+        calc(-50% + var(--accent-one-y, 0%)),
+        0
+      )
+      rotate(var(--accent-one-rotate, 0deg))
+      scaleX(var(--accent-one-scale, 1));
+  }
+
+  .motion-accents__rail--two {
+    opacity: 0.82;
+    transform:
+      translate3d(
+        calc(-50% + var(--accent-two-x, 0%)),
+        calc(-50% + var(--accent-two-y, 0%)),
+        0
+      )
+      rotate(var(--accent-two-rotate, 0deg))
+      scaleX(var(--accent-two-scale, 1));
+    animation-delay: -1.8s;
+  }
+
+  .motion-accents__rail--three {
+    height: var(--motion-accents-thickness);
+    opacity: 0.62;
+    transform:
+      translate3d(
+        calc(-50% + var(--accent-three-x, 0%)),
+        calc(-50% + var(--accent-three-y, 0%)),
+        0
+      )
+      rotate(var(--accent-three-rotate, 0deg))
+      scaleX(var(--accent-three-scale, 1))
+      scaleY(0.62);
+    animation-delay: -3.4s;
+  }
+
+  .motion-accents--signal .motion-accents__rail {
+    background: var(--accent-primary);
+  }
+
+  .motion-accents--electric .motion-accents__rail {
+    background: var(--accent-secondary);
+  }
+
+  .motion-accents--foreground .motion-accents__rail {
+    background: currentcolor;
+  }
+
+  .motion-accents--custom-colors .motion-accents__rail {
+    background: linear-gradient(90deg, var(--motion-accents-left), var(--motion-accents-right));
+  }
+
+  .motion-accents--glow .motion-accents__rail {
+    box-shadow: 0 1.5rem 5rem color-mix(in srgb, var(--motion-accents-right) 30%, transparent);
+  }
+
+  @keyframes motion-accent-shift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .motion-none .motion-accents__rail {
+    animation: none;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-accents__rail {
+      animation: none;
+      will-change: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Motion accents",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "cross", "label": "Cross" },
+        { "value": "fan", "label": "Fan" },
+        { "value": "parallel", "label": "Parallel" },
+        { "value": "split", "label": "Split" }
+      ],
+      "default": "cross"
+    },
+    {
+      "type": "select",
+      "id": "color",
+      "label": "Accent color",
+      "options": [
+        { "value": "gradient", "label": "Gradient" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" },
+        { "value": "foreground", "label": "Foreground" }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "header",
+      "content": "Custom accent colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_accent_colors",
+      "label": "Override preset colors",
+      "info": "Uses the colors below for this section instead of the global theme preset and Accent color option.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "accent_left_color",
+      "label": "Left bar color",
+      "default": "#d9ff43"
+    },
+    {
+      "type": "color",
+      "id": "accent_right_color",
+      "label": "Right bar color",
+      "default": "#6838ff"
+    },
+    {
+      "type": "select",
+      "id": "rail_count",
+      "label": "Accent rails",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Height",
+      "min": 160,
+      "max": 400,
+      "step": 40,
+      "unit": "px",
+      "default": 240
+    },
+    {
+      "type": "range",
+      "id": "rail_width",
+      "label": "Accent width",
+      "min": 40,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "rail_thickness",
+      "label": "Accent thickness",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "intensity",
+      "label": "Movement intensity",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "glow",
+      "label": "Show glow",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Motion accents"
+    }
+  ]
+}
+{% endschema %}

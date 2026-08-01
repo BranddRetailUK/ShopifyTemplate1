@@ -1,0 +1,307 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<article class="article-main scheme-{{ section.settings.scheme }}" data-nav-tone="{{ nav_tone }}">
+  <header class="article-main__header page-width" data-reveal>
+    <a class="eyebrow" href="{{ blog.url }}">{{ blog.title | escape }}</a>
+    <h1>{{ article.title | escape }}</h1>
+    <div class="article-main__meta">
+      {% if section.settings.show_date %}
+        {{ article.published_at | time_tag: format: 'date' }}
+      {% endif %}
+      {% if section.settings.show_author %}
+        <span>{{ article.author | escape }}</span>
+      {% endif %}
+      {% if article.tags.size > 0 and section.settings.show_tags %}
+        <span>{{ article.tags | join: ', ' }}</span>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if article.image and section.settings.show_image %}
+    <div class="article-main__hero page-width{% if section.settings.full_width_image %} page-width--full{% endif %}" data-reveal>
+      {% render 'image',
+        image: article.image,
+        sizes: '100vw',
+        loading: 'eager',
+        fetchpriority: 'high',
+        width: 2400
+      %}
+    </div>
+  {% endif %}
+
+  <div class="article-main__body page-width">
+    <div class="rte article-main__content">{{ article.content }}</div>
+
+    {% if section.settings.show_share %}
+      <div class="article-main__share">
+        <span class="eyebrow">{{ 'general.share' | t }}</span>
+        <a
+          href="//www.facebook.com/sharer.php?u={{ shop.url | append: article.url | url_encode }}"
+          target="_blank"
+          rel="noopener"
+        >
+          Facebook
+        </a>
+        <a
+          href="//pinterest.com/pin/create/button/?url={{ shop.url | append: article.url | url_encode }}{% if article.image %}&media={{ article.image | image_url: width: 1200 | url_encode }}{% endif %}"
+          target="_blank"
+          rel="noopener"
+        >
+          Pinterest
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if blog.comments_enabled? %}
+    <section class="article-comments page-width" id="comments">
+      <div class="article-comments__inner">
+        <h2>{{ 'blog.article_comments' | t }} ({{ article.comments_count }})</h2>
+
+        {% paginate article.comments by 10 %}
+          <div class="article-comments__list">
+            {% for comment in article.comments %}
+              <blockquote class="article-comment">
+                <div class="rte">{{ comment.content }}</div>
+                <footer>
+                  <strong>{{ comment.author | escape }}</strong>
+                  {{ comment.created_at | time_tag: format: 'date' }}
+                </footer>
+              </blockquote>
+            {% endfor %}
+          </div>
+          {% render 'pagination', paginate: paginate, anchor: '#comments' %}
+        {% endpaginate %}
+
+        {% form 'new_comment', article, class: 'article-comment-form' %}
+          <h2>{{ 'blog.comment_form_title' | t }}</h2>
+
+          {% if form.posted_successfully? %}
+            <p class="form-status form-status--success" tabindex="-1">
+              {% if blog.moderated? %}
+                {{ 'blog.comment_pending' | t }}
+              {% else %}
+                {{ 'blog.comment_posted' | t }}
+              {% endif %}
+            </p>
+          {% endif %}
+          {{ form.errors | default_errors }}
+
+          <div class="form-grid form-grid--two">
+            <div class="field">
+              <label for="CommentAuthor-{{ section.id }}">{{ 'blog.comment_form_name' | t }}</label>
+              <input
+                id="CommentAuthor-{{ section.id }}"
+                type="text"
+                name="comment[author]"
+                value="{{ form.author }}"
+                autocomplete="name"
+                required
+              >
+            </div>
+            <div class="field">
+              <label for="CommentEmail-{{ section.id }}">{{ 'blog.comment_form_email' | t }}</label>
+              <input
+                id="CommentEmail-{{ section.id }}"
+                type="email"
+                name="comment[email]"
+                value="{{ form.email }}"
+                autocomplete="email"
+                required
+              >
+            </div>
+          </div>
+          <div class="field">
+            <label for="CommentBody-{{ section.id }}">{{ 'blog.comment_form_body' | t }}</label>
+            <textarea id="CommentBody-{{ section.id }}" name="comment[body]" rows="8" required>{{ form.body }}</textarea>
+          </div>
+          <button class="button" type="submit">{{ 'blog.comment_form_submit' | t }}</button>
+        {% endform %}
+      </div>
+    </section>
+  {% endif %}
+
+  <footer class="article-main__footer page-width">
+    <a class="button button--secondary" href="{{ blog.url }}">{{ 'blog.back_to_blog' | t }}</a>
+  </footer>
+</article>
+
+{% stylesheet %}
+  .article-main {
+    padding-block: clamp(4rem, 10vw, 9rem);
+  }
+
+  .article-main__header {
+    display: grid;
+    max-width: min(78rem, calc(var(--page-width) + (var(--page-margin) * 2)));
+    gap: 1.2rem;
+    margin-block-end: clamp(2rem, 6vw, 5rem);
+  }
+
+  .article-main__header h1 {
+    max-width: 14ch;
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.88;
+  }
+
+  .article-main__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .article-main__hero {
+    overflow: hidden;
+    margin-block-end: clamp(3rem, 8vw, 7rem);
+  }
+
+  .article-main__hero .image,
+  .article-main__hero img {
+    width: 100%;
+    max-height: 78vh;
+  }
+
+  .article-main__hero img {
+    object-fit: cover;
+  }
+
+  .article-main__body,
+  .article-comments__inner {
+    max-width: min(52rem, calc(var(--page-width) + (var(--page-margin) * 2)));
+  }
+
+  .article-main__content {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  }
+
+  .article-main__share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    border-block-start: 1px solid var(--border-subtle);
+    margin-block-start: 3rem;
+    padding-block-start: 1.25rem;
+  }
+
+  .article-comments {
+    margin-block-start: clamp(4rem, 10vw, 9rem);
+  }
+
+  .article-comments__inner,
+  .article-comments__list,
+  .article-comment-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .article-comment {
+    margin: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+  }
+
+  .article-comment footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-block-start: 1rem;
+    font-size: 0.78rem;
+  }
+
+  .article-comment-form {
+    border-block-start: 1px solid var(--border-subtle);
+    margin-block-start: 2rem;
+    padding-block-start: 2rem;
+  }
+
+  .article-main__footer {
+    max-width: min(52rem, calc(var(--page-width) + (var(--page-margin) * 2)));
+    margin-block-start: 3rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_image",
+      "label": "Use full-width image",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show sharing links",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,189 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="marquee scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="--marquee-speed: {{ section.settings.speed }}s; --marquee-size: {{ section.settings.text_size }}rem;"
+  aria-label="{{ section.settings.accessibility_label | escape }}"
+>
+  <div class="marquee__track{% if section.settings.direction == 'right' %} marquee__track--reverse{% endif %}">
+    {% for repeat in (1..4) %}
+      <div class="marquee__group" {% if repeat > 1 %}aria-hidden="true"{% endif %}>
+        {% for block in section.blocks %}
+          <span {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+          <span class="marquee__mark" aria-hidden="true">{{ section.settings.separator }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .marquee {
+    overflow: hidden;
+    border-block: 1px solid var(--border-subtle);
+    padding-block: clamp(0.8rem, 2vw, 1.4rem);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-speed) linear infinite;
+  }
+
+  .marquee__track--reverse {
+    animation-direction: reverse;
+  }
+
+  .marquee__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 1.25rem;
+    padding-inline-end: 1.25rem;
+    font-family: var(--font-heading-family);
+    font-size: var(--marquee-size);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  .marquee__mark {
+    color: var(--accent-primary);
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-25%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      width: auto;
+      animation: none;
+    }
+
+    .marquee__group:not(:first-child) {
+      display: none;
+    }
+
+    .marquee__group {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-inline: var(--page-margin);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "ink"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Store highlights"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "✦"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "unit": "rem",
+      "default": 2.5
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Designed with purpose"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Scrolling text",
+      "blocks": [
+        { "type": "text", "settings": { "text": "Designed with purpose" } },
+        { "type": "text", "settings": { "text": "Made to be used" } },
+        { "type": "text", "settings": { "text": "Built to last" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

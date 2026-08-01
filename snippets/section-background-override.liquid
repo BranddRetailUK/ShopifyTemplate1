@@ -1,0 +1,18 @@
+{% liquid
+  if section.settings.override_background_color
+    assign background_nav_tone = 'light'
+    assign background_brightness = section.settings.background_color | color_brightness
+    if background_brightness < 128
+      assign background_nav_tone = 'dark'
+    endif
+  endif
+%}
+
+{% if section.settings.override_background_color %}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --section-background-override: {{ section.settings.background_color }};
+      --section-nav-tone-override: {{ background_nav_tone }};
+    }
+  {% endstyle %}
+{% endif %}

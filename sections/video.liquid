@@ -1,0 +1,185 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section class="video-section section scheme-{{ section.settings.scheme }}" data-nav-tone="{{ nav_tone }}">
+  <div class="page-width">
+    <header class="section-header" data-reveal>
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading | escape }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </header>
+
+    <div class="video-section__media video-section__media--{{ section.settings.ratio }}" data-reveal>
+      {% if section.settings.video %}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: section.settings.autoplay,
+            loop: section.settings.loop,
+            muted: section.settings.autoplay,
+            controls: true,
+            playsinline: true,
+            image_size: '2200x'
+        }}
+      {% elsif section.settings.video_url %}
+        {{
+          section.settings.video_url
+          | external_video_tag:
+            loading: 'lazy',
+            autoplay: section.settings.autoplay,
+            loop: section.settings.loop
+        }}
+      {% elsif section.settings.cover_image %}
+        {% render 'image', image: section.settings.cover_image, sizes: '100vw', width: 2200 %}
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .video-section__media {
+    overflow: hidden;
+    border-radius: var(--media-radius);
+    background: #000;
+  }
+
+  .video-section__media--landscape {
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-section__media--cinematic {
+    aspect-ratio: 2.35 / 1;
+  }
+
+  .video-section__media--square {
+    aspect-ratio: 1;
+  }
+
+  .video-section__media video,
+  .video-section__media iframe,
+  .video-section__media .image,
+  .video-section__media img,
+  .video-section__media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-section__media video,
+  .video-section__media iframe,
+  .video-section__media img {
+    border: 0;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Video",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "See it in motion"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Show how the product moves, works, or feels."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify-hosted video"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "YouTube or Vimeo URL",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop video",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "cinematic", "label": "Cinematic" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "landscape"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video"
+    }
+  ]
+}
+{% endschema %}

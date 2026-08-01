@@ -1,0 +1,19 @@
+MODEFRAME 1.0.0 — QUICK START
+
+1. Unzip the complete marketplace download.
+2. In Shopify admin, go to Online Store > Themes.
+3. Choose Add theme > Upload zip file.
+4. Upload Theme/Modeframe-1.0.0-theme.zip — not the complete marketplace ZIP.
+5. Leave the theme unpublished and choose Customize.
+6. Add logo, menus, products, collections, pages, imagery, policies, social
+   links, market settings, and one of the six Global styles.
+7. Preview desktop/mobile and test navigation, search, variants, add to cart,
+   cart updates, forms, account entry, and checkout handoff.
+8. Duplicate the current live theme before publishing Modeframe.
+
+Manual: Documentation/index.html
+FAQ: Documentation/FAQ.md
+Support: https://brandd.co.uk/contact
+
+Never place passwords, tokens, API keys, or customer/payment data in theme
+settings or support messages.

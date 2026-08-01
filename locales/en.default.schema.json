@@ -1,0 +1,11 @@
+{
+  "modeframe": {
+    "name": "Modeframe",
+    "editor": {
+      "global_styles": "Global styles",
+      "layout": "Layout",
+      "motion": "Motion",
+      "commerce": "Commerce"
+    }
+  }
+}

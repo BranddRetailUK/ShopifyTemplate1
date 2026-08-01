@@ -1,0 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Stay close",
+        "heading": "New releases, without the noise.",
+        "text": "<p>Product drops, studio notes and useful updates, sent occasionally.</p>",
+        "scheme": "signal"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "text": "<p>Objects, ideas and everyday essentials selected with intent.</p>",
+        "menu_heading": "Explore",
+        "menu": "footer",
+        "show_social": true,
+        "show_follow_on_shop": true,
+        "show_localization": true,
+        "show_payment_icons": true,
+        "scheme": "ink"
+      }
+    }
+  },
+  "order": ["newsletter", "footer"]
+}

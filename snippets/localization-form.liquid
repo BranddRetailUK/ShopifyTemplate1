@@ -1,0 +1,68 @@
+{% doc %}
+  Renders country and language selectors when multiple options are available.
+
+  @param {string} id_prefix - Unique ID prefix.
+{% enddoc %}
+
+{% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+  {% form 'localization', class: 'localization-form' %}
+    {% if localization.available_countries.size > 1 %}
+      <div class="field">
+        <label for="{{ id_prefix }}-Country">{{ 'localization.country' | t }}</label>
+        <select id="{{ id_prefix }}-Country" name="country_code" onchange="this.form.submit()">
+          {% for country in localization.available_countries %}
+            <option
+              value="{{ country.iso_code }}"
+              {% if country.iso_code == localization.country.iso_code %}
+                selected
+              {% endif %}
+            >
+              {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    {% if localization.available_languages.size > 1 %}
+      <div class="field">
+        <label for="{{ id_prefix }}-Language">{{ 'localization.language' | t }}</label>
+        <select id="{{ id_prefix }}-Language" name="locale_code" onchange="this.form.submit()">
+          {% for language in localization.available_languages %}
+            <option
+              value="{{ language.iso_code }}"
+              lang="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}
+                selected
+              {% endif %}
+            >
+              {{ language.endonym_name | capitalize }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    <noscript>
+      <button class="button button--secondary" type="submit">{{ 'customer.submit' | t }}</button>
+    </noscript>
+  {% endform %}
+{% endif %}
+
+{% stylesheet %}
+  .localization-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .localization-form .field {
+    min-width: min(100%, 13rem);
+  }
+
+  .localization-form select {
+    min-height: 42px;
+    padding-block: 0.5rem;
+    font-size: 0.82rem;
+  }
+{% endstylesheet %}

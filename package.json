@@ -1,0 +1,27 @@
+{
+  "name": "modeframe-shopify-theme",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "shopify theme check",
+    "theme:check": "shopify theme check",
+    "theme:dev": "shopify theme dev --theme-editor-sync",
+    "theme:info": "shopify theme info",
+    "theme:list": "shopify theme list",
+    "theme:package": "shopify theme package",
+    "theme:push": "shopify theme push",
+    "release:check": "node scripts/validate-theme-release.mjs",
+    "provenance:check": "node scripts/validate-source-provenance.mjs",
+    "qa:static": "node scripts/validate-static-qa.mjs",
+    "qa:browser": "playwright test",
+    "qa:browser:headed": "playwright test --headed",
+    "bundle": "node scripts/build-marketplace-bundle.mjs",
+    "bundle:check": "node scripts/validate-marketplace-bundle.mjs",
+    "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static",
+    "shopify:test-catalog": "node scripts/shopify-test-catalog.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1",
+    "axe-core": "4.11.4"
+  }
+}

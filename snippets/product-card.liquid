@@ -1,0 +1,179 @@
+{% doc %}
+  Renders a reusable product card.
+
+  @param {product} product - Product object.
+  @param {string} [class] - Additional class.
+  @param {boolean} [eager] - Eager-load the image.
+  @param {string} [heading_level] - Product-title heading tag. Defaults to h3.
+{% enddoc %}
+
+{% liquid
+  assign loading = 'lazy'
+  assign fetchpriority = 'auto'
+  assign heading_tag = heading_level | default: 'h3'
+  if eager
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+%}
+
+<article class="product-card card {{ class }}" data-reveal>
+  <a
+    class="product-card__media"
+    href="{{ product.url }}"
+    aria-label="{{ product.title | escape }}"
+  >
+    {% if product.featured_media %}
+      {% render 'image',
+        image: product.featured_media.preview_image,
+        sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 33vw, 50vw',
+        loading: loading,
+        fetchpriority: fetchpriority,
+        width: 1000
+      %}
+      {% if settings.product_card_show_second_image and product.media[1] %}
+        {% render 'image',
+          class: 'product-card__secondary-media',
+          image: product.media[1].preview_image,
+          sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 33vw, 50vw',
+          width: 1000
+        %}
+      {% endif %}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+
+    <div class="product-card__badges">
+      {% unless product.available %}
+        <span class="badge">{{ 'products.product.sold_out' | t }}</span>
+      {% endunless %}
+      {% if product.compare_at_price_max > product.price %}
+        <span class="badge">{{ 'products.product.sale_price' | t }}</span>
+      {% endif %}
+    </div>
+  </a>
+
+  <div class="product-card__content">
+    {% if settings.product_card_show_vendor and product.vendor != blank %}
+      <span class="eyebrow">{{ product.vendor }}</span>
+    {% endif %}
+    <{{ heading_tag }}><a href="{{ product.url }}">{{ product.title }}</a></{{ heading_tag }}>
+    {% render 'price', product: product %}
+
+    {% if settings.product_card_quick_add %}
+      {% if product.has_only_default_variant %}
+        <product-form
+          class="product-card__quick-add"
+          data-success-message="{{ 'products.product.added_to_cart' | t }}"
+        >
+          {% form 'product', product %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button
+              class="button button--secondary"
+              type="submit"
+              {% unless product.available %}
+                disabled
+              {% endunless %}
+            >
+              {% if product.available %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </button>
+          {% endform %}
+          <p class="visually-hidden" role="status" data-product-form-status></p>
+        </product-form>
+      {% else %}
+        <a class="button button--secondary" href="{{ product.url }}">
+          {{ 'products.product.choose_options' | t }}
+        </a>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+
+{% stylesheet %}
+  .product-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .product-card__media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: var(--product-card-ratio, 4 / 5);
+    background: color-mix(in srgb, currentcolor 6%, transparent);
+  }
+
+  .product-card__media .image,
+  .product-card__media .image img,
+  .product-card__media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-card__media img {
+    object-fit: cover;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .product-card__secondary-media {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+
+  .product-card__media:hover img {
+    transform: scale(1.025);
+  }
+
+  .product-card__media:hover .product-card__secondary-media {
+    opacity: 1;
+  }
+
+  .product-card__badges {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .product-card__badges .badge {
+    background: var(--paper-background);
+    color: var(--paper-foreground);
+  }
+
+  .product-card__content {
+    display: grid;
+    flex: 1;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .product-card__content :is(h2, h3) {
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    line-height: 1.1;
+  }
+
+  .product-card__content :is(h2, h3) a {
+    text-decoration: none;
+  }
+
+  .product-card__quick-add {
+    align-self: end;
+    margin-block-start: auto;
+  }
+
+  .product-card__quick-add .button {
+    width: 100%;
+  }
+{% endstylesheet %}

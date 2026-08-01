@@ -1,0 +1,35 @@
+name: Modeframe platform QA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    env:
+      QA_BASE_URL: ${{ secrets.QA_BASE_URL }}
+      QA_STOREFRONT_PASSWORD: ${{ secrets.QA_STOREFRONT_PASSWORD }}
+      QA_PREVIEW_THEME_ID: ${{ secrets.QA_PREVIEW_THEME_ID }}
+      QA_PRODUCT_PATH: ${{ vars.QA_PRODUCT_PATH }}
+      QA_COLLECTION_PATH: ${{ vars.QA_COLLECTION_PATH }}
+      QA_SEARCH_TERM: ${{ vars.QA_SEARCH_TERM }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run qa:browser
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: modeframe-platform-qa-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore

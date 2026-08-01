@@ -1,0 +1,141 @@
+{% render 'section-background-override', section: section %}
+
+<section
+  class="newsletter section section--compact scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{% if section.settings.scheme == 'paper' or section.settings.scheme == 'signal' %}light{% else %}dark{% endif %}"
+>
+  <div class="newsletter__inner" data-reveal>
+    <div class="newsletter__copy">
+      {% if section.settings.eyebrow != blank %}
+        <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    {% form 'customer', class: 'newsletter__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {% if form.posted_successfully? %}
+        <p class="form-status form-status--success" role="status">{{ 'newsletter.success' | t }}</p>
+      {% endif %}
+      {{ form.errors | default_errors }}
+      <div class="newsletter__field">
+        <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">{{ 'newsletter.email' | t }}</label>
+        <input
+          id="NewsletterEmail-{{ section.id }}"
+          type="email"
+          name="contact[email]"
+          value="{{ form.email }}"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          placeholder="{{ 'newsletter.email' | t }}"
+          required
+        >
+        <button class="button" type="submit">{{ 'newsletter.submit' | t }}</button>
+      </div>
+    {% endform %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .newsletter__inner {
+    display: grid;
+    width: min(var(--page-width), calc(100% - (var(--page-margin) * 2)));
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+    align-items: end;
+    gap: clamp(2rem, 7vw, 7rem);
+    margin-inline: auto;
+  }
+
+  .newsletter__copy {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .newsletter__copy h2 {
+    font-size: clamp(2rem, 5vw, 4.8rem);
+  }
+
+  .newsletter__field {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+  }
+
+  .newsletter__field input {
+    min-height: 52px;
+  }
+
+  @media (max-width: 749px) {
+    .newsletter__inner,
+    .newsletter__field {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Stay close"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "New releases, without the noise."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Product drops, studio notes and useful updates, sent occasionally.</p>"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "signal"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
+}
+{% endschema %}

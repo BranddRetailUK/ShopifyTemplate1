@@ -1,0 +1,68 @@
+{% liquid
+  assign render_navigation = true
+  if side == 'secondary' and split_navigation == false
+    assign render_navigation = false
+  endif
+%}
+
+{% if render_navigation %}
+  <nav
+    class="site-header__desktop-nav site-header__desktop-nav--{{ side }}"
+    aria-label="{% if side == 'secondary' %}Secondary navigation{% else %}Primary navigation{% endif %}"
+  >
+    <ul role="list">
+      {% for link in menu.links %}
+        {% liquid
+          assign render_link = true
+          if split_navigation
+            if side == 'primary' and forloop.index > split_at
+              assign render_link = false
+            elsif side == 'secondary' and forloop.index <= split_at
+              assign render_link = false
+            endif
+          endif
+        %}
+
+        {% if render_link %}
+          <li>
+            {% if link.links != blank %}
+              <details data-menu-disclosure>
+                <summary>
+                  {{ link.title }}
+                  {% render 'icon', name: 'chevron' %}
+                </summary>
+                <div class="mega-menu scheme-{{ menu_scheme }}">
+                  <div class="mega-menu__inner">
+                    {% for child_link in link.links %}
+                      <div class="mega-menu__column">
+                        <a class="mega-menu__heading" href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {% if child_link.links != blank %}
+                          <ul role="list">
+                            {% for grandchild_link in child_link.links %}
+                              <li>
+                                <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </details>
+            {% else %}
+              <a
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ link.title }}
+              </a>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

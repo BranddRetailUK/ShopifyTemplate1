@@ -1,0 +1,363 @@
+{% liquid
+  assign top_nav_tone = 'light'
+  if section.settings.top_scheme == 'ink' or section.settings.top_scheme == 'electric'
+    assign top_nav_tone = 'dark'
+  endif
+  if section.settings.override_top_background_color
+    assign top_background_brightness = section.settings.top_background_color | color_brightness
+    if top_background_brightness < 128
+      assign top_nav_tone = 'dark'
+    else
+      assign top_nav_tone = 'light'
+    endif
+  endif
+
+  assign bottom_nav_tone = 'light'
+  if section.settings.bottom_scheme == 'ink' or section.settings.bottom_scheme == 'electric'
+    assign bottom_nav_tone = 'dark'
+  endif
+  if section.settings.override_bottom_background_color
+    assign bottom_background_brightness = section.settings.bottom_background_color | color_brightness
+    if bottom_background_brightness < 128
+      assign bottom_nav_tone = 'dark'
+    else
+      assign bottom_nav_tone = 'light'
+    endif
+  endif
+%}
+
+{% if section.settings.override_top_background_color or section.settings.override_bottom_background_color %}
+  {% style %}
+    {% if section.settings.override_top_background_color %}
+      #shopify-section-{{ section.id }} .scroll-bridge,
+      #shopify-section-{{ section.id }} .scroll-bridge__background--top {
+        --scheme-background: {{ section.settings.top_background_color }};
+        --scheme-nav-tone: {{ top_nav_tone }};
+        background: var(--scheme-background);
+      }
+    {% endif %}
+
+    {% if section.settings.override_bottom_background_color %}
+      #shopify-section-{{ section.id }} .scroll-bridge__background--bottom,
+      #shopify-section-{{ section.id }} .scroll-bridge__slab--main,
+      #shopify-section-{{ section.id }} .scroll-bridge__label {
+        --scheme-background: {{ section.settings.bottom_background_color }};
+        --scheme-nav-tone: {{ bottom_nav_tone }};
+        background: var(--scheme-background);
+      }
+    {% endif %}
+  {% endstyle %}
+{% endif %}
+
+<scroll-motion
+  class="scroll-bridge scroll-bridge--{{ section.settings.variant }}{% if section.settings.rounded %} scroll-bridge--rounded{% endif %} scheme-{{ section.settings.top_scheme }}"
+  data-motion-kind="bridge"
+  data-motion-variant="{{ section.settings.variant }}"
+  data-motion-intensity="{{ section.settings.intensity }}"
+  data-accent-colors="{% if section.settings.override_accent_colors %}custom{% else %}preset{% endif %}"
+  data-nav-tone="{{ top_nav_tone }}"
+  data-nav-tone-bottom="{{ bottom_nav_tone }}"
+  style="
+    --bridge-height: {{ section.settings.height }}px;
+    --bridge-accent-thickness: {{ section.settings.accent_thickness }}px;
+    --bridge-bottom-nav-tone: {% if section.settings.override_bottom_background_color %}{{ bottom_nav_tone }}{% else %}var(--{{ section.settings.bottom_scheme }}-nav-tone){% endif %};
+    --bridge-accent-left: {% if section.settings.override_accent_colors %}{{ section.settings.accent_left_color }}{% else %}var(--accent-primary){% endif %};
+    --bridge-accent-right: {% if section.settings.override_accent_colors %}{{ section.settings.accent_right_color }}{% else %}var(--accent-secondary){% endif %};
+  "
+  {% if section.settings.label != blank %}
+    role="img"
+    aria-label="{{ section.settings.label | escape }}"
+  {% else %}
+    aria-hidden="true"
+  {% endif %}
+>
+  <span class="scroll-bridge__background scroll-bridge__background--top scheme-{{ section.settings.top_scheme }}" aria-hidden="true"></span>
+  <span class="scroll-bridge__background scroll-bridge__background--bottom scheme-{{ section.settings.bottom_scheme }}" aria-hidden="true"></span>
+  <span class="scroll-bridge__slab scroll-bridge__slab--main scheme-{{ section.settings.bottom_scheme }}" aria-hidden="true"></span>
+  <span class="scroll-bridge__slab scroll-bridge__slab--accent" aria-hidden="true"></span>
+
+  {% if section.settings.show_label and section.settings.label != blank %}
+    <p class="scroll-bridge__label scheme-{{ section.settings.bottom_scheme }}">
+      {{ section.settings.label | escape }}
+    </p>
+  {% endif %}
+</scroll-motion>
+
+{% stylesheet %}
+  .scroll-bridge {
+    position: relative;
+    z-index: 1;
+    display: block;
+    min-height: clamp(15rem, var(--bridge-height), 30rem);
+    margin-block: -1px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .scroll-bridge__background {
+    position: absolute;
+    z-index: -2;
+    inset-inline: 0;
+    height: 55%;
+  }
+
+  .scroll-bridge__background--top {
+    inset-block-start: 0;
+  }
+
+  .scroll-bridge__background--bottom {
+    inset-block-end: 0;
+  }
+
+  .scroll-bridge__slab {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform-origin: center;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .scroll-bridge__slab--main {
+    z-index: -1;
+    width: min(86vw, 70rem);
+    height: clamp(7rem, 10vw, 10.5rem);
+    transform:
+      translate3d(calc(-50% + var(--bridge-main-x, 0%)), -50%, 0)
+      rotate(var(--bridge-main-rotate, 0deg));
+  }
+
+  .scroll-bridge--rounded .scroll-bridge__slab {
+    border-radius: var(--card-radius);
+  }
+
+  .scroll-bridge__slab--accent {
+    z-index: 1;
+    width: min(70vw, 56rem);
+    height: var(--bridge-accent-thickness);
+    background: linear-gradient(90deg, var(--bridge-accent-left), var(--bridge-accent-right));
+    background-size: 220% 100%;
+    box-shadow: 0 1rem 3rem color-mix(in srgb, var(--bridge-accent-right) 30%, transparent);
+    transform:
+      translate3d(
+        calc(-50% + var(--bridge-accent-x, 0%)),
+        calc(-50% + var(--bridge-accent-y, 0%)),
+        0
+      )
+      rotate(var(--bridge-accent-rotate, 0deg))
+      scaleX(var(--bridge-accent-scale, 1));
+    animation: bridge-accent-shift 5s ease-in-out infinite;
+  }
+
+  .scroll-bridge--long-drift .scroll-bridge__slab--accent {
+    animation-duration: 7s;
+  }
+
+  .scroll-bridge--snap-cross .scroll-bridge__slab--accent {
+    animation-duration: 3.2s;
+  }
+
+  .scroll-bridge--rise .scroll-bridge__slab--accent {
+    animation-duration: 5.6s;
+  }
+
+  .scroll-bridge__label {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: clamp(1.25rem, 4vw, 2.5rem);
+    inset-inline-start: 50%;
+    width: max-content;
+    max-width: calc(100% - (var(--page-margin) * 2));
+    border: 1px solid currentcolor;
+    border-radius: var(--button-radius);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+  }
+
+  @keyframes bridge-accent-shift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+      opacity: 0.68;
+    }
+
+    50% {
+      background-position: 100% 50%;
+      opacity: 1;
+    }
+  }
+
+  .motion-none .scroll-bridge__slab,
+  .motion-none .scroll-bridge__slab--accent {
+    animation: none;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-bridge__slab {
+      will-change: auto;
+    }
+
+    .scroll-bridge__slab--accent {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Scroll bridge",
+  "settings": [
+    {
+      "type": "select",
+      "id": "top_scheme",
+      "label": "Top color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "select",
+      "id": "bottom_scheme",
+      "label": "Bottom color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "ink"
+    },
+    {
+      "type": "header",
+      "content": "Custom backgrounds"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_top_background_color",
+      "label": "Override top preset background",
+      "info": "Uses the top color below instead of the selected top color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "top_background_color",
+      "label": "Top background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_bottom_background_color",
+      "label": "Override bottom preset background",
+      "info": "Uses the bottom color below instead of the selected bottom color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "bottom_background_color",
+      "label": "Bottom background color",
+      "default": "#111111"
+    },
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Movement",
+      "options": [
+        { "value": "sweep-right", "label": "Sweep right" },
+        { "value": "sweep-left", "label": "Sweep left" },
+        { "value": "long-drift", "label": "Long drift" },
+        { "value": "snap-cross", "label": "Snap cross" },
+        { "value": "rise", "label": "Rise" },
+        { "value": "reverse-rise", "label": "Reverse rise" }
+      ],
+      "default": "long-drift"
+    },
+    {
+      "type": "header",
+      "content": "Accent colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_accent_colors",
+      "label": "Override preset colors",
+      "info": "Uses the colors below for this section instead of the global theme preset.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "accent_left_color",
+      "label": "Left bar color",
+      "default": "#d9ff43"
+    },
+    {
+      "type": "color",
+      "id": "accent_right_color",
+      "label": "Right bar color",
+      "default": "#6838ff"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Accessibility label",
+      "default": "Continue to the next story"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "label": "Show label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Height",
+      "min": 240,
+      "max": 480,
+      "step": 40,
+      "unit": "px",
+      "default": 320
+    },
+    {
+      "type": "range",
+      "id": "accent_thickness",
+      "label": "Accent thickness",
+      "min": 12,
+      "max": 36,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "intensity",
+      "label": "Movement intensity",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "rounded",
+      "label": "Use rounded corners",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll bridge"
+    }
+  ]
+}
+{% endschema %}

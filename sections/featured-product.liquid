@@ -1,0 +1,206 @@
+{% render 'section-background-override', section: section %}
+
+{% liquid
+  assign featured_product = section.settings.product
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section class="featured-product section scheme-{{ section.settings.scheme }}" data-nav-tone="{{ nav_tone }}">
+  <div class="page-width featured-product__inner">
+    <div class="featured-product__media" data-reveal>
+      {% if featured_product != blank and featured_product.media.size > 0 %}
+        {% for media in featured_product.media %}
+          {% render 'product-media',
+            media: media,
+            eager: forloop.first,
+            sizes: '(min-width: 990px) 50vw, 90vw',
+            id_prefix: section.id
+          %}
+        {% endfor %}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+    <div class="featured-product__content" data-reveal>
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+
+      {% if featured_product != blank %}
+        <h2><a href="{{ featured_product.url }}">{{ featured_product.title | escape }}</a></h2>
+        {% render 'price', product: featured_product, show_badges: true %}
+        {% if section.settings.show_description %}
+          <div class="rte">{{ featured_product.description | strip_html | truncatewords: 45 }}</div>
+        {% endif %}
+
+        {% if featured_product.has_only_default_variant and featured_product.selling_plan_groups.size == 0 %}
+          <product-form data-success-message="{{ 'products.product.added_to_cart' | t }}">
+            {% form 'product', featured_product %}
+              <input type="hidden" name="id" value="{{ featured_product.selected_or_first_available_variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button class="button" type="submit" {% unless featured_product.available %}disabled{% endunless %}>
+                {% if featured_product.available %}
+                  {{ 'products.product.add_to_cart' | t }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </button>
+            {% endform %}
+            <p class="visually-hidden" role="status" data-product-form-status></p>
+          </product-form>
+        {% elsif featured_product.selling_plan_groups.size > 0 %}
+          <a class="button" href="{{ featured_product.url }}">{{ 'products.product.choose_purchase_option' | t }}</a>
+        {% else %}
+          <a class="button" href="{{ featured_product.url }}">{{ 'products.product.choose_options' | t }}</a>
+        {% endif %}
+
+        <a class="text-link" href="{{ featured_product.url }}">{{ 'products.product.view_details' | t }}</a>
+      {% else %}
+        <h2>{{ 'onboarding.product_title' | t }}</h2>
+        <p>{{ 'onboarding.choose_product' | t }}</p>
+      {% endif %}
+
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when '@app' %}
+            {% render block %}
+          {% when 'custom_liquid' %}
+            <div {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .featured-product__inner {
+    display: grid;
+    align-items: center;
+    gap: clamp(2rem, 8vw, 8rem);
+  }
+
+  .featured-product__media {
+    display: flex;
+    overflow: hidden;
+    gap: 0.75rem;
+    background: color-mix(in srgb, currentcolor 6%, transparent);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .featured-product__media .product-media__item,
+  .featured-product__media .placeholder-svg {
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    scroll-snap-align: start;
+  }
+
+  .featured-product__media .image,
+  .featured-product__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .featured-product__content {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+  }
+
+  .featured-product__content h2 {
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.86;
+  }
+
+  .featured-product__content h2 a {
+    text-decoration: none;
+  }
+
+  @media (min-width: 990px) {
+    .featured-product__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(24rem, 0.9fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured product",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "header",
+      "content": "Custom background"
+    },
+    {
+      "type": "checkbox",
+      "id": "override_background_color",
+      "label": "Override preset background",
+      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "In focus"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product"
+    }
+  ]
+}
+{% endschema %}

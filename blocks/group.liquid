@@ -1,0 +1,101 @@
+{% doc %}
+  A flexible container for nesting Modeframe theme blocks.
+
+  @example
+  {% content_for 'block', type: 'group', id: 'layout-group' %}
+{% enddoc %}
+
+<div
+  class="modeframe-group modeframe-group--{{ block.settings.flow }}"
+  style="
+    --modeframe-group-gap: {{ block.settings.gap }}px;
+    --modeframe-group-inset: {{ block.settings.inset }}px;
+    --modeframe-group-alignment: {{ block.settings.alignment }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% stylesheet %}
+  .modeframe-group {
+    display: flex;
+    gap: var(--modeframe-group-gap);
+    width: 100%;
+    padding: var(--modeframe-group-inset);
+  }
+
+  .modeframe-group--stack {
+    flex-direction: column;
+    align-items: var(--modeframe-group-alignment);
+  }
+
+  .modeframe-group--inline {
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: var(--modeframe-group-alignment);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Layout group",
+  "blocks": [{ "type": "@theme" }],
+  "settings": [
+    {
+      "type": "select",
+      "id": "flow",
+      "label": "Flow",
+      "default": "stack",
+      "options": [
+        { "value": "stack", "label": "Stack" },
+        { "value": "inline", "label": "Inline" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "flex-start",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Centre" },
+        { "value": "flex-end", "label": "End" },
+        { "value": "space-between", "label": "Space between" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between items",
+      "min": 0,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "inset",
+      "label": "Inner spacing",
+      "min": 0,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stack",
+      "category": "Modeframe layout",
+      "settings": { "flow": "stack", "alignment": "flex-start" }
+    },
+    {
+      "name": "Inline group",
+      "category": "Modeframe layout",
+      "settings": { "flow": "inline", "alignment": "space-between" }
+    }
+  ]
+}
+{% endschema %}

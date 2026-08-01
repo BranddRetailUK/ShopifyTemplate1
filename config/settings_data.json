@@ -1,0 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "theme_preset": "paper",
+    "logo_width": 176,
+    "type_body_font": "work_sans_n4",
+    "type_heading_font": "work_sans_n4",
+    "body_scale": 100,
+    "heading_scale": 106,
+    "heading_letter_spacing": -3,
+    "page_width": 1440,
+    "page_margin": 24,
+    "section_spacing": 96,
+    "paper_background": "#f6f4ef",
+    "paper_foreground": "#111111",
+    "ink_background": "#0d0d0f",
+    "ink_foreground": "#f7f7f2",
+    "signal_background": "#d9ff43",
+    "signal_foreground": "#101010",
+    "electric_background": "#6838ff",
+    "electric_foreground": "#ffffff",
+    "light_background": "#ffffff",
+    "light_foreground": "#111111",
+    "dark_background": "#0d0d0f",
+    "dark_foreground": "#f7f7f2",
+    "button_radius": 8,
+    "card_radius": 8,
+    "input_radius": 6,
+    "product_card_show_vendor": false,
+    "product_card_show_second_image": true,
+    "product_card_quick_add": true,
+    "predictive_search_enabled": true,
+    "cart_type": "drawer",
+    "show_cart_note": true,
+    "reveal_on_scroll": true,
+    "motion_level": "subtle"
+  },
+  "presets": {
+    "Modeframe": {
+      "theme_preset": "paper",
+      "logo_width": 176,
+      "type_body_font": "work_sans_n4",
+      "type_heading_font": "work_sans_n4",
+      "body_scale": 100,
+      "heading_scale": 106,
+      "heading_letter_spacing": -3,
+      "page_width": 1440,
+      "page_margin": 24,
+      "section_spacing": 96,
+      "paper_background": "#f6f4ef",
+      "paper_foreground": "#111111",
+      "ink_background": "#0d0d0f",
+      "ink_foreground": "#f7f7f2",
+      "signal_background": "#d9ff43",
+      "signal_foreground": "#101010",
+      "electric_background": "#6838ff",
+      "electric_foreground": "#ffffff",
+      "light_background": "#ffffff",
+      "light_foreground": "#111111",
+      "dark_background": "#0d0d0f",
+      "dark_foreground": "#f7f7f2",
+      "button_radius": 8,
+      "card_radius": 8,
+      "input_radius": 6,
+      "product_card_show_vendor": false,
+      "product_card_show_second_image": true,
+      "product_card_quick_add": true,
+      "predictive_search_enabled": true,
+      "cart_type": "drawer",
+      "show_cart_note": true,
+      "reveal_on_scroll": true,
+      "motion_level": "subtle"
+    }
+  }
+}
