@@ -17,6 +17,15 @@
 | `themeforest/09-product-mobile-1080x1920.png` | 2026-08-01 | Playwright capture from the live Modeframe 1.0.0 development-store theme | Exact mobile purchasable product evidence |
 | `themeforest/modeframe-preview-1920x1080.mp4` | 2026-08-01 | Playwright video capture from the live theme; FFmpeg H.264 30 fps export | Exact ThemeForest motion preview |
 | `themeforest/CAPTURE-MANIFEST.json` | 2026-08-01 | Automated public-safe capture metadata | Capture provenance record |
+| `creative-market/source/cover-imagegen.png` | 2026-08-01 | OpenAI image edit from the registered Modeframe cover concept | Creative Market cover source |
+| `creative-market/01-modeframe-editorial-shopify-theme-1820x1214.png` | 2026-08-01 | OpenAI image edit plus deterministic FFmpeg export | Creative Market primary preview concept |
+| `creative-market/02-six-global-styles-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg presentation export from the registered AI-assisted Modeframe concept | Creative Market global-styles preview |
+| `creative-market/03-commerce-layouts-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg presentation export from the registered AI-assisted Modeframe concept | Creative Market commerce preview |
+| `creative-market/04-flexible-section-system-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg presentation export from the registered AI-assisted Modeframe concept | Creative Market sections preview |
+| `creative-market/05-live-home-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg framing of the exact live-store home capture | Creative Market exact home preview |
+| `creative-market/06-live-collection-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg framing of the exact live-store collection capture | Creative Market exact collection preview |
+| `creative-market/07-live-product-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg framing of the exact live-store product capture | Creative Market exact product preview |
+| `creative-market/08-live-mobile-home-product-1820x1214.png` | 2026-08-01 | Deterministic FFmpeg composition of the exact live-store mobile captures | Creative Market exact mobile preview |
 
 The prompts requested abstract, rights-safe objects and prohibited real brands,
 logos, people, and copyrighted products. The images are listing concepts, not
@@ -29,3 +38,8 @@ confirm applicable OpenAI output terms, record approval, and avoid implying the
 conceptual UI is an exact screenshot. Files `05` through `09` and the MP4 are
 literal live-theme captures; the seller must separately approve the demo
 catalogue and media rights before publication.
+
+Creative Market files 01 through 04 must be disclosed as generative-AI assisted
+in the product application. Files 05 through 08 retain exact storefront pixels
+inside neutral presentation framing. Creative Market listing collateral is not
+included in the buyer ZIP.

@@ -22,9 +22,10 @@ test('serves every public launch route', async () => {
   }
 });
 
-test('allows Envato framing without X-Frame-Options', async () => {
+test('allows supported marketplace framing without X-Frame-Options', async () => {
   const response = await fetch(baseUrl);
   assert.match(response.headers.get('content-security-policy'), /frame-ancestors[^;]*themeforest\.net/);
+  assert.match(response.headers.get('content-security-policy'), /frame-ancestors[^;]*creativemarket\.com/);
   assert.equal(response.headers.get('x-frame-options'), null);
 });
 

@@ -81,7 +81,7 @@ function securityHeaders(contentType) {
       "connect-src 'self'",
       "font-src 'self'",
       "form-action 'self'",
-      "frame-ancestors https://themeforest.net https://*.themeforest.net https://envato.com https://*.envato.com",
+      "frame-ancestors https://themeforest.net https://*.themeforest.net https://envato.com https://*.envato.com https://creativemarket.com https://*.creativemarket.com",
       "img-src 'self' data:",
       "object-src 'none'",
       "script-src 'self'",

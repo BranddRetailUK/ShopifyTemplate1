@@ -11,11 +11,12 @@ The current release is `1.0.0`. The Shopify install preset and theme metadata
 are both named Modeframe. Paper, Ink, Signal, Electric, All light, and All dark
 are internal Global styles, not separate install presets.
 
-ThemeForest is the first active commercial channel. The product is not prepared
-or represented as a Shopify Theme Store submission. The installable theme and
-core documentation remain portable, while the buyer archive, listing fields,
-support/refund language, preview media, and reviewer notes are specifically
-prepared for ThemeForest. A future Theme Store edition would require ending
+Creative Market is the first active commercial application because new Envato
+theme-author intake is unavailable. The completed ThemeForest package is
+retained for a future eligible account, while Creative Market has its own buyer
+archive, application fields, licence-aligned documentation, pricing, and
+1820×1214 preview set. The product is not prepared or represented as a Shopify
+Theme Store submission. A future Theme Store edition would require ending
 third-party distribution because Shopify requires channel exclusivity.
 
 ## Source and licensing
@@ -27,9 +28,11 @@ reimplemented. The provenance check prevents those exact upstream files from
 returning, but it is technical evidence rather than a legal conclusion about
 the remaining theme as a whole. `LICENSE.md` governs repository access; the
 ThemeForest buyer bundle relies on Envato's controlling license and includes an
-Envato license notice plus asset credits. The channel-neutral marketplace
-license remains an internal legal-review draft and is not shipped to ThemeForest
-buyers.
+Envato license notice plus asset credits. Creative Market supplies the
+Personal, Commercial, or Extended Commercial licence selected at checkout, so
+its buyer ZIP contains no separate EULA or activation-code requirement. The
+channel-neutral marketplace license remains an internal legal-review draft and
+is not shipped where the selling marketplace supplies mandatory terms.
 
 The final seller must still complete marketplace-specific and professional
 legal review of the product name, source provenance, buyer license, listing
@@ -48,7 +51,7 @@ ZIP and is never required for storefront rendering or commerce.
 A separate cookie-free public presentation and documentation service lives in
 `services/marketplace-site` and runs in the Railway `modeframe-marketplace`
 project. It serves the iframe-compatible preview landing page, documentation,
-support, privacy, refund, and health routes. ThemeForest may frame this service;
+support, privacy, refund, and health routes. Supported marketplaces may frame this service;
 the Shopify demo itself opens in a new tab because Shopify prevents third-party
 framing. The development-store password is intentionally public for demo access
 and is rendered from Railway configuration; it is never committed to source.
@@ -114,13 +117,16 @@ complete static layouts.
 ## Distribution
 
 `npm run bundle` creates `release/Modeframe-1.0.0-theme.zip`, the ThemeForest
-buyer archive `release/Modeframe-1.0.0-themeforest.zip`, and the operator-only
-listing/media archive `release/Modeframe-1.0.0-themeforest-preview.zip`. The
-buyer archive contains the inner installable theme, beginner HTML and Markdown
-documentation, FAQ, quick start, support policy, Envato license notice, credits,
-release notes, activation instructions, and checksums. Repository tooling,
+buyer archive `release/Modeframe-1.0.0-themeforest.zip`, the operator-only
+ThemeForest listing/media archive
+`release/Modeframe-1.0.0-themeforest-preview.zip`, and the Creative Market buyer
+archive `release/Modeframe-1.0.0-creative-market.zip`. Channel buyer archives
+contain the same inner installable theme plus beginner documentation, FAQ,
+quick start, support policy, credits, release notes, and checksums. ThemeForest
+also includes its Envato notice and activation instructions; Creative Market
+does not include a separate EULA or activation file. Repository tooling,
 credentials, tests, store identifiers, listing media, and internal QA evidence
-are excluded from the buyer archive.
+are excluded from every buyer archive.
 
 The public listing title is “Modeframe | Modern Editorial Shopify Theme.”
 ThemeForest field values, description, tags, feature list, and reviewer notes
@@ -130,13 +136,22 @@ separate 1080×1920 mobile captures.
 Every distributed image, logo, video, font, testimonial, and description must
 have a recorded commercial-use basis in `distribution/ASSET-CREDITS.txt`.
 
-Buyer purchase-code activation is hosted at
+Creative Market field values and description live in `creative-market/`.
+Creative Market preview media live in `marketing/creative-market/`; eight
+previews are exactly 1820×1214. Files 01–04 are disclosed as AI-assisted
+concepts and files 05–08 are exact live-store captures or compositions of exact
+captures.
+
+Envato buyer purchase-code activation is hosted at
 `https://modeframe-licensing-production.up.railway.app`. The service verifies
 an Envato author sale server-side, stores only a keyed purchase-code
 fingerprint, and binds it to one permanent `myshopify.com` domain. Activation
 governs support and future update services; it never disables installed theme
-functionality. Live verification remains closed until the final marketplace
-item ID and seller token are stored only in Railway.
+functionality. Live Envato verification remains closed until the final item ID
+and seller token are stored only in Railway. Creative Market does not expose an
+equivalent public purchase-code verification flow in the current seller
+guidance; its buyers use Creative Market purchase records for support and do
+not receive a separate Modeframe activation requirement.
 
 ## QA and release gate
 
@@ -150,15 +165,15 @@ controls from theme-owned findings. `npm run qa:lighthouse` records mobile and
 desktop Lighthouse evidence for home, collection, and product routes, while
 `npm run qa:media` captures exact-store screenshots and a 1920×1080 preview
 video. The separate `qa:marketplace-site` and
-`qa:marketplace-site:lighthouse` commands validate the public ThemeForest layer.
-`npm run bundle` and `npm run bundle:check` build and validate the buyer
-deliverable.
+`qa:marketplace-site:lighthouse` commands validate the public marketplace layer.
+`npm run bundle` and `npm run bundle:check` build and validate the ThemeForest
+and Creative Market buyer deliverables.
 
 Automated passes do not replace the human and platform cases in
 `docs/qa-matrix.md`. Public sale remains blocked until name/legal review,
-demo/storefront content rights, customer-accessible demo credentials, live Envato
-activation credentials, browser/device matrix, keyboard/screen-reader review,
-checkout cases, and special Shopify fixtures are recorded as complete in
+demo/storefront content rights, the applicable channel purchase-verification
+process, browser/device matrix, keyboard/screen-reader review, checkout cases,
+and special Shopify fixtures are recorded as complete in
 `docs/marketplace-readiness.md`.
 
 ## Security and operations

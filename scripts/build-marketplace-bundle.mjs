@@ -10,9 +10,11 @@ const releaseDirectory = path.join(root, 'release');
 const themeArchive = 'Modeframe-1.0.0-theme.zip';
 const themeforestArchive = 'Modeframe-1.0.0-themeforest.zip';
 const previewArchive = 'Modeframe-1.0.0-themeforest-preview.zip';
+const creativeMarketArchive = 'Modeframe-1.0.0-creative-market.zip';
 const cliArchive = path.join(root, 'Modeframe-1.0.0.zip');
 const buyerStaging = fs.mkdtempSync(path.join(os.tmpdir(), 'modeframe-buyer-'));
 const previewStaging = fs.mkdtempSync(path.join(os.tmpdir(), 'modeframe-preview-'));
+const creativeMarketStaging = fs.mkdtempSync(path.join(os.tmpdir(), 'modeframe-creative-market-'));
 
 function copy(source, destination, staging = buyerStaging) {
   const target = path.join(staging, destination);
@@ -57,6 +59,28 @@ try {
   execFileSync('zip', ['-q', '-r', finalThemeforestArchive, '.'], { cwd: buyerStaging });
   const themeforestDigest = crypto.createHash('sha256').update(fs.readFileSync(finalThemeforestArchive)).digest('hex');
 
+  fs.mkdirSync(path.join(creativeMarketStaging, 'Theme'), { recursive: true });
+  fs.copyFileSync(finalThemeArchive, path.join(creativeMarketStaging, 'Theme', themeArchive));
+  copy('docs/documentation.html', 'Documentation/index.html', creativeMarketStaging);
+  copy('docs/merchant-guide.md', 'Documentation/merchant-guide.md', creativeMarketStaging);
+  copy('docs/faq.md', 'Documentation/FAQ.md', creativeMarketStaging);
+  copy('docs/support-policy.md', 'Documentation/support-policy.md', creativeMarketStaging);
+  copy('distribution/ASSET-CREDITS.txt', 'Documentation/ASSET-CREDITS.txt', creativeMarketStaging);
+  copy('distribution/CREATIVE-MARKET-README.txt', 'README.txt', creativeMarketStaging);
+  copy('distribution/QUICK-START.txt', 'QUICK-START.txt', creativeMarketStaging);
+  copy('RELEASE_NOTES.md', 'RELEASE-NOTES.md', creativeMarketStaging);
+  fs.writeFileSync(
+    path.join(creativeMarketStaging, 'SHA256SUMS.txt'),
+    `${themeDigest}  Theme/${themeArchive}\n`,
+  );
+
+  const finalCreativeMarketArchive = path.join(releaseDirectory, creativeMarketArchive);
+  fs.rmSync(finalCreativeMarketArchive, { force: true });
+  execFileSync('zip', ['-q', '-r', finalCreativeMarketArchive, '.'], { cwd: creativeMarketStaging });
+  const creativeMarketDigest = crypto.createHash('sha256')
+    .update(fs.readFileSync(finalCreativeMarketArchive))
+    .digest('hex');
+
   copy('themeforest/item-description.html', 'Listing/item-description.html', previewStaging);
   copy('themeforest/submission-fields.md', 'Listing/submission-fields.md', previewStaging);
   copy('themeforest/reviewer-notes.md', 'Listing/reviewer-notes.md', previewStaging);
@@ -69,14 +93,16 @@ try {
   const previewDigest = crypto.createHash('sha256').update(fs.readFileSync(finalPreviewArchive)).digest('hex');
   fs.writeFileSync(
     path.join(releaseDirectory, 'SHA256SUMS.txt'),
-    `${themeDigest}  ${themeArchive}\n${themeforestDigest}  ${themeforestArchive}\n${previewDigest}  ${previewArchive}\n`,
+    `${themeDigest}  ${themeArchive}\n${themeforestDigest}  ${themeforestArchive}\n${previewDigest}  ${previewArchive}\n${creativeMarketDigest}  ${creativeMarketArchive}\n`,
   );
 
   console.log(`Built release/${themeArchive}`);
   console.log(`Built release/${themeforestArchive}`);
   console.log(`Built release/${previewArchive}`);
+  console.log(`Built release/${creativeMarketArchive}`);
   console.log('Wrote release/SHA256SUMS.txt');
 } finally {
   fs.rmSync(buyerStaging, { recursive: true, force: true });
   fs.rmSync(previewStaging, { recursive: true, force: true });
+  fs.rmSync(creativeMarketStaging, { recursive: true, force: true });
 }

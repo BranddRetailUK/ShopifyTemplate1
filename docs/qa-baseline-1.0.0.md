@@ -1,9 +1,11 @@
 # Modeframe 1.0.0 QA baseline
 
-ThemeForest candidate built and checked locally, on the public Railway preview
-service, and on dedicated Shopify testing/demo stores on 1 August 2026. Store
-domains, theme identifiers, credentials, and merchant data are intentionally
-excluded from this repository record.
+Marketplace candidates built and checked locally, on the public Railway preview
+service, and on dedicated Shopify testing/demo stores on 1 August 2026. Creative
+Market is the active first application; the ThemeForest candidate is retained
+for a future eligible Envato account. Store domains, theme identifiers,
+credentials, and merchant data are intentionally excluded from this repository
+record.
 
 ## Automated repository checks
 
@@ -11,8 +13,8 @@ excluded from this repository record.
 - Release structure: **pass**, Modeframe 1.0.0, one preset, six visual modes
 - Static QA/security scan: **pass**
 - Source provenance guard: **pass**, 86 theme files; legal review still required
-- ThemeForest buyer/preview archive validation: **pass**,
-  structure/isolation/embed/checksum
+- ThemeForest buyer/preview and Creative Market buyer archive validation:
+  **pass**, structure/isolation/embed/checksum
 - License-service unit suite: **pass**, 5 tests covering normalization, domain
   binding, keyed fingerprints, item matching, invalid codes, and rate limiting
 - Public preview service unit suite: **pass**, 4 tests covering all routes,
@@ -21,12 +23,15 @@ excluded from this repository record.
 - Installable entries: 95
 - ThemeForest buyer bundle entries: 15
 - ThemeForest preview bundle entries: 17
+- Creative Market buyer bundle entries: 12
 - `Modeframe-1.0.0-theme.zip` SHA-256:
-  `e63a0b4f6cb94557706bdbc5696197bf948dee8ed8ac30120d814d92908b4710`
+  `7817e1368ed3c400cb72703e540ee8985c91f30f2491796d99038a4120cb4118`
 - `Modeframe-1.0.0-themeforest.zip` SHA-256:
-  `9a832b43b9b4597a087a66bf4b817517996528a61e821e2229f245705b2f0968`
+  `32efccc46491f05e739f686977aba0d16bb63ead85cd9d88e1ce0ac431be5a33`
 - `Modeframe-1.0.0-themeforest-preview.zip` SHA-256:
-  `ac129db979b12e7da790a6848017ef8babd2edff3349ca7187db5c096d061ded`
+  `53496d37189229add679bfdca1622607db8ee69d27bbd522106a425825ec25f1`
+- `Modeframe-1.0.0-creative-market.zip` SHA-256:
+  `86e6489349f383129c38acab6b893042d78fdc0871dad7c41168cefa481bba08`
 
 ## Automated platform evidence
 
@@ -44,15 +49,17 @@ excluded from this repository record.
   sync module errors are separated from theme-owned findings
 - Reduced-motion emulation is explicitly applied before navigation so reveal
   transitions cannot create transient contrast false positives
-- Railway license-service health: **pass**; live marketplace activation remains
+- Railway license-service health: **pass**; optional Envato activation remains
   intentionally configuration-closed until the final Envato item ID and author
-  token are stored in Railway
+  token are stored in Railway. Creative Market uses the marketplace purchase
+  record and selected licence without this external activation flow.
 - Railway iframe preview/documentation deployment: **pass**, health and public
-  routes return 200 with Envato frame ancestors and no `X-Frame-Options`
+  routes return 200 with Creative Market and Envato frame ancestors and no
+  `X-Frame-Options`
 - Public preview Playwright/axe suite: **pass**, 15/15 across desktop Chromium,
   Firefox, WebKit and mobile Chromium/WebKit
 - Public preview Lighthouse: **pass**, six mobile/desktop audits across preview,
-  documentation and support; performance 97–100, accessibility 100, best
+  documentation and support; performance 98–100, accessibility 100, best
   practices 96–100, SEO 90–100
 - Live demo Lighthouse: **recorded**, six mobile/desktop audits across home,
   collection and purchasable product; performance 81–97, accessibility 100,
@@ -62,6 +69,9 @@ excluded from this repository record.
   1080×1920 mobile screenshots, and a 22.5-second H.264 1920×1080 MP4 captured
   from the current live theme. Seller approval of catalogue/media rights remains
   required before publication.
+- Creative Market presentation media: **pass**, eight 1820×1214 PNGs below the
+  form's 10 MB limit; four presentation concepts and four exact-store capture
+  layouts. The prepared disclosure marks generative-AI use as **Yes**.
 
 ## Manual/platform evidence
 

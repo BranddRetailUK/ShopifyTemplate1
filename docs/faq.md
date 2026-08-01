@@ -42,9 +42,9 @@ merchant responsibility.
 
 ## Are demo images and products included?
 
-Only assets expressly listed inside the ThemeForest buyer bundle are included. Public
-demo-store content and listing mockups are presentation material unless the
-marketplace listing explicitly licenses them for merchant use.
+Only assets expressly listed inside the marketplace buyer bundle are included.
+Public demo-store content and listing mockups are presentation material unless
+the marketplace listing explicitly licenses them for merchant use.
 
 ## How do updates work?
 
@@ -54,16 +54,17 @@ setting or custom code change.
 
 ## Can one purchase be used on multiple stores?
 
-Follow the Envato license displayed at purchase. Purchase activation binds
-support and update eligibility to the licensed Shopify store.
+Follow the licence selected on the marketplace at purchase. The marketplace
+terms determine permitted projects, commercial use, and licence scope.
 
 ## How does purchase activation work?
 
-Open `ACTIVATE-LICENSE.txt` after installation and enter the Envato
-purchase code plus the store's permanent `*.myshopify.com` domain. Activation
-confirms support and future update eligibility for that store. It never disables
-the installed storefront. Do not place the code in theme settings or a public
-support request.
+Activation is channel-specific. If the marketplace supplies a purchase code and
+the package contains `ACTIVATE-LICENSE.txt`, follow that file. Creative Market
+purchases currently use the Creative Market purchase record and do not require
+a separate activation code. Activation, where offered, never disables the
+installed storefront. Do not place codes or receipts in theme settings or a
+public support request.
 
 ## Where can I get support?
 
