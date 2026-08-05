@@ -89,3 +89,8 @@ The open rows above are deliberately not inferred from earlier prototypes or a
 working development theme. Only results produced by this exact 1.0.0 archive
 belong in the remaining release record. Rebuilding the ZIP changes its checksum
 and requires this record to be refreshed.
+
+This historical baseline predates the route/threshold Lighthouse gate and the
+expanded storefront interaction suite. A later release must produce fresh
+`npm run release:gate` evidence; this record cannot be carried forward as its
+result.

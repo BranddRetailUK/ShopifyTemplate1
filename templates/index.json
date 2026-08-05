@@ -11,31 +11,19 @@
       "type": "hero",
       "settings": {
         "scheme": "paper",
-        "nav_tone": "light",
-        "overlay_opacity": 20,
-        "eyebrow": "New collection",
-        "heading": "Give your products room to speak.",
-        "text": "<p>Introduce the collection, material, or point of view that makes your brand different.</p>",
-        "primary_label": "Shop the collection",
-        "secondary_label": "Read our story",
+        "nav_tone": "dark",
+        "layout": "editorial",
+        "overlay_opacity": 10,
+        "eyebrow": "Edition 01 / New forms",
+        "heading": "Made for the way you move.",
+        "heading_level": "h1",
+        "text": "<p>Contemporary essentials shaped by real routines, expressive detail, and materials chosen to go the distance.</p>",
+        "primary_label": "Shop the new edition",
+        "secondary_label": "Inside the collection",
         "height": "full",
         "content_position": "bottom-left",
-        "content_width": 68,
-        "show_accents": true
-      }
-    },
-    "bridge_intro": {
-      "type": "scroll-bridge",
-      "settings": {
-        "top_scheme": "paper",
-        "bottom_scheme": "ink",
-        "variant": "long-drift",
-        "label": "From discovery to desire",
-        "show_label": false,
-        "height": 320,
-        "accent_thickness": 24,
-        "intensity": 110,
-        "rounded": true
+        "content_width": 54,
+        "show_accents": false
       }
     },
     "marquee": {
@@ -43,42 +31,94 @@
       "blocks": {
         "text_1": {
           "type": "text",
-          "settings": {
-            "text": "Designed with purpose"
-          }
+          "settings": { "text": "Designed in motion" }
         },
         "text_2": {
           "type": "text",
-          "settings": {
-            "text": "Made to be used"
-          }
+          "settings": { "text": "Considered materials" }
         },
         "text_3": {
           "type": "text",
-          "settings": {
-            "text": "Built to last"
-          }
+          "settings": { "text": "Limited editions" }
         }
       },
       "block_order": ["text_1", "text_2", "text_3"],
       "settings": {
         "scheme": "ink",
-        "accessibility_label": "Store highlights",
+        "accessibility_label": "Collection principles",
         "separator": "✦",
-        "speed": 28,
-        "text_size": 2.5,
+        "speed": 36,
+        "text_size": 2.2,
         "direction": "left"
       }
     },
     "statement": {
       "type": "rich-text",
       "settings": {
-        "scheme": "ink",
-        "eyebrow": "Our point of view",
-        "heading": "Useful objects can still feel extraordinary.",
-        "text": "<p>Use this space to explain what you make, why it matters, and how it fits into your customers’ lives.</p>",
+        "scheme": "paper",
+        "eyebrow": "Mode / Material / Movement",
+        "heading": "A wardrobe should earn its place in your life.",
+        "text": "<p>We begin with how a piece feels, functions, and changes with wear—then remove everything it does not need.</p>",
         "alignment": "left",
         "width": "wide"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "scheme": "paper",
+        "layout": "editorial",
+        "eyebrow": "The current edit",
+        "heading": "New forms for every day",
+        "text": "<p>An art-directed product sequence with a lead piece, compact discovery, native swatches, and quick purchase routes.</p>",
+        "show_view_all": true,
+        "products_to_show": 7,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "mobile_scroll": false,
+        "grid_gap": 12
+      }
+    },
+    "lookbook": {
+      "type": "shoppable-lookbook",
+      "blocks": {
+        "hotspot_1": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Look one",
+            "x_position": 24,
+            "y_position": 34,
+            "card_alignment": "auto"
+          }
+        },
+        "hotspot_2": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Look two",
+            "x_position": 58,
+            "y_position": 58,
+            "card_alignment": "auto"
+          }
+        },
+        "hotspot_3": {
+          "type": "hotspot",
+          "settings": {
+            "label": "Look three",
+            "x_position": 80,
+            "y_position": 28,
+            "card_alignment": "auto"
+          }
+        }
+      },
+      "block_order": ["hotspot_1", "hotspot_2", "hotspot_3"],
+      "settings": {
+        "scheme": "signal",
+        "eyebrow": "Shop the composition",
+        "heading": "The edit, in context.",
+        "text": "<p>Turn campaign imagery into a direct, accessible path from inspiration to product detail.</p>",
+        "overlay_opacity": 0,
+        "media_ratio": "landscape",
+        "list_position": "right"
       }
     },
     "features": {
@@ -87,75 +127,50 @@
         "feature_1": {
           "type": "feature",
           "settings": {
-            "heading": "Made with intent",
-            "text": "<p>Explain your materials, process, or design decision.</p>"
+            "eyebrow": "01 / Material",
+            "heading": "Chosen for repeat wear",
+            "text": "<p>Natural hand-feel, resilient construction, and finishes that develop character over time.</p>"
           }
         },
         "feature_2": {
           "type": "feature",
           "settings": {
-            "heading": "Easy to live with",
-            "text": "<p>Show how the product earns a place in everyday life.</p>"
+            "eyebrow": "02 / Form",
+            "heading": "Ease without excess",
+            "text": "<p>Clear proportions and useful details keep each piece adaptable across a full day.</p>"
           }
         },
         "feature_3": {
           "type": "feature",
           "settings": {
-            "heading": "Supported properly",
-            "text": "<p>Set a clear expectation for delivery, care, and support.</p>"
+            "eyebrow": "03 / Care",
+            "heading": "Support after checkout",
+            "text": "<p>Direct guidance for fit, care, delivery, and returns—before and after a decision.</p>"
           }
         }
       },
       "block_order": ["feature_1", "feature_2", "feature_3"],
       "settings": {
-        "scheme": "paper",
-        "eyebrow": "What matters",
-        "heading": "A clear reason to choose your brand.",
+        "scheme": "ink",
+        "eyebrow": "Built into every edition",
+        "heading": "The details are the design.",
         "card_style": "lines",
         "show_numbers": true,
         "columns_desktop": 3,
-        "grid_gap": 24
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "scheme": "paper",
-        "eyebrow": "Selected for you",
-        "heading": "Featured collection",
-        "show_view_all": true,
-        "products_to_show": 6,
-        "columns_desktop": 3,
-        "columns_mobile": "2",
-        "mobile_scroll": false,
         "grid_gap": 16
-      }
-    },
-    "motion_accents": {
-      "type": "motion-accents",
-      "settings": {
-        "scheme": "paper",
-        "layout": "cross",
-        "color": "gradient",
-        "rail_count": "3",
-        "height": 240,
-        "rail_width": 80,
-        "rail_thickness": 20,
-        "intensity": 100,
-        "glow": true
       }
     },
     "story": {
       "type": "media-with-text",
       "settings": {
-        "scheme": "ink",
+        "scheme": "paper",
         "autoplay": false,
-        "media_position": "left",
+        "media_position": "right",
         "media_ratio": "portrait",
-        "eyebrow": "Behind the product",
-        "heading": "Show the thinking behind what you make.",
-        "text": "<p>Pair strong imagery with the details customers need to understand your materials, process, or point of view.</p>",
-        "button_label": "Read the story"
+        "eyebrow": "Field notes / 01",
+        "heading": "Clothes become personal through use.",
+        "text": "<p>Follow a material from first sketch to finished piece, then into the routines and places that give it meaning.</p>",
+        "button_label": "Read the field note"
       }
     },
     "collections": {
@@ -163,80 +178,36 @@
       "blocks": {
         "collection_1": {
           "type": "collection",
-          "settings": {
-            "placeholder_title": "Choose a collection"
-          }
+          "settings": { "placeholder_title": "Core forms" }
         },
         "collection_2": {
           "type": "collection",
-          "settings": {
-            "placeholder_title": "Choose a collection"
-          }
+          "settings": { "placeholder_title": "New edition" }
         },
         "collection_3": {
           "type": "collection",
-          "settings": {
-            "placeholder_title": "Choose a collection"
-          }
+          "settings": { "placeholder_title": "Objects and layers" }
         }
       },
       "block_order": ["collection_1", "collection_2", "collection_3"],
       "settings": {
         "scheme": "paper",
-        "eyebrow": "Explore",
-        "heading": "Shop by collection",
+        "eyebrow": "Find your frame",
+        "heading": "Shop by point of view",
+        "text": "<p>Organize the catalogue around intent, moment, or material—not just product type.</p>",
         "show_product_count": true,
         "show_view_all": true,
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "grid_gap": 16
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>Share a concise, specific comment from a real customer.</p>",
-            "author": "Customer name",
-            "context": "Verified customer"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>Use social proof that speaks to quality, service, or the product experience.</p>",
-            "author": "Customer name",
-            "context": "Verified customer"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "<p>Keep testimonials authentic, useful, and easy to understand.</p>",
-            "author": "Customer name",
-            "context": "Verified customer"
-          }
-        }
-      },
-      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
-      "settings": {
-        "scheme": "signal",
-        "eyebrow": "In their words",
-        "heading": "What customers remember.",
-        "columns_desktop": 3
+        "grid_gap": 12
       }
     },
     "journal": {
       "type": "featured-blog",
       "settings": {
-        "scheme": "paper",
-        "eyebrow": "From the journal",
-        "heading": "Ideas, objects, and ways of working.",
+        "scheme": "ink",
+        "eyebrow": "Field notes",
+        "heading": "People, process, and the life around the product",
         "articles_to_show": 3,
         "columns_desktop": 3,
         "show_author": true,
@@ -245,29 +216,38 @@
         "show_view_all": true
       }
     },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "scheme": "signal",
+        "eyebrow": "Next frame",
+        "heading": "New editions, without the noise.",
+        "text": "<p>Product releases, field notes, and occasional studio updates.</p>"
+      }
+    },
     "cta": {
       "type": "call-to-action",
       "settings": {
-        "scheme": "ink",
-        "overlay_opacity": 35,
-        "eyebrow": "Find your next favourite",
-        "heading": "Ready when you are.",
+        "scheme": "electric",
+        "overlay_opacity": 20,
+        "eyebrow": "The full catalogue",
+        "heading": "Find what earns a place.",
+        "text": "<p>Explore the complete edit by form, material, and use.</p>",
         "button_label": "Shop all products"
       }
     }
   },
   "order": [
     "hero",
-    "bridge_intro",
     "marquee",
     "statement",
-    "features",
     "featured_collection",
-    "motion_accents",
+    "lookbook",
+    "features",
     "story",
     "collections",
-    "testimonials",
     "journal",
+    "newsletter",
     "cta"
   ]
 }

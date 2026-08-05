@@ -1,0 +1,486 @@
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+
+  assign specification_product = product
+  if specification_product == blank
+    assign specification_product = section.settings.product
+  endif
+
+  assign primary_image = section.settings.image
+  if primary_image == blank and specification_product.featured_media
+    assign primary_image = specification_product.featured_media.preview_image
+  endif
+
+  assign secondary_image = section.settings.secondary_image
+  if secondary_image == blank and specification_product.media.size > 1
+    assign secondary_media = specification_product.media[1]
+    assign secondary_image = secondary_media.preview_image
+  endif
+
+  assign specification_count = 0
+  assign detail_count = 0
+  for block in section.blocks
+    if block.type == 'specification' and block.settings.label != blank and block.settings.value != blank
+      assign specification_count = specification_count | plus: 1
+    elsif block.type == 'detail' and block.settings.heading != blank
+      if block.settings.text != blank or block.settings.page != blank
+        assign detail_count = detail_count | plus: 1
+      endif
+    endif
+  endfor
+%}
+
+{% if specification_count > 0 or detail_count > 0 or request.design_mode %}
+<section
+  class="product-specifications section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+>
+  <div class="page-width product-specifications__layout product-specifications__layout--{{ section.settings.media_position }}">
+    <div class="product-specifications__media" data-reveal>
+      <div class="product-specifications__media-primary product-specifications__media-primary--{{ section.settings.media_ratio }}">
+        {% if primary_image != blank %}
+          {% render 'image',
+            image: primary_image,
+            sizes: '(min-width: 990px) 44vw, 100vw',
+            width: 1800,
+            alt: primary_image.alt | default: specification_product.title
+          %}
+        {% else %}
+          {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_secondary_image %}
+        <div class="product-specifications__media-secondary">
+          {% if secondary_image != blank %}
+            {% render 'image',
+              image: secondary_image,
+              sizes: '(min-width: 990px) 20vw, 45vw',
+              width: 1000,
+              alt: secondary_image.alt | default: specification_product.title
+            %}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="product-specifications__content">
+      <header class="product-specifications__header" data-reveal>
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2>{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div class="rte product-specifications__introduction">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.page != blank %}
+          <div class="rte product-specifications__page">{{ section.settings.page.content }}</div>
+        {% endif %}
+      </header>
+
+      {% if specification_count > 0 %}
+        <dl class="product-specifications__list" data-reveal>
+          {% assign specification_index = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'specification' and block.settings.label != blank and block.settings.value != blank %}
+              {% assign specification_index = specification_index | plus: 1 %}
+              <div class="product-specifications__row" {{ block.shopify_attributes }}>
+                <dt>
+                  <span aria-hidden="true">{{ specification_index | prepend: '0' }}</span>
+                  {{ block.settings.label | escape }}
+                </dt>
+                <dd>{{ block.settings.value }}</dd>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </dl>
+      {% elsif request.design_mode %}
+        <div class="product-specifications__empty" data-reveal>
+          <span aria-hidden="true">01</span>
+          <p>{{ 'onboarding.choose_product' | t }}</p>
+        </div>
+      {% endif %}
+
+      {% if detail_count > 0 %}
+        <div class="product-specifications__details" data-reveal>
+          {% for block in section.blocks %}
+            {% if block.type == 'detail' and block.settings.heading != blank %}
+              {% if block.settings.text != blank or block.settings.page != blank %}
+                <details {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                  <summary>
+                    <span>{{ block.settings.heading | escape }}</span>
+                    {% render 'icon', name: 'plus' %}
+                  </summary>
+                  <div class="rte product-specifications__detail-content">
+                    {{ block.settings.text }}
+                    {{ block.settings.page.content }}
+                  </div>
+                </details>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% stylesheet %}
+  .product-specifications__layout {
+    display: grid;
+    align-items: start;
+    gap: clamp(2.5rem, 8vw, 8rem);
+  }
+
+  .product-specifications__media {
+    position: relative;
+    min-width: 0;
+    padding-block-end: clamp(2rem, 7vw, 5rem);
+  }
+
+  .product-specifications__media-primary,
+  .product-specifications__media-secondary {
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    background: color-mix(in srgb, currentcolor 6%, transparent);
+  }
+
+  .product-specifications__media-primary--portrait {
+    aspect-ratio: 4 / 5;
+  }
+
+  .product-specifications__media-primary--square {
+    aspect-ratio: 1;
+  }
+
+  .product-specifications__media-primary--landscape {
+    aspect-ratio: 4 / 3;
+  }
+
+  .product-specifications__media-primary .modeframe-media,
+  .product-specifications__media-primary img,
+  .product-specifications__media-primary .placeholder-svg,
+  .product-specifications__media-secondary .modeframe-media,
+  .product-specifications__media-secondary img,
+  .product-specifications__media-secondary .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-specifications__media-primary img,
+  .product-specifications__media-secondary img {
+    object-fit: cover;
+  }
+
+  .product-specifications__media-secondary {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: clamp(-3rem, -3vw, -1rem);
+    width: min(46%, 18rem);
+    aspect-ratio: 1;
+    border: clamp(0.35rem, 1vw, 0.75rem) solid var(--scheme-background);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .product-specifications__content {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .product-specifications__header {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .product-specifications__header h2 {
+    max-width: 12ch;
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.84;
+  }
+
+  .product-specifications__introduction,
+  .product-specifications__page {
+    max-width: 58ch;
+  }
+
+  .product-specifications__list {
+    margin: 0;
+    border-block-start: 1px solid var(--border-subtle);
+  }
+
+  .product-specifications__row {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.75fr) minmax(0, 1.25fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    border-block-end: 1px solid var(--border-subtle);
+    padding-block: 1.1rem;
+  }
+
+  .product-specifications__row dt {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .product-specifications__row dt span {
+    opacity: 0.55;
+  }
+
+  .product-specifications__row dd {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .product-specifications__empty {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.7rem;
+    border-block: 1px solid var(--border-subtle);
+    padding-block: 1.1rem;
+  }
+
+  .product-specifications__details {
+    border-block-start: 1px solid var(--border-subtle);
+  }
+
+  .product-specifications__details details {
+    border-block-end: 1px solid var(--border-subtle);
+  }
+
+  .product-specifications__details summary {
+    display: flex;
+    min-height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+    list-style: none;
+  }
+
+  .product-specifications__details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .product-specifications__details summary .icon {
+    width: 1rem;
+    transition: transform 180ms ease;
+  }
+
+  .product-specifications__details details[open] summary .icon {
+    transform: rotate(45deg);
+  }
+
+  .product-specifications__detail-content {
+    max-width: 62ch;
+    padding-block: 0 1.5rem;
+  }
+
+  @media (min-width: 990px) {
+    .product-specifications__layout {
+      grid-template-columns: minmax(0, 0.9fr) minmax(28rem, 1.1fr);
+    }
+
+    .product-specifications__layout--right {
+      grid-template-columns: minmax(28rem, 1.1fr) minmax(0, 0.9fr);
+    }
+
+    .product-specifications__layout--right .product-specifications__media {
+      grid-column: 2;
+    }
+
+    .product-specifications__layout--right .product-specifications__content {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .product-specifications__content {
+      position: sticky;
+      inset-block-start: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  @media (max-width: 749px) {
+    .product-specifications__media-secondary {
+      inset-inline-end: 0;
+      width: 42%;
+    }
+
+    .product-specifications__row {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-specifications__details summary .icon {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product specifications",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product outside product pages",
+      "info": "Product pages use the current product automatically."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Subheading",
+      "default": "Made to be understood"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Details, without the fine print."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Bring the material, fit, construction and care information customers need into one considered product story.</p>"
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Additional content page"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Primary image",
+      "info": "Falls back to the product's featured media."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show secondary image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "secondary_image",
+      "label": "Secondary image",
+      "info": "Falls back to the product's second media item."
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Primary image ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" }
+      ],
+      "default": "portrait"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "specification",
+      "name": "Specification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Material"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "value",
+          "label": "Value"
+        }
+      ]
+    },
+    {
+      "type": "detail",
+      "name": "Expandable detail",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Care and use"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Product specifications",
+      "blocks": [
+        { "type": "specification", "settings": { "label": "Material" } },
+        { "type": "specification", "settings": { "label": "Dimensions" } },
+        { "type": "specification", "settings": { "label": "Origin" } },
+        { "type": "specification", "settings": { "label": "Care" } }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

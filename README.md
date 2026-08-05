@@ -1,110 +1,126 @@
-# Modeframe — modern editorial Shopify theme
+# Modeframe — editorial commerce for Shopify
 
-Modeframe is a Shopify Online Store 2.0 theme for fashion, lifestyle, design,
-art, product, and creative retail brands. It combines oversized editorial type,
-high-contrast merchandising, modular layouts, flexible global styles, and
-reduced-motion-safe visual accents with Shopify's native commerce features.
+Modeframe 2.0 is a Shopify Online Store 2.0 theme for fashion, lifestyle,
+design, art, and other visually led catalogues. The active product route is the
+Shopify Theme Store. The theme combines a strong editorial point of view with
+native Shopify product, collection, search, cart, customer, localization, and
+checkout handoff behavior.
 
-## Theme highlights
+## Modeframe 2.0
 
-- Six storefront-wide visual modes: Paper, Ink, Signal, Electric, All light,
-  and All dark.
-- Six desktop header compositions, nested navigation, predictive search,
-  localization, customer accounts, and drawer or page carts.
-- Product media, variants, swatches, quantity rules, selling plans, pickup,
-  unit pricing, gift-card recipients, accelerated checkout, and recommendations.
-- Collection filtering, sorting, pagination, quick add, mixed search, and
-  responsive merchandising grids.
-- Hero, slideshow, scrolling text, Scroll Bridge, Motion Accents, editorial,
-  merchandising, social proof, video, FAQ, newsletter, and Custom Liquid
-  sections.
-- Responsive Shopify CDN images, native forms, accessible controls, visible
-  focus, progressive enhancement, and reduced-motion support.
+- Three coordinated art directions: Studio light (`paper`), Studio dark
+  (`ink`), and High signal (`signal`). The Paper, Ink, Signal, and Electric
+  section roles remain available inside each direction.
+- Three purposeful desktop header layouts, inverse-logo support, promotional
+  mega-menu cards, accessible mobile navigation, and keyboard-complete
+  predictive search.
+- Indexed editorial product cards with secondary media, native swatches,
+  quick-add rules, sale and availability states, and shared responsive media.
+- Collection storytelling with a dedicated filter rail, sorting, adjustable
+  grids, and merchant-positioned editorial breaks.
+- A mosaic or focused product gallery, sticky product information, mobile buy
+  bar, variant-aware commerce, product notes, specifications, complementary
+  products, and related products.
+- Drawer and page carts with quantity rules, properties, selling plans,
+  discounts, notes, checkout controls, optional free-delivery progress, curated
+  additions, and designed empty states.
+- Signature Flexible content, Shoppable lookbook, and Product specifications
+  sections, plus `collection.editorial` and `page.lookbook` alternative
+  templates.
+- Responsive Shopify CDN media, native forms, visible focus, accessible
+  dialogs, progressive enhancement, and reduced-motion behavior.
 
-## Repository structure
+## Source and repository layout
 
-The uploadable Shopify theme lives in `assets`, `blocks`, `config`, `layout`,
-`locales`, `sections`, `snippets`, and `templates`. Marketplace documentation,
-licensing, QA, and listing assets live outside those folders and are excluded
-from Shopify theme uploads.
+Modeframe's visual and interaction language originated in Brandd's standalone
+Next.js site. It was not built on Dawn or Horizon. An early Shopify port
+consulted Shopify's Skeleton reference; the small overlaps recorded in the 1.0
+audit were reimplemented, and the provenance regression guard remains active.
 
-The companion Envato purchase-code service lives in `services/license-api`.
-The iframe-compatible ThemeForest preview, documentation, support, privacy, and
-refund service lives in `services/marketplace-site`. Both are deployed
-separately and are never part of, or required by, the storefront.
+The installable theme is limited to `assets`, `blocks`, `config`, `layout`,
+`locales`, `sections`, `snippets`, and `templates`. Repository tooling, QA,
+documentation, and historical marketplace material are excluded from the
+Shopify archive.
 
-## Setup
+Creative Market and ThemeForest files, services, scripts, and 1.0 archives are
+retained only as truthful product history. They are not part of the default 2.0
+build. Any third-party listing, sale, or downloadable distribution must be
+withdrawn before Theme Store resubmission. That external withdrawal has not
+been verified from this workspace.
+
+## Local setup
 
 ```bash
-npm install
+npm ci
 npm run verify
 npm run theme:dev
 ```
 
-Use a local, ignored `shopify.theme.toml` for store and theme identifiers. Never
-commit credentials, merchant data, Shopify CLI state, or a store-specific
-`settings_data.json` pulled from a live merchant theme.
+Use ignored Shopify CLI configuration and environment files. Never commit a
+store domain, storefront password, theme ID, access token, CLI state, customer
+data, or a merchant's pulled `config/settings_data.json`.
 
-## Browser QA
-
-Copy `.env.example` to `.env.qa`, populate the dedicated QA store values, then
-run:
-
-```bash
-npm run qa:browser
-npm run qa:lighthouse
-npm run qa:media
-npm run qa:marketplace-site
-npm run qa:marketplace-site:lighthouse
-```
-
-The store suite covers core rendering, search, mobile-menu Escape behaviour, a
-configured product add-to-cart path, page exceptions, and serious automated
-accessibility rules across desktop Chromium/Firefox/WebKit and mobile
-Chromium/WebKit. Lighthouse records home, collection, and product evidence;
-the media command captures exact-store ThemeForest screenshots and video. The
-separate public-site commands test the framed presentation/documentation layer.
-Manual browser/device, screen-reader, checkout, market, editor, and
-special-product cases remain in `docs/qa-matrix.md`.
-
-## Marketplace bundle
+## Theme Store bundle
 
 ```bash
 npm run bundle
 npm run bundle:check
 ```
 
-The build creates:
+The default builder derives the identity from `package.json` and
+`config/settings_schema.json`, then creates only:
 
-- `release/Modeframe-1.0.0-theme.zip` — the Shopify-uploadable theme.
-- `release/Modeframe-1.0.0-themeforest.zip` — the ThemeForest buyer bundle.
-- `release/Modeframe-1.0.0-themeforest-preview.zip` — operator listing/media
-  upload archive, not supplied to buyers.
-- `release/SHA256SUMS.txt` — archive checksums.
+- `release/Modeframe-2.0.0-theme.zip`
+- `release/SHA256SUMS.txt`
 
-The ThemeForest buyer bundle contains the installable theme, English HTML and
-Markdown documentation, quick start, FAQ, six-month support policy, Envato
-license notice, asset credits, activation instructions, release notes, and
-checksum.
+The validator requires an installable archive rooted only in Shopify theme
+folders, verifies the 2.0 identity and signature sections, rejects development
+and third-party buyer paths, and verifies the exact SHA-256 checksum. The old
+marketplace builders remain in `scripts/` for historical reproducibility but
+are not called by `npm run bundle`.
 
-## Purchase activation
+## QA and release gate
 
-The buyer activation service is available at
-<https://modeframe-licensing-production.up.railway.app>. It verifies a
-Envato author sale on the server and binds a keyed purchase-code fingerprint to
-one permanent Shopify domain. Activation controls support and future update
-eligibility only; it never disables the installed theme. See
-`docs/licensing-architecture.md` for its security and policy model.
+```bash
+npm run verify
+npm run bundle
+npm run bundle:check
+npm run release:gate
+```
 
-## Distribution
+`verify` covers Theme Check, release structure, provenance, static QA, and the
+repository's companion-service unit tests. `release:gate` adds the exact bundle
+check and remote storefront suites; run `bundle` first. Playwright covers home,
+search, predictive search, collection filters, product variants, cart mutation,
+representative content, 404 behavior, keyboard focus, and serious accessibility
+rules across the configured browser matrix. Lighthouse requires the intended
+home, collection, and product routes and gates each run at 60 performance and
+90 accessibility by default. Fixture-dependent cases skip explicitly rather
+than being reported as passes.
 
-Modeframe 1.0.0 is prepared first for ThemeForest distribution. It is not a
-Shopify Theme Store submission and makes no claim of Shopify review or
-approval. Envato's seller, tax, refund, licensing, preview, support, and review
-requirements remain authoritative.
+Manual editor, screen-reader, device, webview, checkout, market, app, and
+special-product cases remain mandatory in [docs/qa-matrix.md](docs/qa-matrix.md).
+The 1.0 QA baseline is historical evidence and does not prove the 2.0 candidate.
 
-See `contract.md` for the current product contract and
-`docs/marketplace-readiness.md` for the launch gate. The ThemeForest package fit
-is tracked in `docs/third-party-platform-fit.md`; the future Shopify Theme Store
-delta is tracked in `docs/shopify-theme-store-compatibility.md` because its
-exclusivity rule conflicts with simultaneous third-party distribution.
+## Safe store rollout
+
+Test two unpublished themes before publication:
+
+1. Upload the 2.0 ZIP as a fresh unpublished theme to validate the clean install,
+   default content, editor schemas, and Theme Store reviewer experience.
+2. Duplicate the current live theme, push code to that duplicate without
+   replacing merchant-owned `settings_data.json`, section-group JSON, or
+   existing template JSON, then merge new template structure deliberately.
+
+Validate both candidates. Publish only the merchant-preserving candidate after
+an explicit rollback copy is confirmed. Keep the previous live theme available
+and republish it immediately if production checks fail.
+
+Authenticated Shopify CLI access and confirmed target theme selection are not
+available in the current workspace. Deployment, publication, and production
+revalidation therefore remain pending; no live-update claim is made here.
+
+See [contract.md](contract.md),
+[docs/shopify-theme-store-compatibility.md](docs/shopify-theme-store-compatibility.md),
+and [docs/demo-store-setup.md](docs/demo-store-setup.md) for the governing release
+and deployment rules.

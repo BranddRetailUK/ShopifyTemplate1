@@ -1,75 +1,115 @@
-# Modeframe demo and QA store setup
+# Modeframe 2.0 demo, QA, and deployment setup
 
-Use a dedicated Shopify development store for marketplace presentation and
-release QA. Do not use a merchant's production store as the permanent sales
-demo or expose its private data in evidence.
+Use unpublished Shopify themes for release work. Do not use production as the
+first test target, expose private merchant data in evidence, or commit a store
+domain, storefront password, theme ID, token, or pulled merchant settings.
 
-Railway cannot host the Shopify storefront because Shopify Liquid, products,
-collections, checkout, Theme Editor, Markets, and native forms require a
-Shopify store. Railway hosts Modeframe's iframe-compatible marketplace preview,
-public documentation/legal pages, and companion license service.
+## Required roles
 
-## Recommended roles
-
-| Store | Purpose | Required state |
+| Candidate | Purpose | Configuration rule |
 |---|---|---|
-| Public demo | Buyer-facing listing links | Rights-cleared content, stable routes, no test/private data |
-| Primary QA | Packaged-theme/editor/cart/test-order checks | Full fixture catalogue and unpublished release theme |
-| Regional QA | Unit pricing, instalments, markets | Temporary eligibility-specific configuration |
+| Clean install | Theme Store reviewer/default experience | Upload the exact 2.0 ZIP; use packaged defaults |
+| Migration | Production-safe upgrade | Duplicate live; preserve merchant JSON |
+| Previous live | Immediate rollback | Do not edit or delete during release |
 
-One development store may serve as demo and QA initially. Split them before
-launch if test orders, apps, fixtures, or frequent configuration make the public
-presentation unstable.
+A separate rights-cleared public demo can point at the clean candidate. Keep
+special test orders, internal apps, customer data, and private fixtures out of
+public presentation.
 
-## Store-owner setup
+The Theme Store submission demo must be prepared on an eligible client-transfer
+store and match the clean release. Treat an existing merchant storefront only
+as a private migration/regression target, not automatically as the submission
+demo.
 
-1. Create a Shopify development store suitable for theme testing.
-2. Use a stable Modeframe demo name and avoid developer-preview features.
-3. Add Shopify test data, then retain the storefront password securely.
-4. Grant the theme operator access or approve Shopify CLI authentication.
-5. Put the canonical demo URL only in Railway or ignored QA environment
-   variables. Never commit the store domain, password, theme ID, or credentials.
+## Prerequisites
 
-## Theme-operator setup
+1. Obtain authorized Shopify admin and CLI access through the normal operator
+   workflow; never paste credentials into documentation or chat.
+2. Confirm the intended store and target themes in Shopify admin. Record their
+   identifiers only in an ignored local environment or secure runbook.
+3. Run `npm ci`, `npm run verify`, `npm run bundle`, and
+   `npm run bundle:check`.
+4. Record the archive checksum privately with the release evidence.
+5. Prepare populated product, collection, page, search, cart, account, market,
+   app, gift-card, subscription, media, and filter fixtures.
 
-1. Build the release with `npm run bundle`.
-2. Upload `release/Modeframe-1.0.0-theme.zip` as a new unpublished theme.
-3. Confirm Modeframe 1.0.0, one Modeframe install preset, and Paper as the
-   default Global style.
-4. Import Shopify's current theme-review/performance test catalogues or create
-   equivalent fixtures for variants, selling plans, media, inventory, pricing,
-   and collection filters.
-5. Add rights-cleared demo products, images, copy, video, 3D models,
-   testimonials, logos, policies, pages, blog, menus, and SEO metadata.
-6. Configure Search & Discovery filters/recommendations and representative app
-   blocks.
-7. Run `npm run qa:browser`, `npm run qa:lighthouse`, and `npm run qa:media`
-   against the preview URL, then complete `docs/qa-matrix.md`.
-8. Capture approved screenshots, motion video, browser evidence, and current
-   Lighthouse reports.
-9. Point the Railway preview service's `DEMO_STORE_URL` variable at the final
-   public demo. A marketplace may embed the Railway page; the Shopify demo opens in a
-   new tab because Shopify prohibits third-party framing.
-10. If the development store remains protected, set `DEMO_STORE_PASSWORD` only
-    in Railway so the preview landing page can show the public demo credential.
-    Never commit the value to source or include it in the buyer ZIP.
+## Candidate A — clean install
 
-## Shopify configuration outside theme code
+1. In **Online Store > Themes**, use **Add theme > Upload zip file**.
+2. Upload `release/Modeframe-2.0.0-theme.zip` and leave it unpublished.
+3. Confirm Modeframe 2.0.0, one install preset, and the three art directions.
+4. Test the default home, product, and collection templates.
+5. Assign and test `collection.editorial` and `page.lookbook`.
+6. Add, remove, reorder, duplicate, hide, save, and reload all supported
+   sections and blocks, including Flexible content, Shoppable lookbook, Product
+   specifications, and app blocks.
+7. Test empty and populated states before adding demo content.
+8. Add rights-cleared content and run the full QA matrix against its preview.
 
-- Selling plans require a compatible purchase-options app.
-- Pickup requires locations, inventory, and pickup configuration.
-- Unit price, Shop Pay instalments, markets, currency, duties, tax, shipping,
-  and payment cases depend on store configuration and eligibility.
-- Follow on Shop depends on Shop channel/payment setup.
-- App-block tests require representative installed apps.
-- Orders require Shopify's supported test gateway or provider test mode.
+This candidate proves what a reviewer or new merchant receives. Do not replace
+its packaged JSON with configuration pulled from another theme.
 
-## Public-demo gate
+## Candidate B — merchant-preserving migration
 
-Shopify development stores remain password protected. A protected demo is
-customer-accessible when the iframe landing page displays the current public
-demo credential. Publish it only when assets and statements are commercially
-cleared; all
-core routes work on desktop/mobile; test customers/orders/internal app names are
-absent; the demo matches the distributed version; and support, documentation,
-privacy, refund, and licensing links are final.
+1. In Shopify admin, duplicate the current live theme. Leave both unpublished
+   duplicate and previous live theme intact.
+2. Pull or download a private backup of the duplicate outside this repository.
+3. Diff remote `config/settings_data.json`, section-group JSON, and template JSON
+   against source. Treat the remote versions as merchant-owned.
+4. Push code to the duplicate only, with deletion disabled. Exclude
+   `config/settings_data.json`, existing `templates/*.json`, and header/footer
+   section-group JSON from the bulk push.
+5. Add the two new alternative templates separately because they do not replace
+   an existing merchant template.
+6. Merge changes to default product, collection, and home templates explicitly,
+   or recreate their 2.0 section structure in the Theme Editor. Never overwrite
+   merchant section IDs or settings without a reviewed mapping.
+7. Normalize retired 1.0 values in the private duplicate before opening the
+   editor: map `electric` to `signal`, `all-light` to `paper`, and `all-dark` to
+   `ink`; map `center-left` to `center-split`, and map `left-centered` or
+   `right-inline` to `left-inline`. Confirm the result visually rather than
+   relying on an invalid legacy select value.
+8. Configure new header promotions, inverse logo, card swatches, cart progress,
+   curated additions, product specifications, and lookbook content as needed.
+9. Run the same matrix as the clean install and compare all core routes.
+
+The CLI command must name the unpublished duplicate explicitly. Never use
+`--allow-live`, `--publish`, or an unverified default theme target during this
+phase.
+
+## Automated preview QA
+
+Copy `.env.example` to an ignored `.env.qa` and provide only the preview
+configuration required by the test runner. Then run:
+
+```bash
+npm run qa:browser
+npm run qa:lighthouse
+npm run release:gate
+```
+
+Run the gate against each candidate and archive Playwright, axe, Lighthouse,
+route, checksum, and fixture-skip evidence. Credentials and full preview URLs do
+not belong in committed reports.
+
+## Publication
+
+1. Confirm the previous live theme is still available and renders correctly.
+2. Obtain explicit approval for the migration candidate and a rollback owner.
+3. Publish the migration candidate in Shopify admin.
+4. Immediately check home, navigation, predictive search, collection filters,
+   representative variants, add/remove cart, content, account entry, policies,
+   404, and checkout handoff.
+5. Run production-safe Playwright and Lighthouse checks without placing a real
+   order or changing merchant data.
+6. Record the result privately. Do not commit store identifiers or credentials.
+
+If a blocker appears, republish the previous live theme immediately. Keep the
+2.0 candidate unpublished for diagnosis and repeat the full gate before another
+publication attempt.
+
+## Current status
+
+Authenticated Shopify access and confirmed target themes are not available in
+the current workspace. Neither candidate has been deployed or validated live in
+this session, and publication remains pending authorization.

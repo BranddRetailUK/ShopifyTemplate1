@@ -1,8 +1,20 @@
+{% liquid
+  assign free_shipping_target = section.settings.free_shipping_threshold | times: 100
+  assign free_shipping_progress = 0
+  assign free_shipping_remaining = free_shipping_target | minus: cart.total_price
+  if free_shipping_target > 0
+    assign free_shipping_progress = cart.total_price | times: 100.0 | divided_by: free_shipping_target | at_most: 100
+  endif
+%}
+
 <cart-drawer id="CartDrawer" class="cart-drawer">
   <dialog aria-labelledby="CartDrawerTitle">
-    <div class="cart-drawer__panel scheme-paper">
+    <div class="cart-drawer__panel scheme-{{ section.settings.scheme }}">
       <div class="cart-drawer__header">
-        <h2 id="CartDrawerTitle">{{ 'cart.general.title' | t }}</h2>
+        <div>
+          <span>MODEFRAME / BAG</span>
+          <h2 id="CartDrawerTitle">{{ 'cart.general.title' | t }}</h2>
+        </div>
         <button class="icon-button" type="button" data-dialog-close aria-label="{{ 'accessibility.close' | t }}">
           {% render 'icon', name: 'close' %}
         </button>
@@ -12,8 +24,12 @@
 
       {% if cart.item_count == 0 %}
         <div class="cart-drawer__empty">
-          <p>{{ 'cart.general.empty' | t }}</p>
-          <a class="button" href="{{ routes.all_products_collection_url }}">
+          <span class="cart-drawer__empty-index" aria-hidden="true">00</span>
+          <h3>{{ 'cart.general.empty' | t }}</h3>
+          {% if section.settings.empty_text != blank %}
+            <div class="rte">{{ section.settings.empty_text }}</div>
+          {% endif %}
+          <a class="button" href="{{ section.settings.empty_collection.url | default: routes.all_products_collection_url }}">
             {{ 'general.continue_shopping' | t }}
           </a>
         </div>
@@ -51,7 +67,14 @@
                   {% for property in item.properties %}
                     {% assign property_first_character = property.first | slice: 0 %}
                     {% if property.last != blank and property_first_character != '_' %}
-                      <p>{{ property.first }}: {{ property.last }}</p>
+                      <p>
+                        {{ property.first | escape }}:
+                        {% if property.last contains '/uploads/' %}
+                          <a href="{{ property.last | escape }}">{{ property.last | split: '/' | last | escape }}</a>
+                        {% else %}
+                          {{ property.last | escape }}
+                        {% endif %}
+                      </p>
                     {% endif %}
                   {% endfor %}
                 </div>
@@ -82,7 +105,7 @@
                     id: drawer_quantity_id,
                     name: 'updates[]',
                     value: item.quantity,
-                    min: 0,
+                    min: item.variant.quantity_rule.min,
                     max: item.variant.quantity_rule.max,
                     step: item.variant.quantity_rule.increment,
                     line: forloop.index
@@ -100,13 +123,50 @@
               </div>
             </article>
           {% endfor %}
+
+          {% if section.settings.upsell_collection != blank %}
+            <aside class="cart-drawer__additions">
+              <p>{{ 'cart.general.curated_additions' | t }}</p>
+              <div>
+                {% for product in section.settings.upsell_collection.products limit: 2 %}
+                  <a href="{{ product.url }}">
+                    {% if product.featured_image %}
+                      {{
+                        product.featured_image
+                        | image_url: width: 160
+                        | image_tag: widths: '80, 120, 160', sizes: '64px', loading: 'lazy', alt: product.featured_image.alt
+                      }}
+                    {% endif %}
+                    <span>
+                      <strong>{{ product.title }}</strong>
+                      {% render 'price', product: product %}
+                    </span>
+                  </a>
+                {% endfor %}
+              </div>
+            </aside>
+          {% endif %}
         </div>
 
         {% form 'cart', cart, id: 'CartDrawerForm', class: 'cart-drawer__footer' %}
+          {% if free_shipping_target > 0 %}
+            <div class="cart-drawer__progress">
+              <p>
+                {% if free_shipping_remaining <= 0 %}
+                  {{ 'cart.general.free_shipping_qualified' | t }}
+                {% else %}
+                  {% assign free_shipping_remaining_money = free_shipping_remaining | money %}
+                  {{ 'cart.general.free_shipping_remaining' | t: amount: free_shipping_remaining_money }}
+                {% endif %}
+              </p>
+              <span aria-hidden="true"><span style="width: {{ free_shipping_progress }}%"></span></span>
+            </div>
+          {% endif %}
+
           {% if settings.show_cart_note %}
             <div class="field">
               <label for="CartDrawerNote">{{ 'cart.general.note' | t }}</label>
-              <textarea id="CartDrawerNote" name="note">{{ cart.note }}</textarea>
+              <textarea id="CartDrawerNote" name="note">{{ cart.note | escape }}</textarea>
             </div>
           {% endif %}
 
@@ -153,8 +213,8 @@
     height: 100%;
     grid-template-rows: auto minmax(0, 1fr) auto;
     margin-inline-start: auto;
-    background: var(--paper-background);
-    color: var(--paper-foreground);
+    background: var(--scheme-background);
+    color: var(--scheme-foreground);
     box-shadow: var(--shadow-soft);
   }
 
@@ -166,6 +226,17 @@
     gap: 1rem;
     border-block-end: 1px solid var(--border-subtle);
     padding-inline: var(--page-margin);
+  }
+
+  .cart-drawer__header > div {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .cart-drawer__header span {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
   }
 
   .cart-drawer__header h2 {
@@ -250,6 +321,28 @@
     min-height: 70px;
   }
 
+  .cart-drawer__progress {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .cart-drawer__progress p {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .cart-drawer__progress > span {
+    height: 3px;
+    overflow: hidden;
+    background: color-mix(in srgb, currentcolor 20%, transparent);
+  }
+
+  .cart-drawer__progress > span > span {
+    display: block;
+    height: 100%;
+    background: currentcolor;
+  }
+
   .cart-drawer__subtotal {
     display: flex;
     justify-content: space-between;
@@ -270,11 +363,106 @@
     padding: 3rem var(--page-margin);
     text-align: center;
   }
+
+  .cart-drawer__empty-index {
+    display: grid;
+    width: 4.5rem;
+    height: 4.5rem;
+    place-items: center;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .cart-drawer__empty .rte {
+    max-width: 34ch;
+  }
+
+  .cart-drawer__additions {
+    display: grid;
+    gap: 0.75rem;
+    padding-block: 1.5rem;
+  }
+
+  .cart-drawer__additions > p {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cart-drawer__additions > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .cart-drawer__additions a {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.65rem;
+    color: inherit;
+    font-size: 0.72rem;
+    text-decoration: none;
+  }
+
+  .cart-drawer__additions img {
+    width: 54px;
+    height: 68px;
+    border-radius: var(--media-radius);
+    object-fit: cover;
+  }
+
+  .cart-drawer__additions a > span {
+    display: grid;
+    gap: 0.3rem;
+  }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "Cart drawer",
-  "settings": []
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "signal"
+    },
+    {
+      "type": "range",
+      "id": "free_shipping_threshold",
+      "label": "Free delivery threshold",
+      "info": "Set to 0 to hide. Enable only when a matching delivery rate exists, and validate every active market.",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "default": 0
+    },
+    {
+      "type": "collection",
+      "id": "upsell_collection",
+      "label": "Cart additions"
+    },
+    {
+      "type": "collection",
+      "id": "empty_collection",
+      "label": "Empty-cart collection"
+    },
+    {
+      "type": "richtext",
+      "id": "empty_text",
+      "label": "Empty-cart text",
+      "default": "<p>Your next favorite piece is still out there.</p>"
+    }
+  ]
 }
 {% endschema %}

@@ -34,7 +34,7 @@
             id="ContactName-{{ section.id }}"
             type="text"
             name="contact[name]"
-            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            value="{% if form.name %}{{ form.name | escape }}{% elsif customer %}{{ customer.name | escape }}{% endif %}"
             autocomplete="name"
           >
         </div>
@@ -44,7 +44,7 @@
             id="ContactEmail-{{ section.id }}"
             type="email"
             name="contact[email]"
-            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            value="{% if form.email %}{{ form.email | escape }}{% elsif customer %}{{ customer.email | escape }}{% endif %}"
             autocapitalize="off"
             autocomplete="email"
             required
@@ -57,13 +57,13 @@
           id="ContactPhone-{{ section.id }}"
           type="tel"
           name="contact[phone]"
-          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          value="{% if form.phone %}{{ form.phone | escape }}{% elsif customer %}{{ customer.phone | escape }}{% endif %}"
           autocomplete="tel"
         >
       </div>
       <div class="field">
         <label for="ContactBody-{{ section.id }}">{{ 'contact.message' | t }}</label>
-        <textarea id="ContactBody-{{ section.id }}" name="contact[body]" rows="9" required>{{ form.body }}</textarea>
+        <textarea id="ContactBody-{{ section.id }}" name="contact[body]" rows="9" required>{{ form.body | escape }}</textarea>
       </div>
       <button class="button" type="submit">{{ 'contact.send' | t }}</button>
     {% endform %}
@@ -117,13 +117,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -135,7 +135,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "Contact"
     },
     {

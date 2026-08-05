@@ -3,7 +3,7 @@
 {% if section.blocks.size > 0 %}
   <aside
     class="announcement-bar scheme-{{ section.settings.scheme }}"
-    aria-label="Announcements"
+    aria-label="{{ 'accessibility.announcements' | t }}"
     data-nav-tone="{{ section.settings.scheme | replace: 'paper', 'light' | replace: 'signal', 'light' | replace: 'ink', 'dark' | replace: 'electric', 'dark' }}"
   >
     <div class="announcement-bar__inner">
@@ -32,7 +32,9 @@
   .announcement-bar__inner {
     display: flex;
     max-width: var(--page-width);
+    align-items: center;
     justify-content: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
     margin-inline: auto;
     text-align: center;
   }
@@ -45,8 +47,29 @@
     text-transform: uppercase;
   }
 
-  .announcement-bar p:not(:first-child) {
-    display: none;
+  .announcement-bar p + p::before {
+    margin-inline-end: clamp(1rem, 3vw, 2.5rem);
+    content: '✦';
+    opacity: 0.65;
+  }
+
+  @media (max-width: 749px) {
+    .announcement-bar__inner {
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-block-end: 0.2rem;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      white-space: nowrap;
+    }
+
+    .announcement-bar__inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .announcement-bar p {
+      scroll-snap-align: start;
+    }
   }
 {% endstylesheet %}
 
@@ -69,13 +92,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -94,7 +117,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Free delivery on qualifying orders"
+          "default": "New releases, selected with intent"
         },
         {
           "type": "url",

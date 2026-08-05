@@ -47,7 +47,7 @@
             {% if block.settings.text != blank %}
               <div class="rte">{{ block.settings.text }}</div>
             {% endif %}
-            {% if block.settings.link_label != blank %}
+            {% if block.settings.link_label != blank and block.settings.link != blank %}
               <a class="text-link" href="{{ block.settings.link }}">
                 {{ block.settings.link_label | escape }}
               </a>
@@ -140,13 +140,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -158,7 +158,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "What matters"
     },
     {
@@ -221,7 +221,7 @@
         {
           "type": "text",
           "id": "eyebrow",
-          "label": "Eyebrow"
+          "label": "Subheading"
         },
         {
           "type": "text",
@@ -257,21 +257,21 @@
           "type": "feature",
           "settings": {
             "heading": "Made with intent",
-            "text": "<p>Explain your materials, process, or design decision.</p>"
+            "text": "<p>Considered materials and construction made for repeat wear.</p>"
           }
         },
         {
           "type": "feature",
           "settings": {
             "heading": "Easy to live with",
-            "text": "<p>Show how the product earns a place in everyday life.</p>"
+            "text": "<p>Clear proportions and useful details fit naturally into a full day.</p>"
           }
         },
         {
           "type": "feature",
           "settings": {
             "heading": "Supported properly",
-            "text": "<p>Set a clear expectation for delivery, care, and support.</p>"
+            "text": "<p>Direct guidance for delivery, care, returns, and support.</p>"
           }
         }
       ]

@@ -53,14 +53,6 @@
         "description": {
           "type": "description",
           "settings": {}
-        },
-        "details": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Delivery and returns",
-            "content": "<p>Add store-specific delivery and returns information here.</p>",
-            "page": ""
-          }
         }
       },
       "block_order": [
@@ -72,11 +64,25 @@
         "buy_buttons",
         "inventory",
         "pickup",
-        "description",
-        "details"
+        "description"
       ],
       "settings": {
+        "gallery_layout": "mosaic",
         "scheme": "paper"
+      }
+    },
+    "specifications": {
+      "type": "product-specifications",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "scheme": "ink",
+        "eyebrow": "Made to be understood",
+        "heading": "The details that matter.",
+        "text": "<p>Material, fit, construction, and care live together in one considered product story.</p>",
+        "show_secondary_image": true,
+        "media_position": "left",
+        "media_ratio": "portrait"
       }
     },
     "complementary": {
@@ -102,5 +108,5 @@
       }
     }
   },
-  "order": ["main", "complementary", "related"]
+  "order": ["main", "specifications", "complementary", "related"]
 }

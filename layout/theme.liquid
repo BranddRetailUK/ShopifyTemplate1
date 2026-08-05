@@ -36,9 +36,16 @@
         moneyFormat: {{ shop.money_format | json }},
         strings: {
           addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          addedToCart: {{ 'products.product.added_to_cart' | t | json }},
+          choosePurchaseOption: {{ 'products.product.choose_purchase_option' | t | json }},
           soldOut: {{ 'products.product.sold_out' | t | json }},
           unavailable: {{ 'products.product.unavailable' | t | json }},
-          cartError: {{ 'cart.general.error' | t | json }}
+          inventoryInStock: {{ 'products.product.inventory_in_stock' | t | json }},
+          inventoryLow: {{ 'products.product.inventory_low' | t: count: '__COUNT__' | json }},
+          inventoryOutOfStock: {{ 'products.product.inventory_out_of_stock' | t | json }},
+          unitPrice: {{ 'products.product.unit_price' | t | json }},
+          cartError: {{ 'cart.general.error' | t | json }},
+          cartItemCount: {{ 'cart.general.item_count_label' | t: count: '__COUNT__' | json }}
         }
       };
     </script>

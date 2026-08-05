@@ -1,0 +1,69 @@
+{% liquid
+  assign nav_tone = 'light'
+  if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
+    assign nav_tone = 'dark'
+  endif
+%}
+
+<section
+  class="flexible-content section scheme-{{ section.settings.scheme }}"
+  data-nav-tone="{{ nav_tone }}"
+  style="--flexible-content-width: {{ section.settings.content_width }}rem;"
+>
+  <div class="page-width flexible-content__inner" data-reveal>
+    {% content_for 'blocks' %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .flexible-content__inner {
+    display: flex;
+    width: min(var(--flexible-content-width), calc(100% - (var(--page-margin) * 2)));
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Flexible content",
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "paper", "label": "Paper" },
+        { "value": "ink", "label": "Ink" },
+        { "value": "signal", "label": "Signal" },
+        { "value": "electric", "label": "Electric" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 30,
+      "max": 90,
+      "step": 2,
+      "unit": "rem",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "presets": [
+    {
+      "name": "Flexible content",
+      "category": "Modeframe content"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

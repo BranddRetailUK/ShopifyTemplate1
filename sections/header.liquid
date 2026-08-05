@@ -29,10 +29,15 @@
       menu_scheme: section.settings.menu_scheme,
       side: 'primary',
       split_navigation: split_navigation,
-      split_at: split_at
+      split_at: split_at,
+      promotions: section.blocks
     %}
 
-    <a class="site-header__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    <a
+      class="site-header__brand{% if settings.logo_inverse %} site-header__brand--has-inverse{% endif %}"
+      href="{{ routes.root_url }}"
+      aria-label="{{ shop.name }}"
+    >
       {% if settings.logo %}
         {{
           settings.logo
@@ -42,8 +47,21 @@
             sizes: '(max-width: 749px) 130px, 180px',
             loading: 'eager',
             fetchpriority: 'high',
-            alt: shop.name
+            alt: shop.name,
+            class: 'site-header__logo site-header__logo--default'
         }}
+        {% if settings.logo_inverse %}
+          {{
+            settings.logo_inverse
+            | image_url: width: settings.logo_width
+            | image_tag:
+              widths: '96, 144, 192, 240, 320',
+              sizes: '(max-width: 749px) 130px, 180px',
+              loading: 'eager',
+              alt: shop.name,
+              class: 'site-header__logo site-header__logo--inverse'
+          }}
+        {% endif %}
       {% else %}
         <span>{{ shop.name }}</span>
       {% endif %}
@@ -54,7 +72,8 @@
       menu_scheme: section.settings.menu_scheme,
       side: 'secondary',
       split_navigation: split_navigation,
-      split_at: split_at
+      split_at: split_at,
+      promotions: section.blocks
     %}
 
     <div class="site-header__actions">
@@ -79,7 +98,7 @@
         class="icon-button site-header__cart"
         href="{{ routes.cart_url }}"
         data-cart-link
-        aria-label="Cart, {{ cart.item_count }} items"
+        aria-label="{{ 'cart.general.item_count_label' | t: count: cart.item_count }}"
       >
         {% render 'icon', name: 'cart' %}
         <span
@@ -105,9 +124,10 @@
           </button>
         </div>
 
-        <nav aria-label="Mobile navigation">
+        <nav aria-label="{{ 'accessibility.mobile_navigation' | t }}">
           <ul role="list">
             {% for link in section.settings.menu.links %}
+              {% assign mobile_link_handle = link.title | handleize %}
               <li>
                 {% if link.links != blank %}
                   <details>
@@ -129,6 +149,33 @@
                         </li>
                       {% endfor %}
                     </ul>
+                    {% for promotion in section.blocks %}
+                      {% assign promotion_menu_handle = promotion.settings.menu_item | handleize %}
+                      {% if promotion_menu_handle == mobile_link_handle and promotion.settings.heading != blank %}
+                        <a
+                          class="mobile-menu__promotion scheme-{{ promotion.settings.scheme }}"
+                          href="{{ promotion.settings.link | default: link.url }}"
+                          {{ promotion.shopify_attributes }}
+                        >
+                          {% if promotion.settings.image %}
+                            {% render 'image',
+                              image: promotion.settings.image,
+                              sizes: '80vw',
+                              width: 900
+                            %}
+                          {% endif %}
+                          <span>
+                            {% if promotion.settings.eyebrow != blank %}
+                              <small>{{ promotion.settings.eyebrow | escape }}</small>
+                            {% endif %}
+                            <strong>{{ promotion.settings.heading | escape }}</strong>
+                            {% if promotion.settings.link_label != blank %}
+                              <span class="text-link">{{ promotion.settings.link_label | escape }}</span>
+                            {% endif %}
+                          </span>
+                        </a>
+                      {% endif %}
+                    {% endfor %}
                   </details>
                 {% else %}
                   <a href="{{ link.url }}">{{ link.title }}</a>
@@ -165,7 +212,11 @@
             {% render 'icon', name: 'close' %}
           </button>
         </div>
-        <predictive-search data-enabled="{{ settings.predictive_search_enabled }}">
+        <predictive-search
+          data-enabled="{{ settings.predictive_search_enabled }}"
+          data-results-label="{{ 'search.results_available' | t: count: '__COUNT__' | escape }}"
+          data-no-results-label="{{ 'search.no_suggestions' | t | escape }}"
+        >
           <form action="{{ routes.search_url }}" method="get" role="search">
             <div class="search-dialog__field">
               <label class="visually-hidden" for="HeaderSearch">{{ 'search.title' | t }}</label>
@@ -175,11 +226,6 @@
                 name="q"
                 value="{{ search.terms | escape }}"
                 placeholder="{{ 'search.placeholder' | t }}"
-                role="combobox"
-                aria-expanded="false"
-                aria-controls="HeaderPredictiveResults"
-                aria-haspopup="listbox"
-                aria-autocomplete="list"
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck="false"
@@ -187,7 +233,14 @@
               <input name="options[prefix]" type="hidden" value="last">
               <button class="button" type="submit">{{ 'search.submit' | t }}</button>
             </div>
-            <div id="HeaderPredictiveResults" data-predictive-results hidden></div>
+            <div
+              id="HeaderPredictiveResults"
+              role="listbox"
+              aria-label="{{ 'search.suggestions' | t }}"
+              data-predictive-results
+              hidden
+            ></div>
+            <p class="visually-hidden" role="status" aria-live="polite" data-predictive-status></p>
           </form>
         </predictive-search>
       </div>
@@ -256,8 +309,16 @@
     object-position: left center;
   }
 
-  .site-header[data-tone='dark'] .site-header__brand img {
-    filter: brightness(0) invert(1);
+  .site-header__logo--inverse {
+    display: none;
+  }
+
+  .site-header[data-tone='dark'] .site-header__brand--has-inverse .site-header__logo--default {
+    display: none;
+  }
+
+  .site-header[data-tone='dark'] .site-header__brand--has-inverse .site-header__logo--inverse {
+    display: block;
   }
 
   .site-header__desktop-nav {
@@ -358,6 +419,55 @@
     font-size: 1.15rem !important;
     letter-spacing: -0.02em !important;
     text-transform: none !important;
+  }
+
+  .mega-menu__promotion {
+    display: grid !important;
+    min-height: 17rem !important;
+    overflow: hidden;
+    align-content: end !important;
+    border-radius: var(--media-radius);
+    background: var(--scheme-background);
+    color: var(--scheme-foreground);
+    padding: 0 !important;
+    text-transform: none !important;
+  }
+
+  .mega-menu__promotion-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  .mega-menu__promotion-media .image,
+  .mega-menu__promotion-media img,
+  .mega-menu__promotion-media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mega-menu__promotion-media img {
+    object-fit: cover;
+  }
+
+  .mega-menu__promotion-copy {
+    display: grid;
+    gap: 0.45rem;
+    padding: 1rem;
+  }
+
+  .mega-menu__promotion-copy small,
+  .mobile-menu__promotion small {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .mega-menu__promotion-copy strong {
+    font-family: var(--font-heading-family);
+    font-size: 1.2rem;
+    line-height: 1;
   }
 
   .site-header__actions {
@@ -576,6 +686,32 @@
     padding-block-start: 2rem;
   }
 
+  .mobile-menu__promotion {
+    display: grid !important;
+    overflow: hidden;
+    gap: 0 !important;
+    border-radius: var(--media-radius);
+    background: var(--scheme-background);
+    color: var(--scheme-foreground);
+    margin-block-end: 1rem;
+  }
+
+  .mobile-menu__promotion .image,
+  .mobile-menu__promotion img {
+    width: 100%;
+    height: 12rem;
+  }
+
+  .mobile-menu__promotion img {
+    object-fit: cover;
+  }
+
+  .mobile-menu__promotion > span {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
   .mobile-menu__account {
     display: flex;
     align-items: center;
@@ -633,8 +769,7 @@
       grid-row: 1;
     }
 
-    .site-header .site-header__desktop-nav,
-    .site-header .site-header__account {
+    .site-header .site-header__desktop-nav {
       display: none;
     }
 
@@ -682,13 +817,10 @@
       "label": "Desktop layout",
       "options": [
         { "value": "center-split", "label": "Centered logo · split menu" },
-        { "value": "center-left", "label": "Centered logo · menu left" },
         { "value": "center-stacked", "label": "Centered logo · menu below" },
-        { "value": "left-inline", "label": "Left logo · menu beside" },
-        { "value": "left-centered", "label": "Left logo · centered menu" },
-        { "value": "right-inline", "label": "Right logo · menu left" }
+        { "value": "left-inline", "label": "Left logo · menu beside" }
       ],
-      "default": "center-left"
+      "default": "left-inline"
     },
     {
       "type": "link_list",
@@ -725,8 +857,8 @@
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset menu background",
-      "info": "Uses the color below for desktop and mobile menus instead of the selected menu color scheme background.",
+      "label": "Use custom menu background",
+      "info": "Menu text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -734,6 +866,61 @@
       "id": "background_color",
       "label": "Menu background color",
       "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "Menu promotion",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Top-level menu item",
+          "info": "Enter the menu item title exactly, for example Shop."
+        },
+        {
+          "type": "select",
+          "id": "scheme",
+          "label": "Color scheme",
+          "options": [
+            { "value": "paper", "label": "Paper" },
+            { "value": "ink", "label": "Ink" },
+            { "value": "signal", "label": "Signal" },
+            { "value": "electric", "label": "Electric" }
+          ],
+          "default": "signal"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Subheading",
+          "default": "Current edition"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop the new frame"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Explore the edit"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
     }
   ],
   "enabled_on": {

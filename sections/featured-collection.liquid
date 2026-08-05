@@ -9,7 +9,7 @@
 %}
 
 <section
-  class="featured-collection section scheme-{{ section.settings.scheme }}"
+  class="featured-collection featured-collection--{{ section.settings.layout }} section scheme-{{ section.settings.scheme }}"
   data-nav-tone="{{ nav_tone }}"
   style="
     --desktop-columns: {{ section.settings.columns_desktop }};
@@ -41,8 +41,17 @@
             if forloop.index <= section.settings.columns_desktop
               assign eager_card = true
             endif
+            assign card_class = ''
+            if section.settings.layout == 'editorial' and forloop.first
+              assign card_class = 'product-card--lead'
+            endif
           %}
-          {% render 'product-card', product: product, eager: eager_card %}
+          {% render 'product-card',
+            product: product,
+            eager: eager_card,
+            index: forloop.index,
+            class: card_class
+          %}
         {% endfor %}
       {% else %}
         {% for index in (1..section.settings.products_to_show) %}
@@ -63,7 +72,31 @@
 </section>
 
 {% stylesheet %}
+  .featured-collection--editorial .product-grid {
+    align-items: stretch;
+  }
+
+  .featured-collection--editorial .product-card--lead {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .featured-collection--editorial .product-card--lead .product-card__media {
+    flex: 1;
+    min-height: 34rem;
+    aspect-ratio: auto;
+  }
+
   @media (max-width: 749px) {
+    .featured-collection--editorial .product-card--lead {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+
+    .featured-collection--editorial .product-card--lead .product-card__media {
+      min-height: 62vh;
+    }
+
     .product-grid--mobile-scroll {
       grid-auto-columns: minmax(72vw, 1fr);
       grid-template-columns: none;
@@ -98,13 +131,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -119,9 +152,19 @@
       "label": "Collection"
     },
     {
+      "type": "select",
+      "id": "layout",
+      "label": "Product layout",
+      "options": [
+        { "value": "editorial", "label": "Editorial lead" },
+        { "value": "grid", "label": "Equal grid" }
+      ],
+      "default": "editorial"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "Selected for you"
     },
     {
@@ -167,7 +210,7 @@
         { "value": "1", "label": "1" },
         { "value": "2", "label": "2" }
       ],
-      "default": "2"
+      "default": "1"
     },
     {
       "type": "checkbox",

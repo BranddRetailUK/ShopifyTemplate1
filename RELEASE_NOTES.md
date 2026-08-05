@@ -1,5 +1,14 @@
 # Modeframe release notes
 
+## 2.0.0
+
+- Reworked the theme around a more distinctive editorial commerce system,
+  including flexible content, product specifications, and shoppable lookbooks.
+- Strengthened accessibility, responsive behavior, collection and product
+  merchandising, and storefront QA coverage for Theme Store review.
+- Replaced the default marketplace bundle with one Shopify-installable theme
+  archive and a verified SHA-256 checksum.
+
 ## 1.0.0
 
 - Established Modeframe as the public theme identity for third-party Shopify

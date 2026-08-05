@@ -8,18 +8,20 @@
 %}
 
 <section
-  class="blog-main section scheme-{{ section.settings.scheme }}"
+  class="blog-main section scheme-{{ section.settings.scheme }}{% if section.settings.stagger_cards %} blog-main--staggered{% endif %}"
   data-nav-tone="{{ nav_tone }}"
   style="--blog-columns: {{ section.settings.columns_desktop }}; --grid-gap: {{ section.settings.grid_gap }}px;"
 >
   <div class="page-width">
     <header class="blog-main__header" data-reveal>
-      {% if section.settings.eyebrow != blank %}
-        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
-      {% endif %}
-      <h1>{{ blog.title | escape }}</h1>
+      <div class="blog-main__title">
+        {% if section.settings.eyebrow != blank %}
+          <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h1>{{ blog.title | escape }}</h1>
+      </div>
       {% if blog.articles_count > 0 %}
-        <p>{{ 'blog.article_count' | t: count: blog.articles_count }}</p>
+        <p class="blog-main__count">{{ 'blog.article_count' | t: count: blog.articles_count }}</p>
       {% endif %}
     </header>
 
@@ -28,9 +30,7 @@
         <a{% if current_tags == blank %} aria-current="page"{% endif %} href="{{ blog.url }}">{{ 'blog.all' | t }}</a>
         {% for tag in blog.all_tags %}
           <a
-            {% if current_tags contains tag %}
-              aria-current="page"
-            {% endif %}
+            {% if current_tags contains tag %}aria-current="page"{% endif %}
             href="{{ blog.url }}/tagged/{{ tag | handle }}"
           >
             {{ tag | escape }}
@@ -42,11 +42,27 @@
     {% paginate blog.articles by section.settings.articles_per_page %}
       <div class="blog-main__grid">
         {% for article in blog.articles %}
+          {% liquid
+            assign is_featured = false
+            assign card_class = ''
+            if section.settings.feature_first_article and forloop.first
+              assign is_featured = true
+            elsif section.settings.stagger_cards
+              assign position_modulo = forloop.index | modulo: 3
+              if position_modulo == 0
+                assign card_class = 'article-card--portrait'
+              endif
+            endif
+          %}
           {% render 'article-card',
             article: article,
             show_author: section.settings.show_author,
             show_date: section.settings.show_date,
-            show_excerpt: section.settings.show_excerpt
+            show_excerpt: section.settings.show_excerpt,
+            featured: is_featured,
+            eager: is_featured,
+            index: forloop.index,
+            class: card_class
           %}
         {% else %}
           <div class="empty-state">
@@ -62,29 +78,48 @@
 {% stylesheet %}
   .blog-main__header {
     display: grid;
-    gap: 0.75rem;
+    gap: 1.5rem;
+    align-items: end;
     margin-block-end: clamp(2rem, 6vw, 5rem);
+    padding-block-end: 1rem;
+    border-block-end: 1px solid var(--border-subtle);
+  }
+
+  .blog-main__title {
+    display: grid;
+    gap: 0.75rem;
   }
 
   .blog-main__header h1 {
+    max-width: 10ch;
     font-size: clamp(3rem, 9vw, 8rem);
     line-height: 0.86;
+  }
+
+  .blog-main__count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .blog-main__tags {
     display: flex;
     overflow-x: auto;
     gap: 0.5rem;
-    margin-block-end: 2rem;
-    padding-block-end: 0.5rem;
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
+    padding: 0.2rem 0.15rem 0.75rem;
+    scrollbar-width: thin;
   }
 
   .blog-main__tags a {
     flex: 0 0 auto;
     border: 1px solid var(--border-subtle);
     border-radius: 999px;
-    padding: 0.6rem 0.85rem;
-    font-size: 0.78rem;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     text-decoration: none;
   }
 
@@ -98,9 +133,29 @@
     gap: var(--grid-gap, 1rem);
   }
 
+  .blog-main__grid > .empty-state {
+    grid-column: 1 / -1;
+  }
+
   @media (min-width: 750px) {
+    .blog-main__header {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
     .blog-main__grid {
       grid-template-columns: repeat(var(--blog-columns, 3), minmax(0, 1fr));
+      row-gap: clamp(2.5rem, 6vw, 7rem);
+    }
+
+    .blog-main__grid > .article-card--featured {
+      grid-column: 1 / -1;
+      margin-block-end: clamp(1.5rem, 4vw, 4rem);
+    }
+  }
+
+  @media (min-width: 990px) {
+    .blog-main--staggered .blog-main__grid > .article-card--portrait {
+      margin-block-start: clamp(2rem, 6vw, 6rem);
     }
   }
 {% endstylesheet %}
@@ -123,13 +178,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -141,8 +196,20 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "Journal"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_first_article",
+      "label": "Feature first article",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "stagger_cards",
+      "label": "Use staggered article layout",
+      "default": true
     },
     {
       "type": "checkbox",

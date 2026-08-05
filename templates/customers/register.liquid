@@ -10,11 +10,11 @@
       <div class="form-grid form-grid--two">
         <div class="field">
           <label for="RegisterFirstName">{{ 'customer.first_name' | t }}</label>
-          <input id="RegisterFirstName" type="text" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+          <input id="RegisterFirstName" type="text" name="customer[first_name]" value="{{ form.first_name | escape }}" autocomplete="given-name">
         </div>
         <div class="field">
           <label for="RegisterLastName">{{ 'customer.last_name' | t }}</label>
-          <input id="RegisterLastName" type="text" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+          <input id="RegisterLastName" type="text" name="customer[last_name]" value="{{ form.last_name | escape }}" autocomplete="family-name">
         </div>
       </div>
       <div class="field">
@@ -23,7 +23,7 @@
           id="RegisterEmail"
           type="email"
           name="customer[email]"
-          value="{{ form.email }}"
+          value="{{ form.email | escape }}"
           autocomplete="email"
           autocapitalize="off"
           required

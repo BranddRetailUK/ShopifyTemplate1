@@ -22,16 +22,11 @@ jobs:
         run: npm install --global @shopify/cli@3.92.0
       - name: Verify source and theme
         run: npm run verify
-      - name: Install release image tooling
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes ffmpeg
-          ffmpeg -version
-      - name: Build and validate buyer bundle
+      - name: Build and validate Theme Store bundle
         run: npm run bundle && npm run bundle:check
       - name: Preserve release archives
         uses: actions/upload-artifact@v4
         with:
-          name: modeframe-${{ github.sha }}
+          name: modeframe-theme-store-${{ github.sha }}
           path: release/
           if-no-files-found: error

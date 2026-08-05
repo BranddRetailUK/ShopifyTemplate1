@@ -1,6 +1,6 @@
 {
   "name": "modeframe-shopify-theme",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "lint": "shopify theme check",
@@ -16,15 +16,17 @@
     "qa:browser": "playwright test",
     "qa:browser:headed": "playwright test --headed",
     "qa:lighthouse": "node scripts/run-lighthouse.mjs",
+    "qa:storefront": "npm run qa:browser && npm run qa:lighthouse",
     "qa:media": "node scripts/capture-themeforest-media.mjs",
     "qa:creative-market-assets": "node scripts/build-creative-market-assets.mjs",
     "qa:marketplace-site": "playwright test --config playwright.marketplace.config.mjs",
     "qa:marketplace-site:lighthouse": "node scripts/run-marketplace-lighthouse.mjs",
     "license:test": "npm --prefix services/license-api test",
     "marketplace-site:test": "npm --prefix services/marketplace-site test",
-    "bundle": "node scripts/build-creative-market-assets.mjs && node scripts/build-marketplace-bundle.mjs",
-    "bundle:check": "node scripts/validate-marketplace-bundle.mjs",
+    "bundle": "node scripts/build-theme-store-bundle.mjs",
+    "bundle:check": "node scripts/validate-theme-store-bundle.mjs",
     "verify": "npm run lint && npm run release:check && npm run provenance:check && npm run qa:static && npm run license:test && npm run marketplace-site:test",
+    "release:gate": "npm run verify && npm run bundle:check && npm run qa:storefront",
     "shopify:test-catalog": "node scripts/shopify-test-catalog.mjs"
   },
   "devDependencies": {

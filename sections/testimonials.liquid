@@ -20,28 +20,38 @@
       <h2>{{ section.settings.heading | escape }}</h2>
     </header>
 
-    <div class="testimonials__grid">
-      {% for block in section.blocks %}
-        <figure class="testimonial" {{ block.shopify_attributes }} data-reveal>
-          {% if block.settings.rating > 0 %}
-            <div class="testimonial__stars">
-              <span aria-hidden="true">{% for star in (1..block.settings.rating) %}★{% endfor %}</span>
-              <span class="visually-hidden">{{ 'testimonials.rating' | t: count: block.settings.rating }}</span>
-            </div>
-          {% endif %}
-          <blockquote>{{ block.settings.quote }}</blockquote>
-          <figcaption>
-            {% if block.settings.image %}
-              {% render 'image', image: block.settings.image, sizes: '64px', width: 128 %}
+    {% if section.blocks.size > 0 %}
+      <div class="testimonials__grid">
+        {% for block in section.blocks %}
+          <figure class="testimonial" {{ block.shopify_attributes }} data-reveal>
+            {% if block.settings.rating > 0 %}
+              <div class="testimonial__stars">
+                <span aria-hidden="true">{% for star in (1..block.settings.rating) %}★{% endfor %}</span>
+                <span class="visually-hidden">{{ 'testimonials.rating' | t: count: block.settings.rating }}</span>
+              </div>
             {% endif %}
-            <span>
-              <strong>{{ block.settings.author | escape }}</strong>
-              {% if block.settings.context != blank %}<small>{{ block.settings.context | escape }}</small>{% endif %}
-            </span>
-          </figcaption>
-        </figure>
-      {% endfor %}
-    </div>
+            {% if block.settings.quote != blank %}
+              <blockquote>{{ block.settings.quote }}</blockquote>
+            {% endif %}
+            {% if block.settings.image or block.settings.author != blank or block.settings.context != blank %}
+              <figcaption>
+                {% if block.settings.image %}
+                  {% render 'image', image: block.settings.image, sizes: '64px', width: 128 %}
+                {% endif %}
+                <span>
+                  {% if block.settings.author != blank %}<strong>{{ block.settings.author | escape }}</strong>{% endif %}
+                  {% if block.settings.context != blank %}<small>{{ block.settings.context | escape }}</small>{% endif %}
+                </span>
+              </figcaption>
+            {% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    {% elsif request.design_mode %}
+      <div class="empty-state">
+        <p>Add genuine customer feedback before publishing this section.</p>
+      </div>
+    {% endif %}
   </div>
 </section>
 
@@ -130,13 +140,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -148,7 +158,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "In their words"
     },
     {
@@ -179,13 +189,12 @@
           "min": 0,
           "max": 5,
           "step": 1,
-          "default": 5
+          "default": 0
         },
         {
           "type": "richtext",
           "id": "quote",
-          "label": "Quote",
-          "default": "<p>Share a concise, specific comment from a real customer.</p>"
+          "label": "Quote"
         },
         {
           "type": "image_picker",
@@ -195,14 +204,12 @@
         {
           "type": "text",
           "id": "author",
-          "label": "Customer name",
-          "default": "Customer name"
+          "label": "Customer name"
         },
         {
           "type": "text",
           "id": "context",
-          "label": "Context",
-          "default": "Verified customer"
+          "label": "Context"
         }
       ]
     }
@@ -210,12 +217,7 @@
   "max_blocks": 6,
   "presets": [
     {
-      "name": "Testimonials",
-      "blocks": [
-        { "type": "testimonial" },
-        { "type": "testimonial" },
-        { "type": "testimonial" }
-      ]
+      "name": "Testimonials"
     }
   ]
 }

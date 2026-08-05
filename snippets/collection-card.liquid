@@ -4,34 +4,71 @@
   @param {collection} collection - Collection object.
   @param {image} [image] - Optional image override.
   @param {boolean} [show_count] - Show the product count.
-  @param {string} [class] - Additional class.
+  @param {boolean} [show_description] - Show a short collection description.
+  @param {boolean} [featured] - Use the lead-collection composition.
+  @param {boolean} [eager] - Eager-load the image.
+  @param {number} [index] - Editorial position in the surrounding list.
+  @param {string} [heading_level] - Heading tag. Defaults to h2.
+  @param {string} [class] - Additional class names.
 {% enddoc %}
 
 {% liquid
   assign card_image = image | default: collection.featured_image
+  assign heading_tag = heading_level | default: 'h2'
+  assign loading = 'lazy'
+  assign fetchpriority = 'auto'
+  assign image_sizes = '(min-width: 1200px) 33vw, (min-width: 750px) 50vw, 100vw'
+  if featured
+    assign image_sizes = '(min-width: 990px) 58vw, 100vw'
+  endif
+  if eager
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
 %}
 
-<article class="collection-card card {{ class }}" data-reveal>
+<article
+  class="collection-card card{% if featured %} collection-card--featured{% endif %}{% if class != blank %} {{ class }}{% endif %}"
+  data-reveal
+>
   <a class="collection-card__media" href="{{ collection.url }}">
     {% if card_image %}
       {% render 'image',
         image: card_image,
-        sizes: '(min-width: 1200px) 33vw, (min-width: 750px) 50vw, 100vw',
-        width: 1400
+        sizes: image_sizes,
+        loading: loading,
+        fetchpriority: fetchpriority,
+        width: 1800
       %}
     {% else %}
       {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
     {% endif %}
+
+    {% if index != blank %}
+      <span class="collection-card__index" aria-hidden="true">
+        {{ index | prepend: '0' | slice: -2, 2 }}
+      </span>
+    {% endif %}
   </a>
 
   <div class="collection-card__content">
-    <div>
-      <h2><a href="{{ collection.url }}">{{ collection.title | escape }}</a></h2>
+    <div class="collection-card__copy">
       {% if show_count %}
-        <p class="eyebrow">{{ collection.products_count }} {{ 'collections.products' | t }}</p>
+        <p class="eyebrow">{{ 'collections.product_count' | t: count: collection.products_count }}</p>
+      {% endif %}
+      <{{ heading_tag }}><a href="{{ collection.url }}">{{ collection.title | escape }}</a></{{ heading_tag }}>
+      {% if show_description and collection.description != blank %}
+        <p class="collection-card__description">
+          {{ collection.description | strip_html | truncatewords: 28 }}
+        </p>
       {% endif %}
     </div>
-    <a class="icon-link" href="{{ collection.url }}" aria-label="{{ collection.title | escape }}">
+
+    <a
+      class="icon-link collection-card__link"
+      href="{{ collection.url }}"
+      aria-label="{{ 'general.view_all' | t }}: {{ collection.title | escape }}"
+    >
       {% render 'icon', name: 'arrow' %}
     </a>
   </div>
@@ -41,16 +78,18 @@
   .collection-card {
     display: grid;
     min-width: 0;
+    align-content: start;
   }
 
   .collection-card__media {
+    position: relative;
     display: block;
     overflow: hidden;
     aspect-ratio: 4 / 3;
     background: color-mix(in srgb, currentcolor 6%, transparent);
   }
 
-  .collection-card__media .image,
+  .collection-card__media .modeframe-media,
   .collection-card__media img,
   .collection-card__media .placeholder-svg {
     width: 100%;
@@ -62,8 +101,21 @@
     transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .collection-card:hover .collection-card__media img {
-    transform: scale(1.025);
+  .collection-card__index {
+    position: absolute;
+    inset-block-start: 0.8rem;
+    inset-inline-end: 0.8rem;
+    display: grid;
+    min-width: 2.15rem;
+    min-height: 2.15rem;
+    place-items: center;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    background: var(--paper-background);
+    color: var(--paper-foreground);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
   }
 
   .collection-card__content {
@@ -74,11 +126,72 @@
     padding: 1rem;
   }
 
-  .collection-card__content h2 {
-    font-size: clamp(1.25rem, 2.5vw, 2rem);
+  .collection-card__copy {
+    display: grid;
+    gap: 0.65rem;
   }
 
-  .collection-card__content h2 a {
+  .collection-card__content h2,
+  .collection-card__content h3 {
+    max-width: 17ch;
+    font-size: clamp(1.35rem, 2.5vw, 2.25rem);
+    line-height: 0.95;
+  }
+
+  .collection-card__content h2 a,
+  .collection-card__content h3 a {
     text-decoration: none;
+  }
+
+  .collection-card__description {
+    max-width: 40ch;
+    color: color-mix(in srgb, currentcolor 76%, transparent);
+  }
+
+  .collection-card__link {
+    flex: 0 0 auto;
+  }
+
+  .collection-card--portrait .collection-card__media {
+    aspect-ratio: 4 / 5;
+  }
+
+  @media (hover: hover) {
+    .collection-card:hover .collection-card__media img {
+      transform: scale(1.025);
+    }
+  }
+
+  .collection-card:focus-within .collection-card__media {
+    outline: 2px solid currentcolor;
+    outline-offset: 3px;
+  }
+
+  @media (min-width: 990px) {
+    .collection-card--featured {
+      grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.6fr);
+    }
+
+    .collection-card--featured .collection-card__media {
+      min-height: 31rem;
+      aspect-ratio: 16 / 10;
+    }
+
+    .collection-card--featured .collection-card__content {
+      align-items: flex-end;
+      padding: clamp(1.5rem, 3vw, 3rem);
+    }
+
+    .collection-card--featured .collection-card__content h2,
+    .collection-card--featured .collection-card__content h3 {
+      max-width: 11ch;
+      font-size: clamp(2.4rem, 4.5vw, 5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-card__media img {
+      transition: none;
+    }
   }
 {% endstylesheet %}

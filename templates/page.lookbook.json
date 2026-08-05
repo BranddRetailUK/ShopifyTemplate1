@@ -1,0 +1,65 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "introduction": {
+      "type": "rich-text",
+      "settings": {
+        "scheme": "ink",
+        "eyebrow": "Campaign / Edition 01",
+        "heading": "A complete story, ready to shop.",
+        "text": "<p>Build a campaign page around context, product discovery, and the details behind the edit.</p>",
+        "alignment": "left",
+        "width": "wide"
+      }
+    },
+    "lookbook": {
+      "type": "shoppable-lookbook",
+      "blocks": {
+        "hotspot_1": {
+          "type": "hotspot",
+          "settings": { "x_position": 24, "y_position": 34, "card_alignment": "auto" }
+        },
+        "hotspot_2": {
+          "type": "hotspot",
+          "settings": { "x_position": 58, "y_position": 56, "card_alignment": "auto" }
+        },
+        "hotspot_3": {
+          "type": "hotspot",
+          "settings": { "x_position": 80, "y_position": 28, "card_alignment": "auto" }
+        }
+      },
+      "block_order": ["hotspot_1", "hotspot_2", "hotspot_3"],
+      "settings": {
+        "scheme": "paper",
+        "eyebrow": "Shop the composition",
+        "heading": "The full edit, in context.",
+        "text": "<p>Connect each featured product to its place in the campaign.</p>",
+        "overlay_opacity": 0,
+        "media_ratio": "landscape",
+        "list_position": "right"
+      }
+    },
+    "products": {
+      "type": "featured-collection",
+      "settings": {
+        "scheme": "signal",
+        "layout": "editorial",
+        "eyebrow": "Campaign products",
+        "heading": "Every piece in the frame",
+        "show_view_all": true,
+        "products_to_show": 7,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "mobile_scroll": false,
+        "grid_gap": 12
+      }
+    }
+  },
+  "order": ["introduction", "lookbook", "products"]
+}

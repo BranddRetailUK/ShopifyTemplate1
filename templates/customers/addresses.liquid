@@ -15,46 +15,46 @@
         <div class="form-grid form-grid--two">
           <div class="field">
             <label for="AddressFirstNameNew">{{ 'customer.first_name' | t }}</label>
-            <input id="AddressFirstNameNew" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+            <input id="AddressFirstNameNew" type="text" name="address[first_name]" value="{{ form.first_name | escape }}" autocomplete="given-name">
           </div>
           <div class="field">
             <label for="AddressLastNameNew">{{ 'customer.last_name' | t }}</label>
-            <input id="AddressLastNameNew" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+            <input id="AddressLastNameNew" type="text" name="address[last_name]" value="{{ form.last_name | escape }}" autocomplete="family-name">
           </div>
         </div>
         <div class="field">
           <label for="AddressCompanyNew">{{ 'customer.company' | t }}</label>
-          <input id="AddressCompanyNew" type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+          <input id="AddressCompanyNew" type="text" name="address[company]" value="{{ form.company | escape }}" autocomplete="organization">
         </div>
         <div class="field">
           <label for="Address1New">{{ 'customer.address_1' | t }}</label>
-          <input id="Address1New" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+          <input id="Address1New" type="text" name="address[address1]" value="{{ form.address1 | escape }}" autocomplete="address-line1">
         </div>
         <div class="field">
           <label for="Address2New">{{ 'customer.address_2' | t }}</label>
-          <input id="Address2New" type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+          <input id="Address2New" type="text" name="address[address2]" value="{{ form.address2 | escape }}" autocomplete="address-line2">
         </div>
         <div class="form-grid form-grid--two">
           <div class="field">
             <label for="AddressCityNew">{{ 'customer.city' | t }}</label>
-            <input id="AddressCityNew" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+            <input id="AddressCityNew" type="text" name="address[city]" value="{{ form.city | escape }}" autocomplete="address-level2">
           </div>
           <div class="field">
             <label for="AddressZipNew">{{ 'customer.postcode' | t }}</label>
-            <input id="AddressZipNew" type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code">
+            <input id="AddressZipNew" type="text" name="address[zip]" value="{{ form.zip | escape }}" autocomplete="postal-code">
           </div>
         </div>
         <div class="field">
           <label for="AddressCountryNew">{{ 'customer.country' | t }}</label>
-          <select id="AddressCountryNew" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+          <select id="AddressCountryNew" name="address[country]" data-default="{{ form.country | escape }}">{{ country_option_tags }}</select>
         </div>
         <div class="field" id="AddressProvinceContainerNew" style="display: none">
           <label for="AddressProvinceNew">{{ 'customer.province' | t }}</label>
-          <select id="AddressProvinceNew" name="address[province]" data-default="{{ form.province }}"></select>
+          <select id="AddressProvinceNew" name="address[province]" data-default="{{ form.province | escape }}"></select>
         </div>
         <div class="field">
           <label for="AddressPhoneNew">{{ 'customer.phone' | t }}</label>
-          <input id="AddressPhoneNew" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+          <input id="AddressPhoneNew" type="tel" name="address[phone]" value="{{ form.phone | escape }}" autocomplete="tel">
         </div>
         <label>
           {{ form.set_as_default_checkbox }}
@@ -81,46 +81,46 @@
                 <div class="form-grid form-grid--two">
                   <div class="field">
                     <label for="AddressFirstName_{{ form.id }}">{{ 'customer.first_name' | t }}</label>
-                    <input id="AddressFirstName_{{ form.id }}" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+                    <input id="AddressFirstName_{{ form.id }}" type="text" name="address[first_name]" value="{{ form.first_name | escape }}" autocomplete="given-name">
                   </div>
                   <div class="field">
                     <label for="AddressLastName_{{ form.id }}">{{ 'customer.last_name' | t }}</label>
-                    <input id="AddressLastName_{{ form.id }}" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+                    <input id="AddressLastName_{{ form.id }}" type="text" name="address[last_name]" value="{{ form.last_name | escape }}" autocomplete="family-name">
                   </div>
                 </div>
                 <div class="field">
                   <label for="AddressCompany_{{ form.id }}">{{ 'customer.company' | t }}</label>
-                  <input id="AddressCompany_{{ form.id }}" type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+                  <input id="AddressCompany_{{ form.id }}" type="text" name="address[company]" value="{{ form.company | escape }}" autocomplete="organization">
                 </div>
                 <div class="field">
                   <label for="Address1_{{ form.id }}">{{ 'customer.address_1' | t }}</label>
-                  <input id="Address1_{{ form.id }}" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+                  <input id="Address1_{{ form.id }}" type="text" name="address[address1]" value="{{ form.address1 | escape }}" autocomplete="address-line1">
                 </div>
                 <div class="field">
                   <label for="Address2_{{ form.id }}">{{ 'customer.address_2' | t }}</label>
-                  <input id="Address2_{{ form.id }}" type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+                  <input id="Address2_{{ form.id }}" type="text" name="address[address2]" value="{{ form.address2 | escape }}" autocomplete="address-line2">
                 </div>
                 <div class="form-grid form-grid--two">
                   <div class="field">
                     <label for="AddressCity_{{ form.id }}">{{ 'customer.city' | t }}</label>
-                    <input id="AddressCity_{{ form.id }}" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+                    <input id="AddressCity_{{ form.id }}" type="text" name="address[city]" value="{{ form.city | escape }}" autocomplete="address-level2">
                   </div>
                   <div class="field">
                     <label for="AddressZip_{{ form.id }}">{{ 'customer.postcode' | t }}</label>
-                    <input id="AddressZip_{{ form.id }}" type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code">
+                    <input id="AddressZip_{{ form.id }}" type="text" name="address[zip]" value="{{ form.zip | escape }}" autocomplete="postal-code">
                   </div>
                 </div>
                 <div class="field">
                   <label for="AddressCountry_{{ form.id }}">{{ 'customer.country' | t }}</label>
-                  <select id="AddressCountry_{{ form.id }}" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+                  <select id="AddressCountry_{{ form.id }}" name="address[country]" data-default="{{ form.country | escape }}">{{ country_option_tags }}</select>
                 </div>
                 <div class="field" id="AddressProvinceContainer_{{ form.id }}" style="display: none">
                   <label for="AddressProvince_{{ form.id }}">{{ 'customer.province' | t }}</label>
-                  <select id="AddressProvince_{{ form.id }}" name="address[province]" data-default="{{ form.province }}"></select>
+                  <select id="AddressProvince_{{ form.id }}" name="address[province]" data-default="{{ form.province | escape }}"></select>
                 </div>
                 <div class="field">
                   <label for="AddressPhone_{{ form.id }}">{{ 'customer.phone' | t }}</label>
-                  <input id="AddressPhone_{{ form.id }}" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+                  <input id="AddressPhone_{{ form.id }}" type="tel" name="address[phone]" value="{{ form.phone | escape }}" autocomplete="tel">
                 </div>
                 <label>
                   {{ form.set_as_default_checkbox }}

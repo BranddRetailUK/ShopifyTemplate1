@@ -4,9 +4,11 @@
     assign top_nav_tone = 'dark'
   endif
   if section.settings.override_top_background_color
+    assign top_foreground_color = '#111111'
     assign top_background_brightness = section.settings.top_background_color | color_brightness
     if top_background_brightness < 128
       assign top_nav_tone = 'dark'
+      assign top_foreground_color = '#ffffff'
     else
       assign top_nav_tone = 'light'
     endif
@@ -17,9 +19,11 @@
     assign bottom_nav_tone = 'dark'
   endif
   if section.settings.override_bottom_background_color
+    assign bottom_foreground_color = '#111111'
     assign bottom_background_brightness = section.settings.bottom_background_color | color_brightness
     if bottom_background_brightness < 128
       assign bottom_nav_tone = 'dark'
+      assign bottom_foreground_color = '#ffffff'
     else
       assign bottom_nav_tone = 'light'
     endif
@@ -32,8 +36,10 @@
       #shopify-section-{{ section.id }} .scroll-bridge,
       #shopify-section-{{ section.id }} .scroll-bridge__background--top {
         --scheme-background: {{ section.settings.top_background_color }};
+        --scheme-foreground: {{ top_foreground_color }};
         --scheme-nav-tone: {{ top_nav_tone }};
         background: var(--scheme-background);
+        color: var(--scheme-foreground);
       }
     {% endif %}
 
@@ -42,8 +48,10 @@
       #shopify-section-{{ section.id }} .scroll-bridge__slab--main,
       #shopify-section-{{ section.id }} .scroll-bridge__label {
         --scheme-background: {{ section.settings.bottom_background_color }};
+        --scheme-foreground: {{ bottom_foreground_color }};
         --scheme-nav-tone: {{ bottom_nav_tone }};
         background: var(--scheme-background);
+        color: var(--scheme-foreground);
       }
     {% endif %}
   {% endstyle %}
@@ -240,13 +248,13 @@
     },
     {
       "type": "header",
-      "content": "Custom backgrounds"
+      "content": "Custom section colors"
     },
     {
       "type": "checkbox",
       "id": "override_top_background_color",
-      "label": "Override top preset background",
-      "info": "Uses the top color below instead of the selected top color scheme background.",
+      "label": "Use custom top background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -258,8 +266,8 @@
     {
       "type": "checkbox",
       "id": "override_bottom_background_color",
-      "label": "Override bottom preset background",
-      "info": "Uses the bottom color below instead of the selected bottom color scheme background.",
+      "label": "Use custom bottom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {

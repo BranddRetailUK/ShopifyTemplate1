@@ -34,7 +34,7 @@
       {% endif %}
     </div>
 
-    <nav class="site-footer__menu" aria-label="Footer navigation">
+    <nav class="site-footer__menu" aria-label="{{ 'accessibility.footer_navigation' | t }}">
       <span class="eyebrow">{{ section.settings.menu_heading | escape }}</span>
       <ul role="list">
         {% for link in section.settings.menu.links %}
@@ -66,7 +66,7 @@
     </p>
 
     {% if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 %}
-      <ul class="site-footer__payments" aria-label="Payment methods" role="list">
+      <ul class="site-footer__payments" aria-label="{{ 'accessibility.payment_methods' | t }}" role="list">
         {% for type in shop.enabled_payment_types %}
           <li>{{ type | payment_type_svg_tag }}</li>
         {% endfor %}
@@ -274,13 +274,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {

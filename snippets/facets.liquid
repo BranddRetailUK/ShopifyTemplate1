@@ -249,7 +249,7 @@
     min-height: 1.25rem;
     place-items: center;
     border-radius: 999px;
-    background: currentcolor;
+    background: var(--scheme-foreground);
     color: var(--scheme-background);
     font-size: 0.65rem;
   }
@@ -356,20 +356,32 @@
     }
 
     .facets__filters {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      margin-inline: calc(var(--page-margin) * -1);
-      padding-inline: var(--page-margin);
+      display: grid;
+      overflow: visible;
+      grid-template-columns: minmax(0, 1fr);
+      margin-inline: 0;
+      padding-inline: 0;
     }
 
     .facets__filter {
-      position: static;
-      flex: 0 0 auto;
+      position: relative;
+      width: 100%;
+    }
+
+    .facets__filter summary {
+      width: 100%;
+      justify-content: space-between;
+      border-radius: var(--input-radius);
     }
 
     .facets__values {
-      inset-inline: var(--page-margin);
-      width: auto;
+      position: static;
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+      max-height: min(60svh, 22rem);
+      margin-block-start: 0.45rem;
+      box-shadow: none;
     }
   }
 {% endstylesheet %}

@@ -17,7 +17,7 @@
         "announcement": {
           "type": "announcement",
           "settings": {
-            "text": "Free delivery on qualifying orders",
+            "text": "New releases, selected with intent",
             "link": ""
           }
         }
@@ -32,6 +32,7 @@
       "settings": {
         "menu": "main-menu",
         "customer_account_menu": "customer-account-main-menu",
+        "header_layout": "left-inline",
         "default_tone": "light",
         "menu_scheme": "paper"
       }

@@ -1,9 +1,5 @@
 {% render 'section-background-override', section: section %}
 
-{% comment %}
-  Main collection storefront with native Search & Discovery filters.
-{% endcomment %}
-
 {% liquid
   assign nav_tone = 'light'
   if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
@@ -23,9 +19,12 @@
   <header class="collection-hero{% if section.settings.show_collection_image and collection.featured_image %} collection-hero--with-image{% endif %}">
     <div class="page-width collection-hero__inner">
       <div class="collection-hero__content" data-reveal>
-        {% if section.settings.show_eyebrow %}
-          <p class="eyebrow">{{ 'collections.collection' | t }}</p>
-        {% endif %}
+        <div class="collection-hero__meta">
+          {% if section.settings.show_eyebrow %}
+            <p class="eyebrow">{{ 'collections.collection' | t }}</p>
+          {% endif %}
+          <span>{{ collection.products_count }} / {{ collection.all_products_count | default: collection.products_count }}</span>
+        </div>
         <h1>{{ collection.title | escape }}</h1>
         {% if section.settings.show_description and collection.description != blank %}
           <div class="rte">{{ collection.description }}</div>
@@ -48,42 +47,86 @@
 
   <div class="page-width collection-page__products">
     {% paginate collection.products by section.settings.products_per_page %}
-      {% render 'facets',
-        results: collection,
-        enable_filtering: section.settings.enable_filtering,
-        enable_sorting: section.settings.enable_sorting,
-        id_prefix: section.id
-      %}
+      <div class="collection-catalog">
+        <aside class="collection-catalog__tools" aria-label="{{ 'collections.filter' | t }}">
+          <p class="collection-catalog__label">{{ 'collections.edit_label' | t }}</p>
+          {% render 'facets',
+            results: collection,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting,
+            id_prefix: section.id
+          %}
+        </aside>
 
-      <p class="results-count" role="status">
-        {{ 'collections.product_count' | t: count: collection.products_count }}
-      </p>
+        <div class="collection-catalog__results">
+          <p class="results-count" role="status">
+            {{ 'collections.product_count' | t: count: collection.products_count }}
+          </p>
 
-      {% if collection.products.size == 0 %}
-        <div class="empty-state">
-          <h2>{{ 'collections.empty' | t }}</h2>
-          <a class="button" href="{{ routes.all_products_collection_url }}">
-            {{ 'general.continue_shopping' | t }}
-          </a>
+          {% if collection.products.size == 0 %}
+            <div class="empty-state">
+              <h2>{{ 'collections.empty' | t }}</h2>
+              <a class="button" href="{{ routes.all_products_collection_url }}">
+                {{ 'general.continue_shopping' | t }}
+              </a>
+            </div>
+          {% else %}
+            <div class="product-grid" data-product-grid>
+              {% for product in collection.products %}
+                {% for block in section.blocks %}
+                  {% if block.type == 'editorial' and block.settings.position == forloop.index %}
+                    <article
+                      class="collection-promo collection-promo--{{ block.settings.size }} scheme-{{ block.settings.scheme }}"
+                      {{ block.shopify_attributes }}
+                      data-reveal
+                    >
+                      <a href="{{ block.settings.link | default: collection.url }}">
+                        <div class="collection-promo__media">
+                          {% if block.settings.image %}
+                            {% render 'image',
+                              image: block.settings.image,
+                              sizes: '(min-width: 990px) 50vw, 100vw',
+                              width: 1600
+                            %}
+                          {% else %}
+                            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                          {% endif %}
+                        </div>
+                        <div class="collection-promo__content">
+                          <span>{{ block.settings.eyebrow | escape }}</span>
+                          <h2>{{ block.settings.heading | escape }}</h2>
+                          {% if block.settings.text != blank %}
+                            <div class="rte">{{ block.settings.text }}</div>
+                          {% endif %}
+                          {% if block.settings.link_label != blank %}
+                            <span class="text-link">{{ block.settings.link_label | escape }}</span>
+                          {% endif %}
+                        </div>
+                      </a>
+                    </article>
+                  {% endif %}
+                {% endfor %}
+
+                {% if forloop.index <= section.settings.columns_desktop %}
+                  {% render 'product-card',
+                    product: product,
+                    eager: true,
+                    heading_level: 'h2',
+                    index: paginate.current_offset | plus: forloop.index
+                  %}
+                {% else %}
+                  {% render 'product-card',
+                    product: product,
+                    heading_level: 'h2',
+                    index: paginate.current_offset | plus: forloop.index
+                  %}
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% render 'pagination', paginate: paginate %}
+          {% endif %}
         </div>
-      {% else %}
-        <div class="product-grid" data-product-grid>
-          {% for product in collection.products %}
-            {% liquid
-              assign eager_card = false
-              if forloop.index <= section.settings.columns_desktop
-                assign eager_card = true
-              endif
-            %}
-            {% render 'product-card',
-              product: product,
-              eager: eager_card,
-              heading_level: 'h2'
-            %}
-          {% endfor %}
-        </div>
-        {% render 'pagination', paginate: paginate %}
-      {% endif %}
+      </div>
     {% endpaginate %}
   </div>
 </section>
@@ -103,6 +146,19 @@
     max-width: 66rem;
     align-content: end;
     gap: 1.25rem;
+  }
+
+  .collection-hero__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-block-end: 1px solid var(--border-subtle);
+    padding-block-end: 1rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .collection-hero__content h1 {
@@ -135,9 +191,134 @@
     padding-block: clamp(2rem, 5vw, 5rem) var(--section-spacing);
   }
 
+  .collection-catalog {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .collection-catalog__label {
+    padding-block: 1rem;
+    border-block-start: 1px solid var(--border-subtle);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .collection-promo {
+    position: relative;
+    min-height: 34rem;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+  }
+
+  .collection-promo--wide {
+    grid-column: span 2;
+  }
+
+  .collection-promo--tall {
+    grid-row: span 2;
+  }
+
+  .collection-promo > a,
+  .collection-promo__media,
+  .collection-promo__media :is(.image, img, .placeholder-svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-promo__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .collection-promo__media img {
+    object-fit: cover;
+  }
+
+  .collection-promo__media::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgb(0 0 0 / 72%));
+    content: '';
+  }
+
+  .collection-promo__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: inherit;
+    align-content: end;
+    gap: 0.8rem;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    color: #fff;
+  }
+
+  .collection-promo__content > span:first-child {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .collection-promo__content h2 {
+    max-width: 10ch;
+    font-size: clamp(2.2rem, 5vw, 5rem);
+  }
+
+  .collection-promo__content .rte {
+    max-width: 42ch;
+  }
+
   @media (min-width: 990px) {
     .collection-hero--with-image .collection-hero__inner {
       grid-template-columns: minmax(0, 1fr) minmax(24rem, 0.8fr);
+    }
+
+    .collection-catalog {
+      grid-template-columns: minmax(13rem, 0.22fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .collection-catalog__tools {
+      position: sticky;
+      top: calc(var(--header-height) + 1rem);
+    }
+
+    .collection-catalog__tools .facets__heading,
+    .collection-catalog__tools .facets__filters {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .collection-catalog__tools .facets__sort {
+      grid-template-columns: 1fr;
+    }
+
+    .collection-catalog__tools .facets__filter summary {
+      width: 100%;
+      justify-content: space-between;
+      border: 0;
+      border-block-end: 1px solid var(--border-subtle);
+      border-radius: 0;
+      padding-inline: 0;
+    }
+
+    .collection-catalog__tools .facets__values {
+      position: static;
+      width: 100%;
+      border: 0;
+      box-shadow: none;
+      padding-inline: 0;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .collection-promo--wide,
+    .collection-promo--tall {
+      grid-column: 1 / -1;
+      grid-row: auto;
     }
   }
 {% endstylesheet %}
@@ -160,13 +341,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -232,7 +413,7 @@
         { "value": "1", "label": "1" },
         { "value": "2", "label": "2" }
       ],
-      "default": "2"
+      "default": "1"
     },
     {
       "type": "range",
@@ -243,6 +424,79 @@
       "step": 4,
       "unit": "px",
       "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "editorial",
+      "name": "Editorial product break",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "range",
+          "id": "position",
+          "label": "Place before product",
+          "min": 2,
+          "max": 20,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Tile size",
+          "options": [
+            { "value": "wide", "label": "Wide" },
+            { "value": "tall", "label": "Tall" }
+          ],
+          "default": "wide"
+        },
+        {
+          "type": "select",
+          "id": "scheme",
+          "label": "Color scheme",
+          "options": [
+            { "value": "paper", "label": "Paper" },
+            { "value": "ink", "label": "Ink" },
+            { "value": "signal", "label": "Signal" },
+            { "value": "electric", "label": "Electric" }
+          ],
+          "default": "ink"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Subheading",
+          "default": "Collection note"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The story behind the edit"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Read the story"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
     }
   ]
 }

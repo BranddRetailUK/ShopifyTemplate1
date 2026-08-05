@@ -1,4 +1,1 @@
-7817e1368ed3c400cb72703e540ee8985c91f30f2491796d99038a4120cb4118  Modeframe-1.0.0-theme.zip
-32efccc46491f05e739f686977aba0d16bb63ead85cd9d88e1ce0ac431be5a33  Modeframe-1.0.0-themeforest.zip
-53496d37189229add679bfdca1622607db8ee69d27bbd522106a425825ec25f1  Modeframe-1.0.0-themeforest-preview.zip
-86e6489349f383129c38acab6b893042d78fdc0871dad7c41168cefa481bba08  Modeframe-1.0.0-creative-market.zip
+72c02a3daa01eabc264258768ef1ab4b1b0a37404c604e3b011a122da5b55217  Modeframe-2.0.0-theme.zip

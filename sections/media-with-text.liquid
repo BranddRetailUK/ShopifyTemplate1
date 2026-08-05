@@ -5,6 +5,10 @@
   if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
     assign nav_tone = 'dark'
   endif
+  assign autoplay_media = section.settings.autoplay
+  if settings.motion_level == 'none'
+    assign autoplay_media = false
+  endif
 %}
 
 <section class="media-text section scheme-{{ section.settings.scheme }}" data-nav-tone="{{ nav_tone }}">
@@ -14,11 +18,12 @@
         {{
           section.settings.video
           | video_tag:
-            autoplay: section.settings.autoplay,
-            loop: section.settings.autoplay,
-            muted: section.settings.autoplay,
+            autoplay: autoplay_media,
+            loop: autoplay_media,
+            muted: autoplay_media,
             controls: true,
             playsinline: true,
+            class: 'motion-aware-media',
             image_size: '1600x'
         }}
       {% elsif section.settings.image %}
@@ -141,13 +146,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {
@@ -197,7 +202,7 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Subheading",
       "default": "Behind the product"
     },
     {

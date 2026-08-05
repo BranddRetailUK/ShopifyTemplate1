@@ -1,145 +1,164 @@
-# Modeframe 1.0.0 manual and platform QA matrix
+# Modeframe 2.0 Theme Store QA matrix
 
-Record the store, theme ID, package SHA-256, browser/device, tester, date,
-result, and evidence link for every run. Test the exact release ZIP in a
-dedicated store whenever orders, payments, inventory, markets, apps, or
-customer data are involved. An unchecked row is a release gap, not an implied
-pass.
+Record the candidate role, archive checksum, private theme reference,
+browser/device, tester, date, result, and non-sensitive evidence link for every
+run. An unchecked row is a release gap, not an implied pass. The 1.0 baseline is
+historical and cannot be used as 2.0 evidence.
 
-## Automated operator sequence
+## Operator sequence
 
 1. Run `npm ci` and `npm run verify`.
 2. Run `npm run bundle && npm run bundle:check`.
-3. Install `release/Modeframe-1.0.0-theme.zip` as a fresh unpublished theme.
-4. Copy `.env.example` to an ignored `.env.qa` and provide `QA_BASE_URL` plus
-   the non-secret route settings. Supply a storefront password only through the
-   environment.
-5. Run `npm run qa:browser`, `npm run qa:lighthouse`, and `npm run qa:media`;
-   archive the ignored Playwright, Lighthouse, and capture evidence.
-6. Run `npm run qa:marketplace-site` and
-   `npm run qa:marketplace-site:lighthouse` against the public preview layer.
-7. Complete the human browser, device, editor, accessibility, payment, and
-   special-product rows below.
+3. Upload `release/Modeframe-2.0.0-theme.zip` as the clean unpublished candidate.
+4. Duplicate the current live theme as a separate unpublished migration
+   candidate; preserve merchant JSON during the code push and template merge.
+5. Configure ignored QA values for the exact preview candidate and required
+   product, collection, content, and search fixtures.
+6. Run `npm run release:gate` against each candidate and archive Playwright,
+   axe, Lighthouse, checksum, final-route, and fixture-skip evidence.
+7. Complete editor, screen-reader, device, webview, checkout, market, app, and
+   special-product rows.
+8. Publish only the migration candidate after approval, then rerun
+   production-safe checks. Roll back immediately on a release blocker.
 
-## Installation and editor
+`release:gate` validates source, bundle, and configured storefront behavior. It
+does not install, deploy, publish, or prove that the remote theme matches the
+ZIP; record that parity separately. Lighthouse must finish on the requested
+route, not a password, challenge, login, or redirected page. Each home,
+collection, and product run must meet 60 performance and 90 accessibility by
+default. Threshold overrides may raise, never lower, those floors.
 
-- [ ] Install the exact packaged ZIP contents as a new theme with no previous
-      theme configuration
-- [ ] Confirm the installed theme name, version, and single preset are Modeframe
-- [ ] Confirm all six Global styles render and remain internal settings
-- [ ] Add, remove, reorder, duplicate, hide, and restore every section type
-- [ ] Select blocks in Slideshow and product sections inside the theme editor
-- [ ] Save and reload editor settings without schema or translation errors
-- [ ] Verify app blocks and Custom Liquid on every supported JSON template
+## Package and clean install
 
-## Global storefront
+- [ ] Release directory contains only the 2.0 theme ZIP and checksum
+- [ ] Checksum independently matches the ZIP
+- [ ] ZIP uploads with no wrapper, development file, schema, or translation error
+- [ ] Theme info and single preset show Modeframe 2.0.0
+- [ ] Studio light, Studio dark, and High signal work across Paper, Ink, Signal,
+      and Electric section roles
+- [ ] Default home, product, collection, cart, search, page, blog, article,
+      password, gift-card, customer, and 404 templates render
+- [ ] `collection.editorial` and `page.lookbook` can be assigned and removed
 
-- [ ] Announcement links and multiple announcements
-- [ ] Every desktop header layout and responsive mobile menu
-- [ ] Two- and three-level navigation, long labels, and keyboard disclosures
-- [ ] Sticky-header tone across every scheme and custom section background
-- [ ] Predictive search suggestions and standard search fallback
-- [ ] Classic and new customer accounts on desktop and mobile
-- [ ] Footer menu, policies, social links, localization, payment icons, Shopify
-      attribution, and Follow on Shop
-- [ ] Keyboard focus order, visible focus, skip link, 200% zoom, and 400% reflow
+## Merchant-preserving migration
 
-## Products
+- [ ] Current live theme duplicated and previous live copy retained
+- [ ] Private backup captured before code push
+- [ ] Push targets the unpublished duplicate explicitly and disables deletion
+- [ ] Remote `settings_data.json`, section groups, and existing template JSON are
+      not overwritten
+- [ ] New templates added separately; existing template changes merged deliberately
+- [ ] Merchant navigation, footer, app embeds, content, template assignments, and
+      settings remain intact
+- [ ] Clean and migration candidates compared across all core routes
+- [ ] Rollback publication rehearsed or verified by the responsible operator
 
-- [ ] Default, sale, sold-out, gift-card, and subscription-only products
-- [ ] One-option, two-option, unavailable-combination, and 100-variant products
-- [ ] Dropdowns, buttons, native color swatches, and image swatches
-- [ ] Variant URL, media, price, compare-at price, unit price, SKU, inventory,
-      quantity rule, pickup, and button state updates
-- [ ] One-time purchase and every selling-plan group for each eligible variant
-- [ ] Selling-plan selection updates price, URL, form data, cart, and order
-- [ ] Pre-order or deferred plan displays the amount due at checkout
-- [ ] Shop Pay installments, accelerated checkout, and payment terms
-- [ ] Images in portrait, square, landscape, transparent, and no-media states
-- [ ] Shopify video, external video, 3D model, alt text, and media thumbnails
-- [ ] Gift-card recipient success and validation states
-- [ ] Related and complementary recommendations, including empty responses
+## Theme Editor
 
-## Collections and search
+- [ ] Add, remove, reorder, duplicate, hide, restore, save, and reload every
+      section type
+- [ ] Add theme blocks and app blocks to Flexible content
+- [ ] Select blocks in Slideshow, product, lookbook, specifications, and header
+      promotions
+- [ ] Empty selectors show useful placeholders without broken storefront content
+- [ ] Dynamic sources work for eligible product specification settings
+- [ ] Custom background foreground contrast updates correctly
+- [ ] No schema, translation, editor-event, or section-reload errors
 
-- [ ] Empty, small, paginated, and large collections
-- [ ] Product cards with sale, sold-out, unit-price, vendor, second image, and
-      no image
-- [ ] Quick add for eligible products and product-page routing when choices are
-      required
-- [ ] Sorting and every Search & Discovery filter type
-- [ ] Active-filter removal, clear all, no filtered results, and pagination
+## Header and global storefront
+
+- [ ] All three desktop header layouts and responsive mobile menu
+- [ ] Primary and inverse logo across light/dark section transitions
+- [ ] Two- and three-level navigation, long labels, disclosure keyboard behavior
+- [ ] Up to three menu promotion cards on desktop and mobile
+- [ ] Predictive search arrow keys, active descendant, Enter, Escape, Tab, status
+      announcements, no results, aborts, and standard-search fallback
+- [ ] Classic and new customer account entry
+- [ ] Announcement, footer, policies, social links, localization, payment icons,
+      Shopify attribution, and Follow on Shop
+- [ ] Skip link, focus order, focus visibility, 200% zoom, and 400% reflow
+
+## Product cards, collections, and search
+
+- [ ] Product cards: default, sale, sold out, unit price, no image, vendor/type,
+      secondary image, native swatches, more-swatch count, and index
+- [ ] Quick add eligible product; route to PDP when choices or plans are required
+- [ ] Empty, small, paginated, large, and filtered collections
+- [ ] Filter rail/dropdowns on desktop and mobile; every Search & Discovery filter
+      type, active removal, clear all, and no results
+- [ ] Sorting and pagination preserve filters and routes
+- [ ] Wide and tall editorial collection breaks at configured product positions
+- [ ] Editorial collection template story, breaks, responsive grid, and links
 - [ ] Search products, collections, pages, articles, no results, and pagination
+
+## Product page
+
+- [ ] Mosaic and focused gallery layouts
+- [ ] Portrait, square, landscape, transparent, no-media, hosted video, external
+      video, 3D model, alt text, thumbnails, and variant media
+- [ ] Sticky information and mobile buy bar do not hide content or controls
+- [ ] One-, two-, unavailable-, high-variant-, sale-, sold-out-, gift-card-, and
+      subscription-only products
+- [ ] Dropdowns, buttons, native color swatches, and image swatches
+- [ ] Variant URL, media, price, compare-at, unit price, SKU, inventory, quantity
+      rule, pickup, selling-plan, and button state updates
+- [ ] Product subtitle, notes, description, details, apps, and Custom Liquid
+- [ ] Product specifications with specification/detail blocks, media fallback,
+      empty state, and dynamic content
+- [ ] Complementary and related recommendations, including empty responses
+- [ ] Selling-plan form/cart/order labels and due-at-checkout amount
+- [ ] Accelerated checkout, Shop Pay installments, gift recipient, and errors
+
+## Signature sections and content
+
+- [ ] Flexible content with nested theme blocks, app blocks, widths, and schemes
+- [ ] Shoppable lookbook with 0, 1, and multiple products; hotspot position,
+      keyboard toggle, focus, product index, mobile rail, and placeholders
+- [ ] `page.lookbook` introduction, lookbook, featured products, and assignments
+- [ ] Product specifications with long values, page content, details, media, and
+      product/non-product templates
+- [ ] Hero, slideshow, scrolling text, rich text, grids, media, blog, video,
+      newsletter, CTA, Custom Liquid, Scroll Bridge, and Motion Accents
+- [ ] Reduced motion and global None/Subtle/Expressive motion settings
 
 ## Cart and checkout handoff
 
 - [ ] Drawer and page cart modes
-- [ ] Add, increase, decrease, remove, empty, and error states
-- [ ] Variant options, custom properties, uploaded file properties, unit price,
-      selling plan, checkout charge, and quantity rules
-- [ ] Line discounts, automatic discounts, discount codes, and cart discounts
-- [ ] Cart note, terms acknowledgement, taxes included/excluded, and policies
-- [ ] Accelerated checkout and standard checkout handoff
-- [ ] Cart state and header count remain synchronized after AJAX changes
+- [ ] Add, increase, decrease, remove, empty, long-cart, and error states
+- [ ] Header count, drawer, and page cart remain synchronized
+- [ ] Variant options, properties/uploads, unit price, selling plan, checkout
+      charge, quantity rules, line/cart discounts, and notes
+- [ ] Free-delivery progress below, at, and above threshold
+- [ ] Curated additions with populated and empty collections
+- [ ] Empty-cart text and chosen destination
+- [ ] Taxes, policies, terms, accelerated checkout, and standard checkout handoff
 
-## Content templates
+## Platform, compatibility, and resilience
 
-- [ ] Page and contact form error/success states
-- [ ] Blog pagination, tag filtering, article metadata, comments, and sharing
-- [ ] Password login and newsletter forms
-- [ ] 404 search, home, and catalogue actions
-- [ ] Gift-card balance, expiry, QR code, print, and Apple Wallet
-- [ ] Customer login, recovery, registration, activation, reset, account,
-      address, order, fulfillment, unit-price, and selling-plan states
-
-## Sections and motion
-
-- [ ] Hero image, video, overlays, actions, positions, and header tone
-- [ ] Three Slideshow sections on one page with 1, 2, 3, and 8-slide cases
-- [ ] Slideshow manual controls, arrows, autoplay, focus/hover pause,
-      off-screen pause, editor block selection, and reduced motion
-- [ ] Scroll Bridge variants, local colors, transitions, and reduced motion
-- [ ] Motion Accents layouts, local colors, rail counts, and reduced motion
-- [ ] Scrolling text, media, collection, blog, social-proof, FAQ, newsletter,
-      call-to-action, and Custom Liquid sections
-- [ ] Global motion None, Subtle, and Expressive
-
-## International and platform
-
-- [ ] Country/language selectors with at least two markets and languages
-- [ ] Presentment currencies, zero-decimal currency, long money formats, and
-      currency switching with selling-plan prices
-- [ ] Long translated strings, right-to-left content assessment, and missing
-      translation detection
-- [ ] Taxes, duties, shipping, payment methods, policies, and checkout messaging
+- [ ] Countries/languages, currencies, zero-decimal formats, long translations,
+      RTL assessment, taxes, duties, shipping, and payment messaging
 - [ ] Shopify Inbox, Shop, Search & Discovery, and representative app blocks
+- [ ] Current Chrome, Safari, Firefox, Edge, iOS Safari, and Android Chrome
+- [ ] Required Shopify/social webviews
+- [ ] Screen reader on representative desktop and mobile platforms
+- [ ] JavaScript-disabled navigation, product, cart, search, and forms
+- [ ] Slow 4G, large gallery, long cart, and 25-section page
+- [ ] No console errors, failed theme assets, layout shifts, or duplicate listeners
 
-## Performance and compatibility
+## Submission, publication, and rollback evidence
 
-- [ ] Lighthouse home/product/collection on mobile and desktop on the populated
-      packaged-theme QA store
-- [ ] No unexpected layout shift from fonts, images, media, or editor loading
-- [ ] No console errors, failed theme assets, or duplicate network listeners
-- [ ] JavaScript-disabled product, cart, search, navigation, and form fallbacks
-- [ ] Current Chrome, Safari, Firefox, and Edge
-- [ ] Current iOS Safari, Android Chrome, Shop app, Instagram, and TikTok
-      webviews
-- [ ] Slow 4G, large media gallery, long cart, and 25-section home page
+- [ ] `npm run verify`, bundle, and bundle-check outputs
+- [ ] Exact archive filename, SHA-256, clean upload, and remote parity record
+- [ ] Playwright/axe results and reviewed fixture skips for both candidates
+- [ ] Lighthouse reports for both candidates
+- [ ] Theme Editor, keyboard, screen-reader, zoom, reflow, contrast, device,
+      webview, checkout, market, and app reports
+- [ ] Authentic demo parity and commercial rights approval
+- [ ] Theme Store listing, documentation, support form, provenance, name, and
+      exclusivity approval
+- [ ] Evidence that third-party listings and downloads are withdrawn
+- [ ] Publication approval, previous-theme rollback reference, production checks,
+      and rollback result if used
 
-## Release evidence
-
-- [ ] `npm run verify` output
-- [ ] `npm run bundle:check` output and final SHA-256 file
-- [ ] Package filename, checksum, and fresh-theme install result
-- [ ] Playwright route/interaction smoke-test result
-- [ ] Automated axe-core accessibility report
-- [ ] Manual keyboard, screen-reader, zoom, reflow, and contrast report
-- [ ] Lighthouse reports
-- [ ] Browser/device matrix
-- [ ] Approved listing copy, screenshots, demo URL, support URL, and license
-      clearance
-
-Current automated/package evidence belongs in `docs/qa-baseline-1.0.0.md`.
-Rows requiring merchant configuration, special Shopify resources, physical
-devices, checkout, or human judgement must never be inferred from automated
-route checks.
+Store domains, passwords, theme IDs, tokens, customer data, and private preview
+URLs must remain in ignored operator systems, never in this matrix.

@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  browser-qa:
+  storefront-qa:
     runs-on: ubuntu-latest
     env:
       QA_BASE_URL: ${{ secrets.QA_BASE_URL }}
@@ -15,7 +15,10 @@ jobs:
       QA_PREVIEW_THEME_ID: ${{ secrets.QA_PREVIEW_THEME_ID }}
       QA_PRODUCT_PATH: ${{ vars.QA_PRODUCT_PATH }}
       QA_COLLECTION_PATH: ${{ vars.QA_COLLECTION_PATH }}
+      QA_CONTENT_PATH: ${{ vars.QA_CONTENT_PATH }}
       QA_SEARCH_TERM: ${{ vars.QA_SEARCH_TERM }}
+      QA_LIGHTHOUSE_MIN_PERFORMANCE: ${{ vars.QA_LIGHTHOUSE_MIN_PERFORMANCE }}
+      QA_LIGHTHOUSE_MIN_ACCESSIBILITY: ${{ vars.QA_LIGHTHOUSE_MIN_ACCESSIBILITY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,7 +27,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
-      - run: npm run qa:browser
+      - run: npm run qa:storefront
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -32,4 +35,5 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            qa-results/lighthouse/
           if-no-files-found: ignore

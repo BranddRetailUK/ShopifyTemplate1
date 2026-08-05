@@ -313,50 +313,50 @@ summary:focus-visible,
 
 .scheme-paper {
   --scheme-background: var(--section-background-override, var(--paper-background));
-  --scheme-foreground: var(--paper-foreground);
+  --scheme-foreground: var(--section-foreground-override, var(--paper-foreground));
   --scheme-nav-tone: var(--section-nav-tone-override, var(--paper-nav-tone));
   background: var(--scheme-background);
-  color: var(--paper-foreground);
+  color: var(--scheme-foreground);
 }
 
 .scheme-ink {
   --scheme-background: var(--section-background-override, var(--ink-background));
-  --scheme-foreground: var(--ink-foreground);
+  --scheme-foreground: var(--section-foreground-override, var(--ink-foreground));
   --scheme-nav-tone: var(--section-nav-tone-override, var(--ink-nav-tone));
   background: var(--scheme-background);
-  color: var(--ink-foreground);
+  color: var(--scheme-foreground);
 }
 
 .scheme-signal {
   --scheme-background: var(--section-background-override, var(--signal-background));
-  --scheme-foreground: var(--signal-foreground);
+  --scheme-foreground: var(--section-foreground-override, var(--signal-foreground));
   --scheme-nav-tone: var(--section-nav-tone-override, var(--signal-nav-tone));
   background: var(--scheme-background);
-  color: var(--signal-foreground);
+  color: var(--scheme-foreground);
 }
 
 .scheme-electric {
   --scheme-background: var(--section-background-override, var(--electric-background));
-  --scheme-foreground: var(--electric-foreground);
+  --scheme-foreground: var(--section-foreground-override, var(--electric-foreground));
   --scheme-nav-tone: var(--section-nav-tone-override, var(--electric-nav-tone));
   background: var(--scheme-background);
-  color: var(--electric-foreground);
+  color: var(--scheme-foreground);
 }
 
 .theme-preset-signal .product-card__content,
 .theme-preset-signal .collection-card__content {
-  --scheme-background: var(--palette-dark-background);
-  --scheme-foreground: var(--palette-dark-foreground);
-  background: var(--palette-dark-background);
-  color: var(--palette-dark-foreground);
+  --scheme-background: var(--palette-ink-background);
+  --scheme-foreground: var(--palette-ink-foreground);
+  background: var(--palette-ink-background);
+  color: var(--palette-ink-foreground);
 }
 
 .theme-preset-electric .product-card__content,
 .theme-preset-electric .collection-card__content {
-  --scheme-background: var(--palette-light-background);
-  --scheme-foreground: var(--palette-light-foreground);
-  background: var(--palette-light-background);
-  color: var(--palette-light-foreground);
+  --scheme-background: var(--palette-paper-background);
+  --scheme-foreground: var(--palette-paper-foreground);
+  background: var(--palette-paper-background);
+  color: var(--palette-paper-foreground);
 }
 
 .button,
@@ -654,7 +654,7 @@ summary:focus-visible,
 }
 
 .pagination .current {
-  background: currentcolor;
+  background: var(--scheme-foreground);
   color: var(--scheme-background);
 }
 
@@ -696,6 +696,20 @@ dialog {
 dialog::backdrop {
   background: rgb(0 0 0 / 58%);
   backdrop-filter: blur(5px);
+}
+
+.motion-none *,
+.motion-none *::before,
+.motion-none *::after {
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+.motion-none [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 @media (min-width: 750px) {

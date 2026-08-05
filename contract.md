@@ -1,202 +1,190 @@
 # Modeframe Shopify theme contract
 
-## Product
+## Product and active route
 
 Modeframe is a proprietary Shopify Online Store 2.0 Liquid theme for fashion,
-lifestyle, design, art, product, and creative retail brands. Its visual language
-uses oversized editorial typography, strong light/dark contrast, graphic accent
-rails, modular merchandising, controlled motion, and compact utility copy.
+lifestyle, design, art, and other visually led retail brands. Its design system
+uses editorial typography, controlled contrast, art-directed merchandising,
+clear utility copy, and purposeful motion without replacing Shopify's native
+commerce behavior.
 
-The current release is `1.0.0`. The Shopify install preset and theme metadata
-are both named Modeframe. Paper, Ink, Signal, Electric, All light, and All dark
-are internal Global styles, not separate install presets.
+The current release is `2.0.0`. The theme metadata and the single install preset
+are named Modeframe. The active commercial route is the Shopify Theme Store.
+Studio light (`paper`), Studio dark (`ink`), and High signal (`signal`) are three
+internal art directions, not separate install presets. Each coordinates the
+Paper, Ink, Signal, and Electric section color roles.
 
-Creative Market is the first active commercial application because new Envato
-theme-author intake is unavailable. The completed ThemeForest package is
-retained for a future eligible account, while Creative Market has its own buyer
-archive, application fields, licence-aligned documentation, pricing, and
-1820×1214 preview set. The product is not prepared or represented as a Shopify
-Theme Store submission. A future Theme Store edition would require ending
-third-party distribution because Shopify requires channel exclusivity.
+Creative Market and ThemeForest collateral, services, scripts, and release
+archives describe the historical 1.0 third-party route. They are retained for
+provenance and reproducibility, excluded from the 2.0 Theme Store archive, and
+must not be presented as current distribution. Before resubmission, every
+third-party listing, sale path, and buyer download must be withdrawn and the
+result recorded. External withdrawal is not yet verified.
 
-## Source and licensing
+## Origin, source, and licensing
 
-The storefront implementation is maintained as Modeframe source. An early
-prototype used Shopify's Skeleton reference structure; the small files found to
-be identical or nearly identical during the 1.0 audit were independently
-reimplemented. The provenance check prevents those exact upstream files from
-returning, but it is technical evidence rather than a legal conclusion about
-the remaining theme as a whole. `LICENSE.md` governs repository access; the
-ThemeForest buyer bundle relies on Envato's controlling license and includes an
-Envato license notice plus asset credits. Creative Market supplies the
-Personal, Commercial, or Extended Commercial licence selected at checkout, so
-its buyer ZIP contains no separate EULA or activation-code requirement. The
-channel-neutral marketplace license remains an internal legal-review draft and
-is not shipped where the selling marketplace supplies mandatory terms.
+Modeframe's visual system and interaction model originated in Brandd's
+standalone Next.js site. The Shopify theme was repurposed from that work; it was
+not built on Dawn or Horizon.
 
-The final seller must still complete marketplace-specific and professional
-legal review of the product name, source provenance, buyer license, listing
-claims, asset rights, taxes, refunds, and seller terms before publication.
+An early Shopify port consulted Shopify's Skeleton reference structure. The
+small exact or near-exact overlaps identified during the 1.0 source audit were
+reimplemented. `npm run provenance:check` retains a hash-based regression guard
+against those known upstream files. This is useful technical evidence, not a
+legal opinion about copyright, derivative works, trademarks, or distribution
+rights.
 
-## Runtime
+`LICENSE.md` governs repository access. Shopify's Theme Store agreement and
+applicable merchant terms govern the active distribution route. A qualified
+reviewer must clear the Modeframe name, ownership and assignment history,
+source provenance, demo assets, listing claims, and third-party withdrawal
+before submission.
 
-The repository root is the Shopify theme. Storefront files live in `assets`,
-`blocks`, `config`, `layout`, `locales`, `sections`, `snippets`, and `templates`.
-The storefront has no application server, database, custom API, analytics
-service, or secret-bearing runtime. A separate companion license service lives
-in `services/license-api` and runs in the dedicated Railway
-`modeframe-licensing` project with private PostgreSQL. It is outside the theme
-ZIP and is never required for storefront rendering or commerce.
+## Runtime boundary
 
-A separate cookie-free public presentation and documentation service lives in
-`services/marketplace-site` and runs in the Railway `modeframe-marketplace`
-project. It serves the iframe-compatible preview landing page, documentation,
-support, privacy, refund, and health routes. Supported marketplaces may frame this service;
-the Shopify demo itself opens in a new tab because Shopify prevents third-party
-framing. The development-store password is intentionally public for demo access
-and is rendered from Railway configuration; it is never committed to source.
+The repository root is the Shopify theme. Installable files live only in
+`assets`, `blocks`, `config`, `layout`, `locales`, `sections`, `snippets`, and
+`templates`. The storefront has no required application server, custom API,
+database, analytics service, marketplace activation, or secret-bearing runtime.
 
-`layout/theme.liquid` owns the document, SEO, fonts, assets,
-`content_for_header`, header/footer section groups, skip navigation,
-`content_for_layout`, and optional cart drawer. JavaScript is unminified vanilla
-JavaScript served from Shopify's theme CDN. Native Shopify endpoints remain the
-fallback when JavaScript is unavailable.
+Historical marketplace presentation and purchase-code services under
+`services/` are outside the theme, are not included in the 2.0 bundle, and are
+not required for storefront rendering or support eligibility on the Theme Store
+route.
 
-## Global storefront
+`layout/theme.liquid` owns document metadata, Shopify headers, shared assets,
+section groups, skip navigation, page content, and optional cart drawer.
+Unminified vanilla JavaScript is served from Shopify's theme CDN. Native routes
+and forms remain the fallback when JavaScript is unavailable.
 
-- Sticky tone-aware header with six desktop compositions, mobile dialog menu,
-  nested navigation, account component, predictive search, and cart count.
-- Announcement messages with optional links.
-- Footer with merchant identity, menus, social links, localization, policies,
-  enabled payment icons, Shopify attribution, and optional Follow on Shop.
-- Native Shopify newsletter, contact, customer, password, article-comment,
-  product, cart, localization, and gift-card flows.
-- Native dialogs restore focus and close through Escape, explicit controls, and
-  backdrop interaction.
+## Storefront system
 
-## Commerce
+- A sticky tone-aware header provides three desktop layouts, nested navigation,
+  promotional menu cards, inverse-logo support, customer accounts, accessible
+  predictive search, mobile navigation, and cart state.
+- Announcement and footer groups expose merchant-controlled messages, menus,
+  social links, localization, policies, payment icons, Shopify attribution, and
+  Follow on Shop where available.
+- Native dialogs close explicitly or with Escape, restore focus, and preserve
+  keyboard navigation.
+- Shopify newsletter, contact, customer, password, article-comment, product,
+  cart, localization, and gift-card flows remain platform-native.
 
-- Product gallery supports images, hosted and external video, and 3D models.
-- Merchant-orderable product blocks cover identity, price, SKU, variants,
-  quantity, buying, inventory, pickup, description, details, sharing, app
-  content, and Custom Liquid.
-- Variant selection updates IDs, URL, media, price, compare-at price, unit
-  price, SKU, availability, quantity rules, pickup, and selling plans.
-- Selling plans submit through the native product form and expose plan pricing,
-  checkout-charge amounts, and cart/order labels.
-- Collections and search support native filters, sorting, pagination, mixed
-  result types, product states, quick add, and unit pricing.
+## Commerce and merchandising
+
+- Product cards support indexed editorial presentation, optional vendor,
+  secondary media, native swatches, sale and sold-out states, unit prices, and
+  safe quick add only when no further choice or selling plan is required.
+- Collections and search provide Shopify filters, sorting, pagination, mixed
+  results, adjustable grids, and designed empty states. Collection templates can
+  insert up to two merchant-positioned editorial story tiles.
+- The product page supports mosaic and focused galleries, images, hosted and
+  external video, 3D models, sticky information, a mobile buy bar, subtitle and
+  product-note blocks, app blocks, Custom Liquid, and native commerce controls.
+- Variant selection updates IDs, URL, media, price, compare-at price, unit price,
+  SKU, availability, quantity rules, pickup, selling plans, and submit state.
 - Drawer and page carts support properties, selling plans, discounts, quantity
-  rules, unit prices, taxes, notes, accelerated checkout, and error states.
+  rules, unit prices, notes, taxes, policies, and accelerated checkout. The
+  drawer can add free-delivery progress, curated products, and a merchant-chosen
+  empty-cart route.
 
-## Content templates and sections
+## Templates and section library
 
-JSON templates cover home, product, collection, collection list, cart, search,
-page, contact, blog, article, password, and 404. Liquid templates cover gift
-cards and classic customer accounts.
+Core JSON templates cover home, product, collection, collection list, cart,
+search, page, contact, blog, article, password, and 404. Liquid templates cover
+gift cards and classic customer accounts.
 
-The merchant library includes Hero, Slideshow, Scroll Bridge, Motion Accents,
-Scrolling text, Rich text, Feature grid, Media with text, Featured collection,
-Featured product, Collection list, Testimonials, Logo list, Featured blog,
-Video, Collapsible content, Newsletter, Call to action, and Custom Liquid.
-Major visual sections expose `data-nav-tone` for fixed-header contrast.
+The default home, collection, and product templates are art-directed for 2.0.
+Alternative templates add `collection.editorial` for collection storytelling
+and `page.lookbook` for campaign shopping. Signature sections are:
 
-## Design system and accessibility
+- Flexible content, with theme blocks and app blocks;
+- Shoppable lookbook, with keyboard-accessible product hotspots and a product
+  index; and
+- Product specifications, with structured specifications, expandable detail,
+  and product-media support.
 
-Global settings cover logo, favicon, Shopify fonts, type scale, layout,
-component radii, four paired role palettes, uniform light/dark palettes, product
-cards, search, cart, motion, and social links. Sections can select a role palette
-and optionally override its background.
+The broader library retains Hero, Slideshow, Scrolling text, Rich text, Feature
+grid, Media with text, Featured collection, Featured product, Collection list,
+Featured blog, Video, Collapsible content, Newsletter, Call to action, Scroll
+Bridge, Motion Accents, Testimonials, Logo list, and Custom Liquid.
 
-Images use Shopify's CDN, responsive sources, explicit sizes and dimensions,
-focal positioning, and viewport-appropriate loading. Interactive controls have
-visible focus treatment and practical touch targets. Motion is decorative,
-respects `prefers-reduced-motion`, supports a global off setting, and preserves
-complete static layouts.
+## Design and accessibility
 
-## Distribution
+Global settings cover identity, optional inverse logo, Shopify fonts, type
+scale, layout, component and media radii, art direction, product cards, search,
+cart, motion, and social links. Section role colors retain automatic readable
+foreground selection for custom backgrounds.
 
-`npm run bundle` creates `release/Modeframe-1.0.0-theme.zip`, the ThemeForest
-buyer archive `release/Modeframe-1.0.0-themeforest.zip`, the operator-only
-ThemeForest listing/media archive
-`release/Modeframe-1.0.0-themeforest-preview.zip`, and the Creative Market buyer
-archive `release/Modeframe-1.0.0-creative-market.zip`. Channel buyer archives
-contain the same inner installable theme plus beginner documentation, FAQ,
-quick start, support policy, credits, release notes, and checksums. ThemeForest
-also includes its Envato notice and activation instructions; Creative Market
-does not include a separate EULA or activation file. Repository tooling,
-credentials, tests, store identifiers, listing media, and internal QA evidence
-are excluded from every buyer archive.
+Images use Shopify's CDN, responsive sources, explicit dimensions, focal
+positioning, and appropriate loading. Interactive controls require visible
+focus and practical touch targets. Motion is decorative, respects
+`prefers-reduced-motion`, supports a global off state, and leaves complete
+static content. Predictive search, menus, dialogs, filters, lookbook hotspots,
+forms, and cart updates must remain keyboard and assistive-technology usable.
 
-The public listing title is “Modeframe | Modern Editorial Shopify Theme.”
-ThemeForest field values, description, tags, feature list, and reviewer notes
-live in `themeforest/`. Listing media live in `marketing/themeforest/`; the
-required cover is 2340×1560 and presentation images/video use 1920×1080, with
-separate 1080×1920 mobile captures.
-Every distributed image, logo, video, font, testimonial, and description must
-have a recorded commercial-use basis in `distribution/ASSET-CREDITS.txt`.
+## Theme Store release package
 
-Creative Market field values and description live in `creative-market/`.
-Creative Market preview media live in `marketing/creative-market/`; eight
-previews are exactly 1820×1214. Files 01–04 are disclosed as AI-assisted
-concepts and files 05–08 are exact live-store captures or compositions of exact
-captures.
+`npm run bundle` derives the release identity from package and theme metadata,
+uses Shopify CLI packaging, clears generated `release/` contents, and creates
+only `release/Modeframe-2.0.0-theme.zip` plus `release/SHA256SUMS.txt`.
 
-Envato buyer purchase-code activation is hosted at
-`https://modeframe-licensing-production.up.railway.app`. The service verifies
-an Envato author sale server-side, stores only a keyed purchase-code
-fingerprint, and binds it to one permanent `myshopify.com` domain. Activation
-governs support and future update services; it never disables installed theme
-functionality. Live Envato verification remains closed until the final item ID
-and seller token are stored only in Railway. Creative Market does not expose an
-equivalent public purchase-code verification flow in the current seller
-guidance; its buyers use Creative Market purchase records for support and do
-not receive a separate Modeframe activation requirement.
+`npm run bundle:check` requires exactly those two files. It rejects wrapper
+folders, non-theme roots, development or sensitive paths, duplicate or unsafe
+archive entries, missing signature sections, metadata mismatch, unexpected
+buyer bundles, and an incorrect checksum. Historical marketplace builders are
+retained but are not default release commands.
 
 ## QA and release gate
 
-`npm run verify` runs Theme Check, release structure validation, source
-provenance checks, static QA, license-service unit tests, and public-site unit
-tests. `npm run qa:browser` runs Playwright against a dedicated store configured
-through ignored environment values across desktop Chromium, Firefox, WebKit and
-mobile Chromium/WebKit. It applies reduced motion before navigation, runs
-axe-core serious/critical checks, and excludes Shopify-injected preview/privacy
-controls from theme-owned findings. `npm run qa:lighthouse` records mobile and
-desktop Lighthouse evidence for home, collection, and product routes, while
-`npm run qa:media` captures exact-store screenshots and a 1920×1080 preview
-video. The separate `qa:marketplace-site` and
-`qa:marketplace-site:lighthouse` commands validate the public marketplace layer.
-`npm run bundle` and `npm run bundle:check` build and validate the ThemeForest
-and Creative Market buyer deliverables. The `Modeframe quality` GitHub Actions
-job installs the pinned Shopify CLI and FFmpeg before verifying the source and
-rebuilding the release archives, so CI exercises the same image-generation and
-packaging path as the local release workflow.
+`npm run verify` runs Theme Check, 2.0 release-structure validation, source
+provenance, static QA, and maintained companion-service tests. It does not
+depend on an external store. Run `npm run bundle` before the remote gate.
 
-Automated passes do not replace the human and platform cases in
-`docs/qa-matrix.md`. Public sale remains blocked until name/legal review,
-demo/storefront content rights, the applicable channel purchase-verification
-process, browser/device matrix, keyboard/screen-reader review, checkout cases,
-and special Shopify fixtures are recorded as complete in
-`docs/marketplace-readiness.md`.
+`npm run release:gate` reruns local verification, validates the exact bundle,
+then runs Playwright and Lighthouse against an ignored QA configuration.
+Playwright covers rendering, serious accessibility rules, predictive and
+standard search, filters, variant state, product and cart mutation,
+representative content, true 404 behavior, and keyboard focus across desktop
+and mobile projects where fixtures permit. Lighthouse rejects access pages,
+redirected routes, and wrong final paths and requires at least 60 performance
+and 90 accessibility for every configured home, collection, and product run.
 
-## Security and operations
+Automated checks do not replace Theme Editor, screen-reader, physical-device,
+webview, checkout, market, app, gift-card, subscription, unit-price, and other
+special-resource cases in `docs/qa-matrix.md`. The 1.0 baseline is historical
+only and cannot be used as 2.0 release evidence.
 
-- Never commit `.env`, CLI state, storefront passwords, Admin API credentials,
-  store domains, theme IDs, marketplace tokens, purchase codes, license hash
-  secrets, customer data, or merchant-owned settings.
-- Keep marketplace verification and purchase-code fingerprints server-side;
-  never add activation secrets or blocking DRM to the theme.
-- Use an unpublished theme or dedicated demo store for QA.
-- Treat `config/settings_data.json` from a merchant store as merchant-owned.
-- Confirm archive contents and SHA-256 checksums before marketplace upload.
-- Retain the previous marketplace release and release notes for buyer updates.
-- Keep the public demo aligned with the shipped default preset.
+## Store deployment, merchant data, and rollback
+
+Every release uses two unpublished candidates:
+
+1. A clean install of the exact ZIP validates packaged defaults, alternative
+   templates, empty states, editor schemas, and the reviewer experience.
+2. A duplicate of the current live theme validates the production migration.
+   Code is pushed with deletion disabled while merchant-owned
+   `config/settings_data.json`, section-group JSON, and existing template JSON
+   are preserved. New templates are added separately; changes to existing
+   templates are merged or recreated deliberately in the Theme Editor.
+
+Never push directly to the published theme. Record private candidate IDs and
+checksums outside source, compare both candidates, and publish only after the
+full gate passes. Keep the previous live theme intact as the rollback target.
+If production checks fail, republish it immediately, then investigate in the
+unpublished candidate.
+
+This workspace does not currently have authenticated Shopify CLI access or a
+confirmed target theme. Store deployment, publication, and post-publication
+validation remain pending. No store domain, password, or theme ID belongs in
+the repository.
 
 ## Change rules
 
-- Update this contract when product behavior, sections, settings, packaging,
-  documentation, support, QA, or distribution changes.
-- Prefer existing sections, snippets, CSS variables, and custom elements.
-- Preserve native Shopify form fallbacks and the shared scroll-motion runtime.
-- Keep every motion surface complete under reduced motion and global motion off.
-- Run `npm run verify`; run and validate the sales bundle for release changes.
+- Update this contract when product behavior, settings, sections, packaging,
+  documentation, QA, support, provenance, or distribution changes.
+- Preserve native Shopify forms and no-JavaScript routes.
+- Treat pulled merchant JSON as merchant-owned and never normalize it into the
+  repository defaults.
+- Keep all motion surfaces complete under reduced motion and motion-off states.
+- Run `npm run verify`; for a release, rebuild the bundle, validate both
+  unpublished candidates, record human evidence, and retain rollback.

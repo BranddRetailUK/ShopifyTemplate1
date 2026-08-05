@@ -43,6 +43,18 @@
       case 'amount_no_decimals_with_comma_separator':
         output = formatWithDelimiters(value, 0, '.', ',');
         break;
+      case 'amount_with_apostrophe_separator':
+        output = formatWithDelimiters(value, 2, "'", '.');
+        break;
+      case 'amount_with_space_separator':
+        output = formatWithDelimiters(value, 2, ' ', ',');
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        output = formatWithDelimiters(value, 0, ' ', ',');
+        break;
+      case 'amount_with_period_and_space_separator':
+        output = formatWithDelimiters(value, 2, ' ', '.');
+        break;
       default:
         output = formatWithDelimiters(value);
     }
@@ -53,7 +65,8 @@
     document.querySelectorAll(selectors.cartCount).forEach((element) => {
       element.textContent = String(count);
       element.hidden = count < 1;
-      element.closest('[data-cart-link]')?.setAttribute('aria-label', `Cart, ${count} items`);
+      const cartLabel = window.theme.strings.cartItemCount.replace('__COUNT__', String(count));
+      element.closest('[data-cart-link]')?.setAttribute('aria-label', cartLabel);
     });
   };
 
@@ -194,8 +207,13 @@
       if (window.theme.cartType !== 'drawer') return;
       event.preventDefault();
 
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
+
       const submitButton = this.form.querySelector('[type="submit"]');
       const status = this.querySelector('[data-product-form-status]');
+      const wasDisabled = submitButton?.disabled;
+      if (submitButton) submitButton.disabled = true;
       submitButton?.setAttribute('aria-disabled', 'true');
       this.setAttribute('aria-busy', 'true');
       if (status) status.textContent = '';
@@ -212,12 +230,14 @@
         const result = await response.json();
         if (!response.ok) throw new Error(result.description || window.theme.strings.cartError);
         await refreshCart({ open: true });
-        if (status) status.textContent = this.dataset.successMessage || 'Added to cart';
+        if (status) status.textContent = this.dataset.successMessage || window.theme.strings.addedToCart;
       } catch (error) {
         if (status) status.textContent = error.message;
       } finally {
+        if (submitButton) submitButton.disabled = Boolean(wasDisabled);
         submitButton?.removeAttribute('aria-disabled');
         this.removeAttribute('aria-busy');
+        this.isSubmitting = false;
       }
     }
   }
@@ -326,7 +346,17 @@
       }
       if (unit) {
         unit.hidden = !currentUnitPrice;
-        unit.textContent = currentUnitPrice ? formatMoney(currentUnitPrice) : '';
+        const measurement = variant.unit_price_measurement;
+        if (currentUnitPrice && measurement) {
+          const referenceValue = Number(measurement.reference_value || 1);
+          const reference = `${referenceValue !== 1 ? `${referenceValue} ` : ''}${measurement.reference_unit}`;
+          const unitText = `${formatMoney(currentUnitPrice)} / ${reference}`;
+          unit.textContent = unitText;
+          unit.setAttribute('aria-label', `${window.theme.strings.unitPrice}: ${unitText}`);
+        } else {
+          unit.textContent = '';
+          unit.removeAttribute('aria-label');
+        }
       }
     }
 
@@ -335,7 +365,9 @@
         const planContainer = this.getActiveSellingPlanContainer();
         const requiresSellingPlan = planContainer?.dataset.requiresSellingPlan === 'true';
         const selectedPlan = this.getSelectedSellingPlanInput();
-        const available = Boolean(variant?.available) && (!requiresSellingPlan || Boolean(selectedPlan?.value));
+        const variantAvailable = Boolean(variant?.available);
+        const needsPlanSelection = variantAvailable && requiresSellingPlan && !selectedPlan?.value;
+        const available = variantAvailable && !needsPlanSelection;
         button.disabled = !available;
         const label = button.querySelector('[data-add-to-cart-text]');
         if (!label) return;
@@ -343,10 +375,32 @@
           ? window.theme.strings.unavailable
           : available
             ? window.theme.strings.addToCart
-            : window.theme.strings.soldOut;
+            : needsPlanSelection
+              ? window.theme.strings.choosePurchaseOption
+              : window.theme.strings.soldOut;
       });
       const sku = this.querySelector('[data-product-sku]');
       if (sku) sku.textContent = variant?.sku || '';
+      const inventory = this.querySelector('[data-product-inventory]');
+      if (inventory) {
+        const threshold = Number(inventory.dataset.lowStockThreshold || 0);
+        const rawQuantity = variant?.inventory_quantity;
+        const quantity = Number(rawQuantity);
+        if (!variant?.available) {
+          inventory.textContent = window.theme.strings.inventoryOutOfStock;
+        } else if (
+          variant.inventory_management
+          && variant.inventory_policy !== 'continue'
+          && rawQuantity != null
+          && Number.isFinite(quantity)
+          && quantity > 0
+          && quantity <= threshold
+        ) {
+          inventory.textContent = window.theme.strings.inventoryLow.replace('__COUNT__', String(quantity));
+        } else {
+          inventory.textContent = window.theme.strings.inventoryInStock;
+        }
+      }
     }
 
     updateQuantity(variant) {
@@ -550,6 +604,7 @@
       const canAutoplay =
         this.dataset.autoplay === 'true' &&
         this.slides.length > 1 &&
+        !document.body.classList.contains('motion-none') &&
         !this.userPaused &&
         !this.interactionPaused &&
         !this.reducedMotion.matches &&
@@ -583,11 +638,21 @@
       if (this.dataset.enabled === 'false') return;
       this.input = this.querySelector('input[type="search"]');
       this.results = this.querySelector('[data-predictive-results]');
+      this.status = this.querySelector('[data-predictive-status]');
       if (!this.input || !this.results) return;
-      this.input.addEventListener('input', debounce(() => this.search(), 250));
-      this.input.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') this.close();
+      this.input.setAttribute('role', 'combobox');
+      this.input.setAttribute('aria-expanded', 'false');
+      this.input.setAttribute('aria-controls', this.results.id);
+      this.input.setAttribute('aria-haspopup', 'listbox');
+      this.input.setAttribute('aria-autocomplete', 'list');
+      this.activeIndex = -1;
+      this.debouncedSearch = debounce(() => this.search(), 250);
+      this.input.addEventListener('input', () => {
+        this.close();
+        this.debouncedSearch();
       });
+      this.input.addEventListener('keydown', (event) => this.onKeydown(event));
+      this.closest('dialog')?.addEventListener('close', () => this.close());
     }
 
     async search() {
@@ -597,6 +662,9 @@
         return;
       }
 
+      this.abortController?.abort();
+      const controller = new AbortController();
+      this.abortController = controller;
       this.setAttribute('aria-busy', 'true');
       try {
         const url = new URL(window.theme.routes.predictiveSearch, window.location.origin);
@@ -606,25 +674,96 @@
         url.searchParams.set('resources[limit]', '8');
         url.searchParams.set('resources[options][unavailable_products]', 'last');
         url.searchParams.set('resources[options][fields]', 'title,product_type,variants.title,vendor');
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) throw new Error(response.statusText);
         const html = await response.text();
+        if (this.input.value.trim() !== term) return;
         const parsed = new DOMParser().parseFromString(html, 'text/html');
         const content = parsed.querySelector('#PredictiveSearchResults');
         if (!content) return;
         this.results.innerHTML = content.innerHTML;
+        this.resetActiveOption();
         this.results.hidden = false;
         this.input.setAttribute('aria-expanded', 'true');
-      } catch (_error) {
-        this.close();
+        const resultCount = Number(content.dataset.resultCount || 0);
+        if (this.status) {
+          this.status.textContent = resultCount > 0
+            ? this.dataset.resultsLabel.replace('__COUNT__', String(resultCount))
+            : this.dataset.noResultsLabel;
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') this.close();
       } finally {
-        this.removeAttribute('aria-busy');
+        if (this.abortController === controller) {
+          this.abortController = null;
+          this.removeAttribute('aria-busy');
+        }
       }
     }
 
+    getOptions() {
+      return [...this.results.querySelectorAll('[role="option"]')];
+    }
+
+    onKeydown(event) {
+      const options = this.getOptions();
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        if (!options.length) return;
+        event.preventDefault();
+        this.results.hidden = false;
+        this.input.setAttribute('aria-expanded', 'true');
+        const direction = event.key === 'ArrowDown' ? 1 : -1;
+        let nextIndex = this.activeIndex + direction;
+        if (this.activeIndex < 0) nextIndex = direction > 0 ? 0 : options.length - 1;
+        this.setActiveOption(nextIndex, options);
+        return;
+      }
+
+      if (event.key === 'Enter' && this.activeIndex >= 0) {
+        const activeOption = options[this.activeIndex];
+        if (activeOption) {
+          event.preventDefault();
+          activeOption.click();
+        }
+        return;
+      }
+
+      if (event.key === 'Escape' && this.input.getAttribute('aria-expanded') === 'true') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.close();
+        return;
+      }
+
+      if (event.key === 'Tab') this.close();
+    }
+
+    setActiveOption(index, options = this.getOptions()) {
+      if (!options.length) return;
+      const normalizedIndex = (index + options.length) % options.length;
+      options.forEach((option, optionIndex) => {
+        option.setAttribute('aria-selected', String(optionIndex === normalizedIndex));
+      });
+      const activeOption = options[normalizedIndex];
+      this.activeIndex = normalizedIndex;
+      this.input.setAttribute('aria-activedescendant', activeOption.id);
+      activeOption.scrollIntoView({ block: 'nearest' });
+    }
+
+    resetActiveOption() {
+      this.getOptions().forEach((option) => option.setAttribute('aria-selected', 'false'));
+      this.activeIndex = -1;
+      this.input.removeAttribute('aria-activedescendant');
+    }
+
     close() {
+      this.abortController?.abort();
+      this.abortController = null;
       this.results.hidden = true;
       this.input.setAttribute('aria-expanded', 'false');
+      this.resetActiveOption();
+      if (this.status) this.status.textContent = '';
+      this.removeAttribute('aria-busy');
     }
   }
 
@@ -920,6 +1059,32 @@
     window.addEventListener('resize', update);
   };
 
+  const initializeMotionMedia = (root = document) => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const videos = [...root.querySelectorAll('video.motion-aware-media')];
+    if (!videos.length) return;
+
+    const update = () => {
+      const pauseMotion = reducedMotion.matches || document.body.classList.contains('motion-none');
+      videos.forEach((video) => {
+        if (video.dataset.motionAutoplay === undefined) {
+          video.dataset.motionAutoplay = String(video.autoplay);
+        }
+        if (pauseMotion) {
+          video.pause();
+          video.autoplay = false;
+          video.controls = true;
+        } else if (video.dataset.motionAutoplay === 'true') {
+          video.autoplay = true;
+          video.play().catch(() => {});
+        }
+      });
+    };
+
+    update();
+    reducedMotion.addEventListener?.('change', update);
+  };
+
   const bindGlobalActions = () => {
     document.addEventListener('click', (event) => {
       const opener = event.target.closest('[data-dialog-open]');
@@ -948,6 +1113,7 @@
     document.addEventListener('shopify:section:load', (event) => {
       initializeReveal(event.target);
       initializeHeaderTone();
+      initializeMotionMedia(event.target);
     });
   };
 
@@ -967,6 +1133,7 @@
     bindGlobalActions();
     initializeReveal();
     initializeHeaderTone();
+    initializeMotionMedia();
   });
 
   window.themeCart = { refresh: refreshCart, formatMoney };

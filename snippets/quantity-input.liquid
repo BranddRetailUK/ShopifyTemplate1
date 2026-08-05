@@ -12,7 +12,7 @@
 {% enddoc %}
 
 <quantity-input class="quantity-input">
-  <button type="button" data-step="down" aria-label="Decrease quantity">
+  <button type="button" data-step="down" aria-label="{{ 'products.product.decrease_quantity' | t }}">
     {% render 'icon', name: 'minus' %}
   </button>
   <input
@@ -35,7 +35,7 @@
     {% endif %}
     aria-label="{{ 'products.product.quantity' | t }}"
   >
-  <button type="button" data-step="up" aria-label="Increase quantity">
+  <button type="button" data-step="up" aria-label="{{ 'products.product.increase_quantity' | t }}">
     {% render 'icon', name: 'plus' %}
   </button>
 </quantity-input>

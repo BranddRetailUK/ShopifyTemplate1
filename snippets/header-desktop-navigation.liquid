@@ -8,12 +8,13 @@
 {% if render_navigation %}
   <nav
     class="site-header__desktop-nav site-header__desktop-nav--{{ side }}"
-    aria-label="{% if side == 'secondary' %}Secondary navigation{% else %}Primary navigation{% endif %}"
+    aria-label="{% if side == 'secondary' %}{{ 'accessibility.secondary_navigation' | t }}{% else %}{{ 'accessibility.primary_navigation' | t }}{% endif %}"
   >
     <ul role="list">
       {% for link in menu.links %}
         {% liquid
           assign render_link = true
+          assign link_handle = link.title | handleize
           if split_navigation
             if side == 'primary' and forloop.index > split_at
               assign render_link = false
@@ -46,6 +47,38 @@
                           </ul>
                         {% endif %}
                       </div>
+                    {% endfor %}
+
+                    {% for promotion in promotions %}
+                      {% assign promotion_menu_handle = promotion.settings.menu_item | handleize %}
+                      {% if promotion_menu_handle == link_handle and promotion.settings.heading != blank %}
+                        <a
+                          class="mega-menu__promotion scheme-{{ promotion.settings.scheme }}"
+                          href="{{ promotion.settings.link | default: link.url }}"
+                          {{ promotion.shopify_attributes }}
+                        >
+                          <div class="mega-menu__promotion-media">
+                            {% if promotion.settings.image %}
+                              {% render 'image',
+                                image: promotion.settings.image,
+                                sizes: '(min-width: 990px) 25vw, 50vw',
+                                width: 1000
+                              %}
+                            {% else %}
+                              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                            {% endif %}
+                          </div>
+                          <span class="mega-menu__promotion-copy">
+                            {% if promotion.settings.eyebrow != blank %}
+                              <small>{{ promotion.settings.eyebrow | escape }}</small>
+                            {% endif %}
+                            <strong>{{ promotion.settings.heading | escape }}</strong>
+                            {% if promotion.settings.link_label != blank %}
+                              <span class="text-link">{{ promotion.settings.link_label | escape }}</span>
+                            {% endif %}
+                          </span>
+                        </a>
+                      {% endif %}
                     {% endfor %}
                   </div>
                 </div>

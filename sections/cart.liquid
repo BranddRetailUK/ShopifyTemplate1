@@ -1,9 +1,5 @@
 {% render 'section-background-override', section: section %}
 
-{% comment %}
-  Main cart page with line-item controls, discounts, notes, totals, and accelerated checkout.
-{% endcomment %}
-
 {% liquid
   assign nav_tone = 'light'
   if section.settings.scheme == 'ink' or section.settings.scheme == 'electric'
@@ -36,6 +32,9 @@
         <div class="cart-page__items">
           {% for item in cart.items %}
             <article class="cart-line" data-cart-line="{{ forloop.index }}">
+              <span class="cart-line__index" aria-hidden="true">
+                {{ forloop.index | prepend: '0' | slice: -2, 2 }}
+              </span>
               <a class="cart-line__media" href="{{ item.url }}">
                 {% if item.image %}
                   {% render 'image',
@@ -79,7 +78,7 @@
                     <p class="cart-line__property">
                       {{ property.first | escape }}:
                       {% if property.last contains '/uploads/' %}
-                        <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                        <a href="{{ property.last | escape }}">{{ property.last | split: '/' | last | escape }}</a>
                       {% else %}
                         {{ property.last | escape }}
                       {% endif %}
@@ -107,7 +106,7 @@
                     <s>{{ item.original_line_price | money }}</s>
                   {% endif %}
                   <strong>{{ item.final_line_price | money }}</strong>
-                  {% if item.variant.available and item.unit_price_measurement %}
+                  {% if item.unit_price_measurement %}
                     <small>
                       {{ item.unit_price | money }} /
                       {% if item.unit_price_measurement.reference_value != 1 %}
@@ -122,7 +121,7 @@
                   value: item.quantity,
                   name: 'updates[]',
                   id: item.key,
-                  min: 0,
+                  min: item.variant.quantity_rule.min,
                   max: item.variant.quantity_rule.max,
                   step: item.variant.quantity_rule.increment,
                   form: 'CartForm'
@@ -145,7 +144,7 @@
           {% if section.settings.show_cart_note %}
             <div class="field">
               <label for="CartNote">{{ 'cart.general.note' | t }}</label>
-              <textarea id="CartNote" name="note" rows="4">{{ cart.note }}</textarea>
+              <textarea id="CartNote" name="note" rows="4">{{ cart.note | escape }}</textarea>
             </div>
           {% endif %}
 
@@ -227,10 +226,17 @@
 
   .cart-line {
     display: grid;
-    grid-template-columns: 9rem minmax(0, 1fr) auto;
+    grid-template-columns: 2rem 9rem minmax(0, 1fr) auto;
     gap: 1.25rem;
     border-block-start: 1px solid var(--border-subtle);
     padding-block: 1.25rem;
+  }
+
+  .cart-line__index {
+    padding-block-start: 0.25rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
   }
 
   .cart-line:last-of-type {
@@ -388,11 +394,11 @@
 
   @media (max-width: 749px) {
     .cart-line {
-      grid-template-columns: 6.5rem minmax(0, 1fr);
+      grid-template-columns: 1.5rem 6.5rem minmax(0, 1fr);
     }
 
     .cart-line__actions {
-      grid-column: 2;
+      grid-column: 3;
       grid-template-columns: 1fr auto;
       justify-items: start;
     }
@@ -422,13 +428,13 @@
     },
     {
       "type": "header",
-      "content": "Custom background"
+      "content": "Custom section color"
     },
     {
       "type": "checkbox",
       "id": "override_background_color",
-      "label": "Override preset background",
-      "info": "Uses the color below for this section instead of the selected color scheme background.",
+      "label": "Use custom background",
+      "info": "Text switches automatically between black and white to preserve readable contrast.",
       "default": false
     },
     {

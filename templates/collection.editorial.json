@@ -1,0 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "story": {
+      "type": "media-with-text",
+      "settings": {
+        "scheme": "ink",
+        "autoplay": false,
+        "media_position": "right",
+        "media_ratio": "landscape",
+        "eyebrow": "Collection field note",
+        "heading": "Start with the point of view.",
+        "text": "<p>Give an editorial collection its own opening context before customers enter the product edit.</p>",
+        "button_label": "Read the collection story"
+      }
+    },
+    "main": {
+      "type": "collection",
+      "blocks": {
+        "editorial_break_1": {
+          "type": "editorial",
+          "settings": {
+            "position": 5,
+            "size": "wide",
+            "scheme": "signal",
+            "eyebrow": "Material note",
+            "heading": "The detail behind the edit",
+            "text": "<p>Use an in-grid campaign pause for material, process, or a closer look at the collection.</p>",
+            "link_label": "Discover the story"
+          }
+        },
+        "editorial_break_2": {
+          "type": "editorial",
+          "settings": {
+            "position": 13,
+            "size": "tall",
+            "scheme": "electric",
+            "eyebrow": "Field note",
+            "heading": "Seen in motion",
+            "link_label": "View the campaign"
+          }
+        }
+      },
+      "block_order": ["editorial_break_1", "editorial_break_2"],
+      "settings": {
+        "scheme": "paper",
+        "show_eyebrow": true,
+        "show_description": true,
+        "show_collection_image": true,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "products_per_page": 24,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "grid_gap": 12
+      }
+    }
+  },
+  "order": ["story", "main"]
+}

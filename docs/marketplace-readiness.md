@@ -1,90 +1,100 @@
-# Modeframe marketplace release gate
+# Modeframe 2.0 Theme Store release gate
 
-Creative Market is the active first-channel application for Modeframe 1.0.0.
-New Envato theme-author intake is unavailable, so the completed ThemeForest
-package is retained but is not the current submission path. Modeframe is not
-being prepared for the Shopify Theme Store because its exclusivity requirement
-conflicts with third-party distribution.
+This file retains its historical name, but the active gate is Shopify Theme
+Store submission. Creative Market and ThemeForest were Modeframe 1.0 routes and
+are no longer valid default release targets.
 
-## Repository and packages
+## Source and product
 
-- [x] Repository contains the Modeframe Shopify Online Store 2.0 theme
-- [x] Theme metadata and single install preset are named Modeframe 1.0.0
-- [x] Six visual modes remain one internal Global styles feature
-- [x] Exact installable theme ZIP passes release validation
-- [x] ThemeForest buyer and preview archives remain reproducible
-- [x] Creative Market listing title, description, fields, pricing, compatibility,
-      SEO copy, tags, AI disclosure, and upload checklist are prepared
-- [x] Creative Market buyer ZIP excludes Envato files, custom EULAs, activation
-      instructions, repository tooling, credentials, tests, and store data
-- [x] Creative Market buyer ZIP contains the exact release theme, portable
-      documentation, quick start, FAQ, support scope, credits, release notes,
-      and checksum
-- [x] Dedicated remote repository is published and the latest work is on `main`
+- [x] Package, theme metadata, and release validation target Modeframe 2.0.0
+- [x] One install preset and three art directions are exposed
+- [x] Header, cards, collection, PDP, cart, default content, and signature
+      sections have a coherent 2.0 treatment
+- [x] Flexible content supports theme blocks and app blocks
+- [x] Alternative editorial collection and lookbook page templates exist
+- [x] Dawn and Horizon are not represented as Modeframe's source
+- [x] Brandd's standalone Next.js visual/interaction origin is recorded
+- [x] The early Skeleton consultation and reimplemented overlaps are recorded;
+      the source hash guard remains active
+- [ ] Obtain final ownership, provenance, trademark/name, and asset-rights review
 
-## Creative Market presentation
+## Package
 
-- [x] Eight preview PNGs are exactly 1820×1214 and below 10 MB each
-- [x] Presentation concepts and exact-store captures are clearly separated
-- [x] Generative-AI disclosure is set to **Yes** in the prepared fields
-- [x] Exact live home, collection, product, and mobile evidence is included
-- [x] Public preview displays the password for the protected Shopify demo
-- [x] Public documentation, support, privacy, and refund pages exist
-- [ ] Obtain commercial-rights approval for the demo catalogue and every
-      captured image/video before upload
-- [ ] Upload the existing preview MP4 to a Creative Market-supported public
-      video host if the optional video field will be used
+- [x] `npm run bundle` defaults to one Shopify-installable archive only
+- [x] Version and filename derive from package and theme metadata
+- [x] Archive validation rejects non-theme, development, sensitive, unsafe, and
+      third-party buyer paths
+- [x] SHA-256 is written and verified
+- [x] Historical third-party builders remain outside the default command
+- [ ] Build the final `Modeframe-2.0.0-theme.zip` with the pinned Shopify CLI
+- [ ] Record `npm run bundle:check`, checksum, and clean upload evidence
 
-## Licensing and purchase verification
+## Channel withdrawal
 
-- [x] Creative Market's selected licence controls the buyer's use; no separate
-      Modeframe EULA is shipped
-- [x] Creative Market buyer documentation states that no separate activation
-      code is currently required
-- [x] Envato purchase-code verification remains isolated in the optional
-      Railway service and never controls storefront rendering
-- [ ] If external activation is still desired for Creative Market buyers,
-      obtain written marketplace approval and a supported transaction-verification
-      mechanism before adding it; the public seller guidance exposes purchase
-      records but no equivalent purchase-code API
-- [ ] Obtain legal/privacy review of licence wording, purchase-record handling,
-      retention, transfers, refunds, and support access
+- [ ] Withdraw any Creative Market listing and buyer download
+- [ ] Withdraw any ThemeForest listing, preview, buyer download, or sale path
+- [ ] Remove third-party distribution claims from all public Modeframe pages
+- [ ] Record dated evidence that no third-party Modeframe purchase route remains
+- [ ] Confirm Theme Store exclusivity with the responsible business owner
 
-## Commercial and account gates
+Historical repository assets and 1.0 archives may remain private for audit and
+reproducibility. This checklist does not assert that external withdrawal is
+complete.
 
-- [ ] Complete the Creative Market shop application and human portfolio review
-- [ ] Complete seller identity, tax, payout, pricing, and shop-profile fields
-- [ ] Obtain qualified legal review of source provenance and third-party
-      marketplace distribution rights
-- [ ] Obtain formal trademark/name clearance for Modeframe
-- [ ] Confirm the complete buyer ZIP opens correctly on Windows and macOS
+## Automated QA
 
-## Demo and quality evidence
+- [x] Local release structure checks require 2.0, the three art directions, and
+      all signature sections
+- [x] Static QA covers theme JSON, identity, secret patterns, tone metadata, and
+      retired-stack paths
+- [x] Playwright includes predictive/standard search, filtering, variants,
+      product/cart mutation, content, true 404, keyboard focus, and axe checks
+- [x] Lighthouse rejects access pages, wrong routes, redirects, and scores below
+      the per-run 60 performance and 90 accessibility floors
+- [ ] Run Theme Check with the pinned CLI on the final source
+- [ ] Run `npm run verify` and archive the output
+- [ ] Run the exact bundle and remote `npm run release:gate`
+- [ ] Review every fixture skip and satisfy it or document why it cannot apply
 
-- [x] The exact release is published as the live protected development-store
-      theme and the public preview exposes the demo credential
-- [x] Theme Check passes across 107 files with zero offences
-- [x] Live demo passes the automated desktop/mobile Chromium, Firefox, and
-      WebKit Playwright and axe-core suite
-- [x] Live home, collection, and product Lighthouse evidence records 81–97
-      performance, 100 accessibility, and 100 SEO
-- [x] Public preview layer passes cross-browser Playwright/axe and Lighthouse
-- [ ] Complete Theme Editor add/reorder/duplicate/hide/save tests
-- [ ] Complete physical Chrome, Safari, Firefox, Edge, iOS Safari, Android
-      Chrome, and representative in-app webview coverage
-- [ ] Complete manual keyboard, screen-reader, 200% zoom, 400% reflow, and
-      contrast review
-- [ ] Complete checkout/test-order cases and the remaining special Shopify
-      fixtures in `docs/qa-matrix.md`
+## Unpublished store candidates
 
-## Launch status
+- [ ] Install the exact ZIP as a clean unpublished theme
+- [ ] Validate defaults, empty states, alternative templates, app blocks, and
+      add/remove/reorder/duplicate/hide/save behavior
+- [ ] Duplicate the current live theme as a separate migration candidate
+- [ ] Back up its remote JSON outside the repository
+- [ ] Push code with deletion disabled while excluding merchant-owned
+      `settings_data.json`, section groups, and existing template JSON
+- [ ] Add new alternative templates separately and merge existing template
+      changes deliberately
+- [ ] Compare clean and migration candidates across every core route
+- [ ] Confirm checkout/test order and production-safe app behavior
 
-**Creative Market application package ready; public sale not yet fully
-cleared.** The remaining hard gates are shop approval and seller onboarding,
-legal/name/source review, demo-media rights approval, Windows/macOS archive
-opening, and the outstanding manual device/accessibility/checkout matrix. The
-existing external Envato activation service is not presented as a Creative
-Market purchase verifier.
+## Human and platform QA
 
-See `creative-market/submission-fields.md` for exact form values and
-`docs/qa-baseline-1.0.0.md` for automated evidence.
+- [ ] Current Chrome, Safari, Firefox, Edge, iOS Safari, and Android Chrome
+- [ ] Required Shopify and social in-app webviews
+- [ ] Keyboard-only, screen reader, 200% zoom, 400% reflow, contrast, and touch
+- [ ] Theme Editor across all sections, blocks, templates, and setting states
+- [ ] Markets, languages, currencies, taxes, duties, shipping, and payment states
+- [ ] Gift cards, selling plans, pickup, unit pricing, quantity rules, discounts,
+      accounts, policies, apps, videos, 3D models, and high-variant products
+- [ ] Authentic rights-cleared demo content and exact release/demo parity
+
+## Publication and rollback
+
+- [ ] Record the existing live theme as the private rollback target
+- [ ] Obtain explicit publication approval for the migration candidate
+- [ ] Publish through Shopify admin only after all gates pass
+- [ ] Re-run production-safe storefront and Lighthouse checks after publication
+- [ ] If any release blocker appears, republish the previous theme immediately
+- [ ] Keep the failed candidate unpublished for diagnosis; do not patch live
+
+## Current status
+
+**Not ready to submit or publish.** Source-level 2.0 work is present, but final
+CLI packaging, third-party withdrawal, authenticated dual-candidate deployment,
+full human/platform QA, and production revalidation remain open. Store access is
+pending; no store domain, password, or theme ID is recorded here.
+
+The 1.0 QA baseline remains historical evidence only.

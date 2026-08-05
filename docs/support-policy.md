@@ -1,17 +1,19 @@
-# Modeframe marketplace support policy
+# Modeframe Theme Store support policy
 
-Support requests are accepted at <https://brandd.co.uk/contact>. The support
-term, buyer protections, refund process, and licence selected on the marketplace
-at purchase control where they differ from this operational summary.
+Support requests are accepted through the mobile-usable form at
+<https://brandd.co.uk/contact>. The form must acknowledge receipt, request the
+Modeframe version, affected storefront route, store reference, browser/device,
+reproduction steps, expected and actual result, and allow useful screenshots or
+recordings without encouraging submission of credentials or customer data.
 
 ## Included
 
 - Reproducible defects in an unmodified supported Modeframe release
 - Help locating or understanding a documented theme setting
-- Guidance for installing the supplied inner theme archive and following the
-  update procedure
+- Guidance for safe installation, unpublished testing, update, and rollback
 - Investigation of Shopify features explicitly documented as supported
 - Accessibility regressions caused by the unmodified theme
+- Critical storefront defects affecting purchase, navigation, or core content
 
 ## Not included
 
@@ -21,28 +23,38 @@ at purchase control where they differ from this operational summary.
 - Shopify incidents, checkout extensions, app configuration, or external APIs
 - Recovery of deleted themes, resources, settings, orders, or customer data
 
-Custom work may be quoted separately and is not included in the theme purchase.
+Custom work may be quoted separately and is not included with theme support.
 
-## Request checklist
+## Request safety
 
-Include the store's `myshopify.com` domain, Modeframe version, affected URL,
-browser/device, reproducible steps, expected result, actual result, and a
-screenshot or recording where useful. Never send passwords, API credentials,
-purchase codes, full receipts, payment details, or customer data in a public
-comment or initial request.
+Include only the information needed to reproduce the issue. Never send a
+password, API credential, access token, private key, payment detail, full
+receipt, or customer data in a support form, public comment, screenshot, or
+recording.
 
 If store access is required, Brandd will request time-limited Shopify
-collaborator access with only the permissions needed for the investigation.
+collaborator access with the minimum permissions and duration necessary. Access
+must be removed when the investigation finishes.
 
-## Response and maintenance
+## Response and maintenance commitment
 
-The initial-response objective is two business days, excluding UK public
-holidays. This is not a guaranteed resolution time. Security and
-purchase-blocking defects receive priority; verified defects are addressed in a
-maintenance release or with a safe workaround.
+Brandd responds to support requests within two business days, excluding UK
+public holidays. This is an initial-response commitment, not a guarantee that
+every issue can be resolved in that period.
 
-Support availability follows the controlling marketplace purchase and support
-terms. Discretionary feature updates are not guaranteed. Merchants must keep a
+Verified critical theme bugs are worked on immediately. Brandd will provide a
+safe workaround, rollback instruction, or maintenance release as quickly as the
+issue can be reproduced and corrected. Other verified defects are scheduled by
+severity and communicated through the support request.
+
+Discretionary feature updates are not guaranteed. Merchants must retain a
 rollback theme and test updates in an unpublished copy. Compatibility cannot be
 guaranteed after theme-code changes, on unsupported browsers, or when an app
-replaces theme markup or behaviour.
+replaces theme markup or behavior.
+
+## Current release operations
+
+Modeframe 2.0 is still in Theme Store resubmission preparation. This policy must
+be tested end to end—including mobile form usability, acknowledgement, routing,
+attachments, and response ownership—before submission. Historical marketplace
+activation or purchase-code services are not part of Theme Store support.

@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Modeframe",
-    "theme_version": "1.0.0",
+    "theme_version": "2.0.0",
     "theme_author": "Brandd",
     "theme_documentation_url": "https://github.com/BranddRetailUK/ShopifyTemplate1/blob/main/docs/merchant-guide.md",
     "theme_support_url": "https://brandd.co.uk/contact"
@@ -13,39 +13,27 @@
       {
         "type": "select",
         "id": "theme_preset",
-        "label": "Global style",
-        "info": "Changes the storefront-wide visual treatment. This is an internal styling control, not a separate theme preset.",
+        "label": "Art direction",
+        "info": "Coordinates the four section color roles across the storefront.",
         "options": [
           {
             "value": "paper",
-            "label": "Paper"
+            "label": "Studio light"
           },
           {
             "value": "ink",
-            "label": "Ink"
+            "label": "Studio dark"
           },
           {
             "value": "signal",
-            "label": "Signal"
-          },
-          {
-            "value": "electric",
-            "label": "Electric"
-          },
-          {
-            "value": "all-light",
-            "label": "All light"
-          },
-          {
-            "value": "all-dark",
-            "label": "All dark"
+            "label": "High signal"
           }
         ],
         "default": "paper"
       },
       {
         "type": "paragraph",
-        "content": "Paper, Ink, Signal, and Electric retain contrast by coordinating all four section roles around the selected lead palette."
+        "content": "Each art direction preserves contrast-tested Paper, Ink, Signal, and Electric section roles."
       }
     ]
   },
@@ -56,6 +44,12 @@
         "type": "image_picker",
         "id": "logo",
         "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_inverse",
+        "label": "Logo for dark backgrounds",
+        "info": "Optional. Uses the primary logo when left blank."
       },
       {
         "type": "range",
@@ -222,38 +216,6 @@
         "id": "electric_foreground",
         "label": "Foreground",
         "default": "#ffffff"
-      },
-      {
-        "type": "header",
-        "content": "All light preset"
-      },
-      {
-        "type": "color",
-        "id": "light_background",
-        "label": "Background",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "light_foreground",
-        "label": "Foreground",
-        "default": "#111111"
-      },
-      {
-        "type": "header",
-        "content": "All dark preset"
-      },
-      {
-        "type": "color",
-        "id": "dark_background",
-        "label": "Background",
-        "default": "#0d0d0f"
-      },
-      {
-        "type": "color",
-        "id": "dark_foreground",
-        "label": "Foreground",
-        "default": "#f7f7f2"
       }
     ]
   },
@@ -282,6 +244,16 @@
       },
       {
         "type": "range",
+        "id": "media_radius",
+        "min": 0,
+        "max": 30,
+        "step": 2,
+        "unit": "px",
+        "label": "Media corner radius",
+        "default": 4
+      },
+      {
+        "type": "range",
         "id": "input_radius",
         "min": 0,
         "max": 20,
@@ -305,6 +277,12 @@
         "type": "checkbox",
         "id": "product_card_show_second_image",
         "label": "Show second image on hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_card_show_swatches",
+        "label": "Show native color swatches",
         "default": true
       },
       {
